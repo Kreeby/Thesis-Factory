@@ -21,35 +21,44 @@ The project now has operational capabilities for:
 * multi-document paragraph retrieval;
 * deterministic BM25 lexical ranking;
 * embedding-based semantic retrieval;
+* deterministic reciprocal-rank fusion experimentation;
 * human-reviewed retrieval benchmarking;
-* lexical-versus-semantic retrieval comparison.
+* lexical-versus-semantic-versus-hybrid retrieval comparison.
 
-The project has now demonstrated complementary failure modes between lexical and semantic retrieval.
+The initial retrieval architecture experiments are complete.
 
-The next retrieval question is whether a bounded deterministic hybrid retriever can combine their strengths without introducing unnecessary architecture.
+BM25 and semantic retrieval exhibit complementary failure modes.
+
+Voyage semantic retrieval is currently the strongest standalone measured baseline.
+
+A deterministic Reciprocal Rank Fusion hybrid was implemented and evaluated, but it did not improve the current semantic baseline sufficiently to justify selection.
+
+The next retrieval objective is to validate these conclusions on held-out evidence rather than tune additional retrieval logic against the existing twelve-case benchmark.
 
 ---
 
 ## Current Objective
 
-Determine whether hybrid lexical-semantic retrieval materially improves evidence completeness and ranking quality over either BM25 or semantic retrieval alone.
-
-The hybrid experiment must use the same fixed benchmark:
+Establish a held-out retrieval evaluation that can test whether the observed BM25, semantic, and hybrid behaviours generalize beyond:
 
 `credit-risk-two-paper-v2`
 
-The benchmark must not be modified to favour the hybrid implementation.
+The current twelve-case benchmark remains a regression and architecture-comparison benchmark.
 
-The next retrieval implementation should remain minimal:
+It must not become a tuning target for additional fusion parameters, weights, rerankers, source-diversity rules, or benchmark-specific heuristics.
 
-* no vector database;
-* no LLM reranker;
-* no learned reranker;
-* no automatic paragraph splitting;
-* no automatic paragraph merging;
-* no benchmark-specific heuristics.
+Before retrieval architecture is considered stable, the system should be evaluated on additional documents and research questions that were not used to make the current retrieval decisions.
 
-The goal is to test whether deterministic fusion of the existing BM25 and semantic candidate lists improves measured research-evidence retrieval.
+The next evaluation should preserve the existing principles:
+
+* explicit evidence targets;
+* immutable source-artifact identities;
+* paragraph-level retrieval units;
+* fixed evaluation inputs before system comparison;
+* deterministic metrics;
+* no case-specific retrieval heuristics;
+* no unnecessary vector database;
+* no LLM reranker unless a measured requirement later justifies one.
 
 ---
 
@@ -334,7 +343,7 @@ No heuristic filtering was introduced in response to those observations.
   `voyage-4`.
 * Voyage is an implementation of the embedding boundary rather than a dependency of the retrieval domain.
 * Queries use Voyage `query` input type.
-* retrieval units use Voyage `document` input type.
+* Retrieval units use Voyage `document` input type.
 * Silent provider-side text truncation is disabled.
 * Provider responses are validated for:
 
@@ -360,7 +369,7 @@ No heuristic filtering was introduced in response to those observations.
 ### Phase 1 — Retrieval Evaluation Framework
 
 * Generic `Retriever` protocol implemented.
-* Retrieval evaluation is independent of BM25 and can be reused for semantic and future hybrid retrievers.
+* Retrieval evaluation is independent of BM25 and can be reused for semantic and hybrid retrievers.
 * Query style and evaluation scope are represented as separate dimensions.
 
 Current query styles:
@@ -542,7 +551,7 @@ Cross-document queries:
 
 Semantic retrieval therefore improved ranking quality substantially while aggregate cross-document evidence completeness remained unchanged.
 
-### Observed Lexical and Semantic Complementarity
+### Phase 1 — Lexical and Semantic Complementarity
 
 The comparison exposed complementary failure modes.
 
@@ -624,27 +633,234 @@ Voyage semantic retrieval:
 
 The semantic ranking concentrated too strongly on one source and failed to preserve cross-document evidence diversity.
 
+### Phase 1 — Hybrid Retrieval Experiment
+
+A minimal deterministic hybrid retriever was implemented using Reciprocal Rank Fusion.
+
+The implementation:
+
+* accepts lexical and semantic child retrievers behind a ranked-retriever boundary;
+* requests bounded candidate lists from both retrievers;
+* combines ranks rather than incomparable raw BM25 and cosine scores;
+* deduplicates candidates using canonical `RetrievalUnitId`;
+* rejects duplicate identities returned by a child retriever;
+* rejects conflicting retrieval-unit representations for the same identity;
+* produces deterministic tie ordering;
+* exposes standard `Retriever`-compatible search behaviour.
+
+The first and only evaluated RRF configuration was intentionally fixed before evaluation:
+
+* lexical retriever: BM25;
+* semantic retriever: Voyage `voyage-4`;
+* candidate depth: `20`;
+* RRF constant: `60`;
+* final evaluation depth: `K = 5`.
+
+No grid search, weight tuning, benchmark-specific parameter tuning, or case-specific heuristics were performed.
+
+### Phase 1 — Measured Hybrid Benchmark
+
+The RRF hybrid was evaluated against exactly the same:
+
+* two scholarly artifacts;
+* 212 retrieval units;
+* 12 benchmark cases;
+* 16 evidence targets;
+* `K = 5`.
+
+Overall RRF result:
+
+* `Hit@5`: `0.9167`;
+* `Complete@5`: `0.8333`;
+* `Target Coverage@5`: `0.8750`;
+* MRR: `0.7917`.
+
+Relative to BM25:
+
+* `Hit@5`: unchanged;
+* `Complete@5`: `+0.0833`;
+* `Target Coverage@5`: `+0.0417`;
+* MRR: `+0.1597`.
+
+Relative to Voyage semantic retrieval:
+
+* `Hit@5`: unchanged;
+* `Complete@5`: unchanged;
+* `Target Coverage@5`: unchanged;
+* MRR: `-0.0278`.
+
+Lexical-query RRF result:
+
+* `Hit@5`: `1.0000`;
+* `Complete@5`: `1.0000`;
+* `Target Coverage@5`: `1.0000`;
+* MRR: `0.8000`.
+
+This preserved lexical evidence completeness but reduced MRR relative to both standalone systems, which each achieved `0.8667`.
+
+Paraphrased-query RRF result:
+
+* `Hit@5`: `0.8571`;
+* `Complete@5`: `0.7143`;
+* `Target Coverage@5`: `0.7857`;
+* MRR: `0.7857`.
+
+These aggregate paraphrase metrics were identical to Voyage semantic retrieval.
+
+Single-document RRF result:
+
+* `Hit@5`: `0.8750`;
+* `Complete@5`: `0.8750`;
+* `Target Coverage@5`: `0.8750`;
+* MRR: `0.6875`.
+
+Source-selection RRF result:
+
+* `Hit@5`: `1.0000`;
+* `Complete@5`: `1.0000`;
+* `Target Coverage@5`: `1.0000`;
+* MRR: `1.0000`.
+
+Cross-document RRF result:
+
+* `Hit@5`: `1.0000`;
+* `Complete@5`: `0.5000`;
+* `Target Coverage@5`: `0.7500`;
+* MRR: `1.0000`.
+
+### Observed Hybrid Behaviour
+
+The RRF experiment confirmed that lexical and semantic signals can sometimes repair each other's failures, but also showed that naïve rank fusion does not reliably preserve the strongest evidence from both systems.
+
+#### Hybrid improvement — information richness across papers
+
+For:
+
+`information_richness_cross_paper`
+
+BM25:
+
+* complete;
+* target coverage: `1.0`.
+
+Voyage:
+
+* incomplete;
+* target coverage: `0.5`.
+
+RRF:
+
+* complete;
+* target coverage: `1.0`;
+* recovered both corporate-default and alternative-data evidence.
+
+RRF therefore repaired this measured semantic failure.
+
+#### Hybrid retained semantic improvement — combined predictors
+
+For:
+
+`combined_nontraditional_predictors`
+
+BM25:
+
+* missed the target completely.
+
+Voyage:
+
+* complete;
+* target coverage: `1.0`;
+* first acceptable evidence ranked `#1`.
+
+RRF:
+
+* complete;
+* target coverage: `1.0`;
+* first acceptable evidence ranked `#1`.
+
+RRF preserved this semantic advantage.
+
+#### Hybrid failed to recover lexical-only evidence — ML advantage conditions
+
+For:
+
+`ml_advantage_conditions`
+
+BM25:
+
+* recovered one of two targets;
+* target coverage: `0.5`.
+
+Voyage:
+
+* recovered no target;
+* target coverage: `0`.
+
+RRF:
+
+* recovered no target;
+* target coverage: `0`.
+
+The fusion therefore failed to preserve the known BM25-only evidence within the final top five.
+
+#### Hybrid regression — sample-size sensitivity
+
+For:
+
+`sample_size_sensitivity_cross_paper`
+
+BM25:
+
+* target coverage: `0.5`.
+
+Voyage:
+
+* complete;
+* target coverage: `1.0`.
+
+RRF:
+
+* incomplete;
+* target coverage: `0.5`.
+
+The hybrid lost the corporate-default target that Voyage retrieved successfully.
+
 ### Retrieval Decision
 
-Semantic retrieval is valuable but should not replace BM25.
+The initial retrieval experiments now support the following conclusions.
 
-The benchmark demonstrates:
+BM25 remains useful as a deterministic lexical retrieval baseline and exposes evidence that semantic retrieval may sometimes miss.
 
-* BM25 remains strong on direct lexical matches;
-* semantic retrieval materially improves paraphrase ranking and some evidence-completeness failures;
-* semantic retrieval can lose evidence that BM25 retrieves;
-* semantic ranking may concentrate top results around one semantic cluster or source;
-* the two retrievers exhibit complementary failure modes.
+Voyage `voyage-4` is currently the strongest standalone measured retriever on the fixed benchmark.
 
-This provides empirical justification for evaluating hybrid retrieval.
+Semantic retrieval materially improves paraphrase ranking and several evidence-completeness cases relative to BM25.
 
-It does not yet prove that a hybrid retriever will outperform both systems.
+Semantic retrieval does not dominate BM25 on every individual evidence requirement.
+
+Lexical and semantic retrieval therefore remain empirically complementary.
+
+However, the evaluated unweighted RRF configuration does not outperform Voyage overall:
+
+* evidence-completeness metrics are identical to Voyage;
+* target coverage is identical to Voyage;
+* MRR is lower than Voyage;
+* some semantic failures are repaired;
+* some semantic successes are lost;
+* a known lexical-only evidence target is not restored.
+
+The evaluated RRF configuration is therefore **not selected as the current retrieval strategy**.
+
+The implementation is retained as a tested experimental capability and as part of the project audit trail.
+
+No further tuning of RRF parameters, weights, candidate depth, or case-specific fusion logic should be performed against the current twelve-case benchmark.
+
+The next retrieval decision should be informed by held-out evaluation.
 
 ### Verification
 
 The deterministic test suite currently contains:
 
-**102 passing tests.**
+**110 passing tests.**
 
 Real-system validation now includes:
 
@@ -662,28 +878,27 @@ Real-system validation now includes:
 * in-memory semantic retrieval;
 * bounded provider batching;
 * bounded rate-limit handling;
-* lexical-versus-semantic benchmark comparison.
+* lexical-versus-semantic benchmark comparison;
+* deterministic reciprocal-rank fusion;
+* three-way BM25-versus-Voyage-versus-RRF evaluation.
 
 ---
 
 ## In Progress
 
-The semantic retrieval baseline is complete.
+The first retrieval architecture comparison cycle is complete.
 
-The next capability is:
+The current next capability is:
 
-**hybrid lexical-semantic retrieval evaluation.**
+**held-out retrieval evaluation.**
 
-The purpose is to determine whether combining candidate rankings from BM25 and semantic retrieval can improve:
+The purpose is to test whether the retrieval conclusions derived from `credit-risk-two-paper-v2` generalize to additional scholarly sources and research questions.
 
-* evidence completeness;
-* target coverage;
-* ranking quality;
-* resilience to complementary lexical and semantic failure modes.
+The existing benchmark should remain unchanged and continue acting as a regression benchmark.
 
-The hybrid design must remain deterministic and minimal.
+The held-out evaluation should be prepared without changing retrieval logic in response to its individual cases.
 
-The fixed `credit-risk-two-paper-v2` benchmark must remain unchanged during the first hybrid comparison.
+It should include additional evidence requirements that were not used when implementing or evaluating the current BM25, Voyage, or RRF baselines.
 
 ---
 
@@ -691,14 +906,12 @@ The fixed `credit-risk-two-paper-v2` benchmark must remain unchanged during the 
 
 The following Phase 1 capabilities have not yet been implemented:
 
-* hybrid lexical-semantic retrieval;
-* hybrid retrieval benchmark comparison;
+* held-out retrieval benchmark;
+* retrieval evaluation over a broader scholarly corpus;
+* explicit source-diversity-aware retrieval;
 * reranking;
-* source-diversity-aware retrieval;
 * neighbour/context expansion;
 * vector persistence;
-* retrieval over a larger scholarly corpus;
-* held-out retrieval benchmark;
 * normalized-document persistence;
 * Claude-backed evidence extraction;
 * structured evidence-extraction artifacts;
@@ -758,15 +971,22 @@ Later-stage work not yet started includes:
 * A vector database is not justified for the current corpus.
 * Semantic retrieval materially improves some measured retrieval behaviours.
 * Semantic retrieval does not dominate BM25 on every benchmark case.
-* Semantic retrieval must not replace BM25 based on the current evidence.
 * BM25 and semantic retrieval exhibit complementary measured failure modes.
-* Hybrid retrieval is justified for evaluation.
+* Raw BM25 and cosine scores must not be directly added because they are not comparable scales.
+* Reciprocal Rank Fusion has been implemented as a deterministic hybrid experiment.
+* The evaluated RRF configuration uses candidate depth `20` and constant `60`.
+* The evaluated RRF configuration did not outperform Voyage semantic retrieval overall.
+* The evaluated RRF configuration is not selected as the current retrieval strategy.
+* Additional RRF parameter tuning must not be performed against the current twelve-case benchmark.
+* The RRF implementation is retained as a tested experimental capability and audit artifact.
+* Voyage semantic retrieval is currently the strongest standalone measured retrieval baseline.
+* The existing benchmark must remain fixed as a regression benchmark.
+* Held-out retrieval evaluation is required before stronger conclusions about retrieval architecture are made.
 * Retrieval quality must be measured before architectural escalation.
 * Query style and retrieval scope are independent evaluation dimensions.
 * Exhaustive relevance recall must not be claimed without exhaustive relevance judgements.
 * Current retrieval evaluation uses explicit evidence targets with alternative acceptable anchors.
 * The human-reviewed benchmark is pinned to exact artifact hashes.
-* The fixed benchmark must be reused when comparing subsequent retrievers.
 * Table- and figure-associated paragraphs are not automatically excluded.
 * Provider calls must be bounded.
 * Retry behaviour must be bounded.
@@ -783,9 +1003,7 @@ Later-stage work not yet started includes:
 * exact Claude model allocation by agent role;
 * final embedding provider;
 * final embedding model;
-* hybrid retrieval strategy;
-* candidate-list depth used before hybrid fusion;
-* rank-fusion parameters;
+* whether lexical and semantic signals should ultimately be combined after held-out evaluation;
 * whether source diversity requires an explicit retrieval mechanism;
 * reranking strategy;
 * context-expansion policy;
@@ -800,10 +1018,10 @@ Later-stage work not yet started includes:
 * final provenance persistence schema;
 * final evaluation framework;
 * PDF parsing technology;
-* whether hybrid retrieval materially improves both standalone retrievers;
 * whether reranking is required;
 * whether vector persistence is required;
-* whether tables and figures require future first-class document nodes.
+* whether tables and figures require future first-class document nodes;
+* how large the held-out retrieval benchmark must become before retrieval architecture is considered sufficiently stable.
 
 ---
 
@@ -857,7 +1075,7 @@ BM25 may fail when the research question and source passage use different termin
 
 **Evidence:** paraphrased benchmark queries materially underperform lexical queries, and BM25 completely missed `combined_nontraditional_predictors`.
 
-**Mitigation:** preserve semantic retrieval as a complementary retrieval signal.
+**Mitigation:** preserve semantic retrieval as the stronger current candidate for conceptual retrieval while retaining BM25 as a measured lexical baseline.
 
 ### RISK-009 — Document parsing fidelity
 
@@ -887,13 +1105,13 @@ The current benchmark is human-reviewed but not an exhaustive relevance judgemen
 
 The current retrieval benchmark contains only two documents and twelve queries.
 
-**Mitigation:** use it as a controlled regression and architecture-comparison benchmark, not as evidence of general retrieval quality. Add held-out documents and queries after retrieval architecture is technically established.
+**Mitigation:** use it as a controlled regression and architecture-comparison benchmark rather than evidence of general retrieval quality. Create held-out evaluation over additional documents and queries.
 
 ### RISK-014 — Benchmark overfitting
 
-Repeatedly tuning retrieval logic against the same small fixed benchmark can overfit implementation choices to the benchmark.
+Repeatedly tuning retrieval logic against the same small fixed benchmark can overfit implementation choices to those questions.
 
-**Mitigation:** keep the benchmark fixed for initial architecture comparisons, avoid case-specific heuristics, and create a held-out benchmark before considering retrieval stable.
+**Mitigation:** stop parameter tuning on the current benchmark and require held-out evaluation before testing further retrieval refinements.
 
 ### RISK-015 — Semantic concentration
 
@@ -901,7 +1119,7 @@ Semantic retrieval may return several conceptually similar passages from one sou
 
 **Evidence:** `information_richness_cross_paper` lost the alternative-data target despite high semantic ranking confidence.
 
-**Mitigation:** evaluate hybrid retrieval first; consider explicit source-diversity mechanisms only if a measured problem remains.
+**Mitigation:** measure the behaviour on held-out cross-document questions before adding explicit diversity mechanisms.
 
 ### RISK-016 — External embedding-provider limits
 
@@ -911,9 +1129,17 @@ Semantic retrieval depends on an external embedding API whose rate limits, quota
 
 ### RISK-017 — Hybrid complexity without benefit
 
-Hybrid retrieval could add architecture while providing no meaningful benchmark improvement.
+Hybrid retrieval can increase system complexity without improving evidence retrieval.
 
-**Mitigation:** implement only a minimal deterministic fusion experiment and retain it only if measured results justify it.
+**Evidence:** the evaluated RRF configuration matched Voyage on `Hit@5`, `Complete@5`, and `Target Coverage@5` while reducing overall MRR.
+
+**Mitigation:** do not select the current RRF hybrid and do not tune it against the same benchmark.
+
+### RISK-018 — Retrieval decisions derived from development evidence
+
+Architecture decisions may appear stronger than they are if measured only on the benchmark used throughout implementation.
+
+**Mitigation:** create a held-out retrieval evaluation before treating the current semantic baseline or any future hybrid strategy as stable.
 
 ---
 
@@ -930,9 +1156,9 @@ Current high-priority unknowns include:
 5. Dataset availability for candidate topics.
 6. Whether current full-text resolution provides sufficient literature coverage.
 7. Which embedding provider and model should eventually be used beyond the current baseline.
-8. Whether deterministic hybrid retrieval improves on both BM25 and Voyage.
-9. Which fusion method should be used if hybrid retrieval is retained.
-10. Whether candidate depth greater than final `K` is required for effective fusion.
+8. Whether Voyage semantic retrieval remains strongest on held-out scholarly evidence.
+9. Whether lexical-semantic complementarity generalizes beyond the current two-paper benchmark.
+10. Whether any hybrid strategy is justified after held-out evaluation.
 11. Whether explicit source diversity is required for multi-document research questions.
 12. Whether section paths should receive different retrieval weight from paragraph text.
 13. Whether neighbouring passages should be included after retrieval.
@@ -940,40 +1166,25 @@ Current high-priority unknowns include:
 15. Whether vector persistence becomes justified as the corpus grows.
 16. How tables, figures, equations, and non-prose evidence should eventually be represented.
 17. How PDF-only papers should be normalized.
-18. How large the retrieval benchmark must become before retrieval architecture is considered stable.
+18. How large the held-out retrieval benchmark must become before retrieval architecture is considered stable.
 19. Which persistence representation should eventually store source → artifact → document → retrieval → evidence → claim relationships.
 
 ---
 
 ## Next Actions
 
-1. Merge the completed semantic-retrieval slice without adding hybrid logic to the same branch.
-2. Preserve `credit-risk-two-paper-v2` unchanged.
-3. Start a separate hybrid-retrieval branch.
-4. Define a minimal deterministic fusion retriever over the existing BM25 and semantic retrievers.
-5. Avoid raw-score addition because BM25 and cosine scores are not directly comparable.
-6. Evaluate rank-based fusion as the first candidate approach.
-7. Keep candidate retrieval and final `K` explicitly bounded.
-8. Run BM25, semantic, and hybrid retrieval against exactly the same benchmark.
-9. Compare:
-
-* `Hit@5`;
-* `Complete@5`;
-* `Target Coverage@5`;
-* MRR.
-
-10. Inspect the known complementary cases:
-
-* `combined_nontraditional_predictors`;
-* `ml_advantage_conditions`;
-* `information_richness_cross_paper`;
-* `sample_size_sensitivity_cross_paper`.
-
-11. Retain hybrid retrieval only if it improves measured behaviour without unacceptable regressions.
-12. Evaluate source-diversity constraints only if cross-document target loss remains after fusion.
-13. Introduce reranking only if candidate generation remains adequate while top-rank quality is still a measured problem.
-14. Add a held-out retrieval evaluation set before treating retrieval architecture as stable.
-15. Begin Claude-backed evidence extraction only after retrieval candidate quality is sufficiently stable.
+1. Merge the completed RRF hybrid experiment as a documented negative result.
+2. Preserve `credit-risk-two-paper-v2` unchanged as the original retrieval regression benchmark.
+3. Do not tune RRF constants, candidate depth, fusion weights, or case-specific retrieval behaviour against the existing benchmark.
+4. Incorporate authoritative university thesis requirements into project constraints before final topic-selection logic is considered complete.
+5. Design a held-out retrieval evaluation using additional scholarly documents and research questions.
+6. Freeze the held-out evidence requirements before comparing retrieval systems.
+7. Evaluate BM25 and Voyage against the held-out set.
+8. Use the held-out results to test whether the currently observed lexical-semantic complementarity generalizes.
+9. Reconsider hybrid retrieval only if held-out evidence demonstrates a repeatable need.
+10. Introduce source-diversity mechanisms only if cross-document evidence concentration remains a measured problem.
+11. Introduce reranking only if candidate generation is adequate while ranking remains a measured problem.
+12. Begin Claude-backed evidence extraction after retrieval behaviour is sufficiently stable and after university constraints are reflected in the researchability workflow.
 
 ---
 
@@ -993,7 +1204,9 @@ The initial Topic Researchability milestone is complete when:
 * multi-document evidence retrieval operates without sending entire papers to an LLM;
 * retrieval behaviour is evaluated against fixed evidence requirements;
 * lexical and semantic retrieval behaviour is understood empirically;
+* retrieval conclusions have been challenged on held-out evidence;
 * the selected retrieval strategy is justified by measured evidence rather than convention;
+* university thesis constraints are represented explicitly in topic-researchability decisions;
 * relevant evidence can be extracted with exact provenance;
 * research gaps can be evaluated adversarially;
 * datasets, baselines, metrics, and experimental feasibility can be assessed;
