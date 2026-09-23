@@ -3,6 +3,7 @@ from thesis_factory.domain.document import (
 )
 from thesis_factory.domain.retrieval import (
     RetrievalUnit,
+    RetrievalUnitId,
 )
 
 
@@ -48,3 +49,44 @@ def build_retrieval_units(
         for section in document.sections
         for paragraph in section.paragraphs
     )
+
+
+def build_retrieval_corpus(
+        documents: tuple[
+            NormalizedDocument,
+            ...,
+        ],
+) -> tuple[
+    RetrievalUnit,
+    ...
+]:
+    if not documents:
+        raise ValueError(
+            "retrieval documents must not be empty"
+        )
+
+    units = tuple(
+        unit
+        for document in documents
+        for unit in build_retrieval_units(
+            document
+        )
+    )
+
+    identities: list[
+        RetrievalUnitId
+    ] = [
+        unit.identity
+        for unit in units
+    ]
+
+    if (
+            len(identities)
+            != len(set(identities))
+    ):
+        raise ValueError(
+            "retrieval corpus contains "
+            "duplicate unit identities"
+        )
+
+    return units

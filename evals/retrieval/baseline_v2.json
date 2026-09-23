@@ -1,0 +1,604 @@
+{
+  "name": "credit-risk-two-paper-v2",
+  "description": "Human-reviewed evidence-target retrieval benchmark over two real OpenAlex GROBID documents. The benchmark does not claim exhaustive relevance judgements. Each target defines one evidence requirement and a set of acceptable passages that can satisfy it.",
+  "top_k": 5,
+  "documents": [
+    {
+      "title": "Corporate default forecasting with machine learning",
+      "doi": "10.1016/j.eswa.2020.113567",
+      "provider": "openalex",
+      "provider_id": "https://openalex.org/W3010059221",
+      "expected_artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67"
+    },
+    {
+      "title": "Enhancing credit scoring with alternative data",
+      "doi": "10.1016/j.eswa.2020.113766",
+      "provider": "openalex",
+      "provider_id": "https://openalex.org/W3044323082",
+      "expected_artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034"
+    }
+  ],
+  "cases": [
+    {
+      "id": "corp_ml_algorithms",
+      "query_style": "LEXICAL",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "random forest gradient boosted trees corporate default forecasting",
+      "targets": [
+        {
+          "id": "methods",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 4
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 20
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 28
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 35
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 37
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 38
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 39
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "credit_behavioral_inputs",
+      "query_style": "LEXICAL",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "drawn granted bank credit delinquencies credit behavioral indicators",
+      "targets": [
+        {
+          "id": "behavioral-inputs",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 49
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "traffic_light_backtesting",
+      "query_style": "LEXICAL",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "traffic light backtesting credit quality steps realized defaults",
+      "targets": [
+        {
+          "id": "backtesting-framework",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 78
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 79
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 80
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 81
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 86
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "alternative_data_types",
+      "query_style": "LEXICAL",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "psychometric email usage alternative data credit scoring",
+      "targets": [
+        {
+          "id": "alternative-data-types",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 1
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 2
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 8
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 9
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 10
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 25
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 26
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 67
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ml_advantage_conditions",
+      "query_style": "PARAPHRASE",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "When does a flexible predictive model stop providing much benefit over classical regression for default forecasting?",
+      "targets": [
+        {
+          "id": "rich-information",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 1
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 7
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 63
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 65
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 73
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 104
+            }
+          ]
+        },
+        {
+          "id": "small-training-set",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 8
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 68
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 69
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 104
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "credit_allocation_effects",
+      "query_style": "PARAPHRASE",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "How does changing the risk-scoring method alter who gets loans and the losses borne by lenders?",
+      "targets": [
+        {
+          "id": "credit-access",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 1
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 9
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 88
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 89
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 90
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 91
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 105
+            }
+          ]
+        },
+        {
+          "id": "lender-losses",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 1
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 9
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 88
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 91
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 105
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "credit_invisible_applicants",
+      "query_style": "PARAPHRASE",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "Can lenders assess applicants who lack conventional credit-history data using other digital or behavioral signals?",
+      "targets": [
+        {
+          "id": "alternative-scoring",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 1
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 2
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 10
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 53
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 65
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 66
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 67
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "combined_nontraditional_predictors",
+      "query_style": "PARAPHRASE",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "Does combining different nontraditional predictor groups improve borrower-risk prediction compared with using each group separately?",
+      "targets": [
+        {
+          "id": "combined-predictors",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 2
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 10
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 49
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 63
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "italian_corporate_source",
+      "query_style": "PARAPHRASE",
+      "scope": "SOURCE_SELECTION",
+      "query": "Which study uses roughly 300,000 Italian non-financial firms and links financial ratios with Credit Register information?",
+      "targets": [
+        {
+          "id": "italian-dataset",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 40
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 49
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 102
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lenddo_source",
+      "query_style": "LEXICAL",
+      "scope": "SOURCE_SELECTION",
+      "query": "Which study uses Lenddo microcredit data from banks in Mexico and Nigeria?",
+      "targets": [
+        {
+          "id": "lenddo-dataset",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 25
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "information_richness_cross_paper",
+      "query_style": "PARAPHRASE",
+      "scope": "CROSS_DOCUMENT",
+      "query": "Across these studies, what evidence shows that predictive gains depend on the richness or availability of borrower information?",
+      "targets": [
+        {
+          "id": "corporate-default-evidence",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 1
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 7
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 63
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 65
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 73
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 104
+            }
+          ]
+        },
+        {
+          "id": "alternative-data-evidence",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 2
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 10
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 30
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 53
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 63
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 65
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 67
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "sample_size_sensitivity_cross_paper",
+      "query_style": "PARAPHRASE",
+      "scope": "CROSS_DOCUMENT",
+      "query": "What limitations related to sample size or train-test variation do the two studies report?",
+      "targets": [
+        {
+          "id": "corporate-sample-size",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 8
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 68
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 69
+            },
+            {
+              "artifact_sha256": "ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 104
+            }
+          ]
+        },
+        {
+          "id": "alternative-data-sample-size",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 2
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 49
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 51
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 60
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 63
+            },
+            {
+              "artifact_sha256": "640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 67
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

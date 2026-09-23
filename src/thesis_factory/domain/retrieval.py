@@ -10,6 +10,25 @@ from thesis_factory.domain.document import (
 )
 
 
+class RetrievalUnitId(BaseModel):
+    model_config = ConfigDict(
+        extra="forbid",
+        frozen=True,
+    )
+
+    artifact_sha256: str = Field(
+        pattern=r"^[0-9a-f]{64}$",
+    )
+
+    normalization_version: str = Field(
+        min_length=1,
+    )
+
+    paragraph_ordinal: int = Field(
+        ge=1,
+    )
+
+
 class RetrievalUnit(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
@@ -54,6 +73,22 @@ class RetrievalUnit(BaseModel):
     text: str = Field(
         min_length=1,
     )
+
+    @property
+    def identity(
+            self,
+    ) -> RetrievalUnitId:
+        return RetrievalUnitId(
+            artifact_sha256=(
+                self.artifact_sha256
+            ),
+            normalization_version=(
+                self.normalization_version
+            ),
+            paragraph_ordinal=(
+                self.paragraph_ordinal
+            ),
+        )
 
 
 class RetrievalHit(BaseModel):

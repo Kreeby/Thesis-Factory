@@ -7,7 +7,10 @@ from thesis_factory.domain.document import (
 )
 from thesis_factory.retrieval.corpus import (
     build_retrieval_units,
+    build_retrieval_corpus,
 )
+
+import pytest
 
 
 SHA256 = "a" * 64
@@ -126,3 +129,61 @@ def test_preserves_provenance_and_structure() -> None:
             unit.heading_role
             == SectionHeadingRole.TABLE
     )
+
+
+def test_builds_multi_document_corpus() -> None:
+    first = _document()
+
+    second = first.model_copy(
+        update={
+            "artifact_sha256": (
+                    "b" * 64
+            ),
+            "source_provider_id": (
+                "https://openalex.org/W456"
+            ),
+        }
+    )
+
+    corpus = build_retrieval_corpus(
+        (
+            first,
+            second,
+        )
+    )
+
+    assert len(corpus) == 6
+
+    assert {
+               unit.artifact_sha256
+               for unit in corpus
+           } == {
+               "a" * 64,
+               "b" * 64,
+               }
+
+
+def test_rejects_duplicate_document_in_corpus() -> None:
+    document = _document()
+
+    with pytest.raises(
+            ValueError,
+            match="duplicate unit identities",
+    ):
+        build_retrieval_corpus(
+            (
+                document,
+                document,
+            )
+        )
+
+
+def test_rejects_empty_document_corpus() -> None:
+    with pytest.raises(
+            ValueError,
+            match=(
+                    "retrieval documents "
+                    "must not be empty"
+            ),
+    ):
+        build_retrieval_corpus(())
