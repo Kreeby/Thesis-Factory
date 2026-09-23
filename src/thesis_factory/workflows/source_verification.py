@@ -17,7 +17,7 @@ from thesis_factory.verification.identity import (
 class SourceVerificationStatus(StrEnum):
     COMPARED = "COMPARED"
     NO_DOI = "NO_DOI"
-    NOT_FOUND_IN_CROSSREF = "NOT_FOUND_IN_CROSSREF"
+    NOT_FOUND_IN_REGISTRY = "NOT_FOUND_IN_REGISTRY"
 
 
 class SourceVerificationResult(BaseModel):
@@ -63,44 +63,48 @@ def discover_and_verify_sources(
         per_page=limit,
     )
 
-    results: list[SourceVerificationResult] = []
-
-    for source in discovered:
-        if source.doi is None:
-            results.append(
-                SourceVerificationResult(
-                    discovered_source=source,
-                    status=SourceVerificationStatus.NO_DOI,
-                )
-            )
-            continue
-
-        registry_source = registry.get_work_by_doi(source.doi)
-
-        if registry_source is None:
-            results.append(
-                SourceVerificationResult(
-                    discovered_source=source,
-                    status=SourceVerificationStatus.NOT_FOUND_IN_CROSSREF,
-                )
-            )
-            continue
-
-        comparison = compare_bibliographic_metadata(
+    return tuple(
+        verify_source(
             source,
-            registry_source,
+            registry=registry,
+        )
+        for source in discovered
+    )
+
+def verify_source(
+        source: SourceRecord,
+        *,
+        registry: DoiRegistry,
+) -> SourceVerificationResult:
+    if source.doi is None:
+        return SourceVerificationResult(
+            discovered_source=source,
+            status=SourceVerificationStatus.NO_DOI,
         )
 
-        identity = verify_source_identity(comparison)
+    registry_source = registry.get_work_by_doi(
+        source.doi
+    )
 
-        results.append(
-            SourceVerificationResult(
-                discovered_source=source,
-                registry_source=registry_source,
-                comparison=comparison,
-                identity=identity,
-                status=SourceVerificationStatus.COMPARED,
-            )
+    if registry_source is None:
+        return SourceVerificationResult(
+            discovered_source=source,
+            status=SourceVerificationStatus.NOT_FOUND_IN_REGISTRY,
         )
 
-    return tuple(results)
+    comparison = compare_bibliographic_metadata(
+        source,
+        registry_source,
+    )
+
+    identity = verify_source_identity(
+        comparison
+    )
+
+    return SourceVerificationResult(
+        discovered_source=source,
+        registry_source=registry_source,
+        comparison=comparison,
+        identity=identity,
+        status=SourceVerificationStatus.COMPARED,
+    )
