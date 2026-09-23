@@ -6,25 +6,25 @@ Last updated: 2026-09-23
 
 **Phase 1 — Topic Researchability**
 
-The project is implementing the first executable research workflow for determining whether a proposed thesis topic is sufficiently researchable.
-
 Phase 0 — Project Foundation — is complete.
 
-The first bounded literature discovery, verification, and relevance-assessment workflow is operational.
+The first bounded literature discovery, verification, relevance-assessment, source-text resolution, artifact-acquisition, and document-normalization capabilities are operational.
+
+The project is now moving from normalized scholarly documents toward exact evidence addressing and retrieval.
 
 ---
 
 ## Current Objective
 
-Extend the Topic Researchability workflow from bibliographic discovery and abstract-level relevance assessment toward evidence-backed research over retrieved scholarly source text.
+Extend the Topic Researchability workflow from normalized scholarly source text toward evidence that can be retrieved, inspected, cited, and independently verified.
 
 The current focus is:
 
-**source-text resolution and immutable artifact acquisition with explicit provenance.**
+**stable evidence addressing over normalized scholarly documents.**
 
-The system can now discover potential full-text locations for scholarly sources, select a preferred machine-readable or PDF representation, retrieve supported artifacts, validate the returned content, and establish immutable artifact identity using SHA-256.
+A retrieved scholarly artifact can now be transformed deterministically into a structured `NormalizedDocument` while preserving its immutable artifact identity.
 
-The next capability is deterministic normalization of retrieved scholarly documents into structured text suitable for later evidence extraction.
+The next capability must make it possible to identify an exact span of normalized source text using a stable structured address and to verify mechanically that the referenced text actually exists at that address.
 
 ---
 
@@ -73,7 +73,7 @@ The next capability is deterministic normalization of retrieved scholarly docume
   * `NOT_RELEVANT`;
   * `UNCERTAIN`;
   * `INSUFFICIENT_EVIDENCE`.
-* Sources without sufficient textual evidence terminate deterministically as `INSUFFICIENT_EVIDENCE` rather than forcing an LLM judgment.
+* Sources without sufficient textual evidence terminate deterministically as `INSUFFICIENT_EVIDENCE`.
 * Relevance behaviour is covered by deterministic tests.
 * A curated relevance evaluation harness using real Claude calls has been implemented.
 
@@ -111,7 +111,7 @@ a five-query run with five results per query produced:
 * 9 `INSUFFICIENT_EVIDENCE`;
 * 2 sources that could not proceed to relevance assessment because bibliographic verification could not be completed.
 
-The result demonstrated that the next material bottleneck was not literature retrieval precision but textual evidence availability.
+The result demonstrated that the next material bottleneck was textual evidence availability rather than initial retrieval precision.
 
 ### Phase 1 — Source-Text Resolution
 
@@ -130,27 +130,25 @@ The result demonstrated that the next material bottleneck was not literature ret
 * Multiple text locations for the same source are deduplicated.
 * Landing pages are distinguished from directly downloadable full-text artifacts.
 * Preferred text location selection implemented.
-* Current preferred order is:
+* Preferred order is:
 
   1. OpenAlex GROBID XML;
   2. OpenAlex cached PDF;
   3. original open-access PDF.
 * Landing pages are not treated as downloadable full text.
 
-A real source-text coverage diagnostic was executed over the nine sources previously terminating without abstract-level evidence.
+A real source-text coverage diagnostic over the nine sources previously terminating without abstract-level evidence found:
 
-Results:
-
-* 9 sources lacked abstract-level evidence;
-* 2 had OpenAlex GROBID XML;
-* 2 had OpenAlex cached PDF;
-* 3 had original open-access PDF locations;
-* 3 had landing-page locations;
-* 5 had no usable text location through the current OpenAlex resolver.
+* 9 sources lacking abstract-level evidence;
+* 2 with OpenAlex GROBID XML;
+* 2 with OpenAlex cached PDF;
+* 3 with original open-access PDF locations;
+* 3 with landing-page locations;
+* 5 with no usable text location through the current OpenAlex resolver.
 
 Inspecting all OpenAlex locations rather than only `best_oa_location` did not improve coverage for this sample.
 
-This established that incomplete full-text coverage must remain an explicit supported state rather than triggering unbounded provider searching.
+Incomplete full-text coverage is therefore treated as an explicit supported state rather than as a trigger for unbounded provider searching.
 
 ### Phase 1 — Artifact Acquisition
 
@@ -165,7 +163,7 @@ This established that incomplete full-text coverage must remain an explicit supp
 * Empty artifacts are rejected.
 * Maximum artifact size is bounded.
 * Downloaded artifact bytes are assigned a deterministic SHA-256 identity.
-* Artifact metadata preserves the source text location used for retrieval.
+* Artifact metadata preserves the source-text location used for retrieval.
 * Provider credentials are not stored in provenance artifacts.
 
 A live authenticated OpenAlex GROBID download was successfully executed for:
@@ -176,45 +174,125 @@ OpenAlex work:
 
 `W3010059221`
 
-The live artifact had:
+The downloaded artifact had:
 
 * format: `GROBID_XML`;
 * size: `234692` bytes;
 * content type: `application/xml; charset=utf-8`;
 * SHA-256: `ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67`.
 
-The artifact was confirmed to contain valid TEI XML generated by GROBID, including structured scholarly metadata such as the article title.
+### Phase 1 — Scholarly Document Normalization
+
+* `NormalizedDocument` domain representation implemented.
+* `NormalizedSection` domain representation implemented.
+* `NormalizedParagraph` domain representation implemented.
+* Normalized documents preserve:
+
+  * originating artifact SHA-256;
+  * source provider;
+  * source provider work identity;
+  * normalization version;
+  * document title;
+  * ordered sections;
+  * ordered paragraphs.
+* Current normalization version is:
+
+  * `grobid-tei-v1`.
+* GROBID TEI XML parser implemented.
+* XML parsing uses a hardened parser suitable for externally retrieved XML.
+* Both standard GROBID TEI structure and the older OpenAlex GROBID representation are supported.
+* TEI namespaces are handled without hard-coding a single namespace layout.
+* Main article title extraction implemented.
+* Abstract extraction implemented.
+* Body-section extraction implemented.
+* Nested section paths are preserved where the upstream document represents them structurally.
+* Stable global paragraph ordinals are assigned during normalization.
+* Original `xml:id` values are preserved when available.
+* Inline TEI elements such as references are flattened into readable normalized paragraph text.
+* Whitespace is deterministically normalized.
+* Empty or unusable documents are rejected.
+* Non-GROBID artifacts are rejected by the GROBID parser.
+* Section heading roles are represented separately from section content type.
+* Current heading roles are:
+
+  * `STANDARD`;
+  * `TABLE`;
+  * `FIGURE`.
+* Table-like and figure-like headings are identified without treating the entire corresponding section as exclusively table or figure content.
+* This distinction preserves ordinary prose that GROBID may place inside a `<div>` whose heading begins with `Table` or `Figure`.
+* Upstream structural ambiguities are preserved rather than silently repaired with invented hierarchy.
+
+A real normalization run was completed for the authenticated GROBID artifact of:
+
+`Corporate default forecasting with machine learning`
+
+The resulting normalized document contained:
+
+* title: `CORPORATE DEFAULT FORECASTING WITH MACHINE LEARNING`;
+* normalization version: `grobid-tei-v1`;
+* artifact SHA-256: `ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67`;
+* 25 normalized sections;
+* 119 normalized paragraphs.
+
+The real document successfully exposed meaningful scholarly structure including:
+
+* abstract;
+* introduction;
+* related literature;
+* statistical-model discussion;
+* machine-learning-model discussion;
+* training data;
+* model calibration;
+* results;
+* discriminatory-power evaluation;
+* backtesting;
+* credit allocation;
+* variable importance;
+* conclusions;
+* appendices.
+
+The real run also demonstrated upstream GROBID imperfections such as merged headings including:
+
+`THE TRAINING DATASET 4.1 CORPORATE DEFAULTS`
+
+and:
+
+`APPENDICES APPENDIX 1`.
+
+These are currently preserved exactly rather than being separated using unsupported heuristics.
 
 ### Verification
 
-The current deterministic test suite contains:
+After the final normalization changes, the deterministic test suite is expected to contain:
 
-**43 passing tests.**
+**50 passing tests.**
 
-The source-text resolution and artifact-fetching components have additionally been exercised against real OpenAlex data and real OpenAlex full-text infrastructure.
+The normalization pipeline has additionally been exercised against a real 234 KB OpenAlex GROBID artifact.
 
 ---
 
 ## In Progress
 
-The current implementation boundary ends at immutable raw scholarly artifacts.
+The current implementation boundary ends at deterministic normalized scholarly documents.
 
 The next capability is:
 
-**GROBID TEI XML → structured `NormalizedDocument`.**
+**stable evidence addressing.**
 
-The system should deterministically transform a retrieved machine-readable scholarly document into a normalized internal representation containing, at minimum:
+The system must be able to identify an exact span of normalized scholarly text in a form that is:
 
-* document title;
-* abstract;
-* hierarchical sections;
-* paragraphs;
-* stable paragraph ordering;
-* artifact SHA-256;
-* source-provider identity;
-* sufficient provenance for later evidence-span attribution.
+* deterministic;
+* serializable;
+* independently verifiable;
+* tied to the immutable raw artifact;
+* tied to the normalization algorithm version;
+* precise enough for downstream evidence extraction and claim verification.
 
-This normalization must occur before chunking, retrieval, evidence extraction, or additional Claude reasoning.
+The initial target addressing chain is:
+
+`artifact SHA-256 → normalization version → paragraph ordinal → character span`
+
+Section identity may additionally be preserved for navigation and consistency checking.
 
 ---
 
@@ -222,14 +300,12 @@ This normalization must occur before chunking, retrieval, evidence extraction, o
 
 The following Phase 1 capabilities have not yet been implemented:
 
-* `NormalizedDocument` domain representation;
-* GROBID TEI normalization;
-* PDF document parsing;
+* stable text-span addressing;
+* deterministic evidence-span validation;
 * normalized document persistence;
-* paragraph-level source offsets or equivalent fine-grained provenance;
 * document chunking;
 * semantic passage retrieval;
-* evidence-span extraction;
+* evidence extraction;
 * structured evidence artifacts;
 * claim ledger;
 * adversarial research criticism;
@@ -242,7 +318,8 @@ The following Phase 1 capabilities have not yet been implemented:
 * structured Topic Researchability report;
 * human approval gate for topic selection;
 * persistent research-artifact graph;
-* orchestration framework selection.
+* orchestration framework selection;
+* PDF document normalization.
 
 The following later-stage work has also not started:
 
@@ -261,7 +338,7 @@ The following later-stage work has also not started:
 * Claude models accessed through the Anthropic API are the default LLM family for autonomous reasoning agents.
 * Model-provider concerns should remain isolated behind project-controlled boundaries where practical.
 * LLM output is not factual evidence.
-* Scholarly discovery, bibliographic verification, relevance assessment, source-text acquisition, document normalization, and evidence extraction are separate concerns.
+* Scholarly discovery, bibliographic verification, relevance assessment, source-text acquisition, normalization, retrieval, and evidence extraction are separate concerns.
 * Search-planning output is not research evidence.
 * The literature search planner must not formulate the final thesis research question.
 * The literature search planner must not invent research gaps, findings, datasets, or contributions.
@@ -269,24 +346,27 @@ The following later-stage work has also not started:
 * OpenAlex lexical retrieval remains available as an explicit alternative.
 * DOI metadata verification is provider-independent.
 * Crossref coverage must not be treated as equivalent to universal DOI coverage.
-* Multiple DOI metadata providers may participate behind a common registry boundary.
 * Bibliographic identity verification should remain deterministic where possible.
 * Source identity confirmation does not establish source relevance.
 * Source relevance does not establish evidential support for a research claim.
 * Titles alone are insufficient evidence for relevance classification.
 * Missing evidence must remain explicit rather than being converted into artificial certainty.
-* Duplicate sources should be removed before expensive downstream verification or LLM reasoning.
+* Duplicate sources should be removed before expensive downstream processing.
 * Provider-specific operational constraints belong inside integration boundaries.
 * Authentication credentials must not be stored in provenance artifacts.
 * A scholarly source and a retrievable representation of that source are different domain concepts.
 * One scholarly source may have multiple textual representations.
 * Landing pages must not automatically be treated as full-text documents.
 * GROBID XML is preferred over PDF when an appropriate machine-readable representation is already available.
-* Original downloaded bytes must be identifiable independently using a cryptographic content hash.
-* Document parsing should occur deterministically before LLM reasoning over full scholarly text.
-* Markdown may later be produced as an LLM-friendly rendering, but it should not be the canonical research-provenance representation.
+* Raw downloaded artifacts are identified using SHA-256.
+* Document normalization occurs deterministically before LLM reasoning over full scholarly text.
+* Normalization algorithms are explicitly versioned.
+* Normalized paragraph order must be deterministic.
+* Upstream structural uncertainty must not be silently repaired by invented document structure.
+* Table- or figure-like headings do not prove that every paragraph within the corresponding upstream GROBID `<div>` belongs exclusively to a table or figure.
+* Markdown may later be produced as an LLM-friendly rendering, but it is not the canonical provenance representation.
 * Full libraries of papers should not be supplied directly to an LLM context.
-* Future reasoning should operate over selected evidence derived from normalized source documents.
+* Future reasoning should operate over selected evidence derived from normalized documents.
 * Inability to retrieve full text is a valid explicit outcome.
 * Full-text resolution must not become an unbounded provider-search loop.
 * Agent execution must be bounded.
@@ -312,11 +392,11 @@ The following later-stage work has also not started:
 * final provenance persistence schema;
 * final evaluation framework;
 * PDF parsing technology;
-* final scholarly-document normalization schema;
 * chunking strategy;
 * evidence-retrieval strategy;
 * whether vector retrieval is necessary;
-* whether a dedicated workflow engine will be required.
+* whether a dedicated workflow engine will be required;
+* whether future normalization versions should represent tables and figures as independent first-class document nodes.
 
 ---
 
@@ -332,11 +412,11 @@ The project may adopt orchestration, persistence, retrieval, or agent frameworks
 
 Claude or another reasoning model may classify or interpret research artifacts more confidently than the available evidence supports.
 
-**Mitigation:** use structured outputs, explicit uncertainty states, bounded responsibilities, deterministic gates, external evidence, and evaluation.
+**Mitigation:** use structured outputs, explicit uncertainty states, deterministic gates, external evidence, and evaluation.
 
 ### RISK-003 — Relevance misclassification
 
-A scholarly search provider may return legitimate but topically irrelevant publications, and an LLM relevance classifier may also make incorrect relevance judgments.
+A scholarly search provider may return legitimate but topically irrelevant publications, and an LLM relevance classifier may make incorrect relevance judgments.
 
 **Mitigation:** keep discovery separate from relevance assessment, maintain explicit evaluation cases, and preserve uncertainty rather than forcing classification.
 
@@ -374,17 +454,23 @@ Keyword-oriented scholarly retrieval may rank broadly related methodological pap
 
 ### RISK-009 — Document parsing fidelity
 
-Machine-readable scholarly representations may lose, alter, or restructure information from the original publication.
+Machine-readable scholarly representations may lose, alter, merge, or restructure information from the original publication.
 
-PDF extraction may additionally suffer from reading-order, table, equation, figure, column, and layout errors.
+The real GROBID normalization run demonstrated merged headings and ambiguous table/figure containers.
 
-**Mitigation:** preserve immutable raw artifact bytes and their SHA-256 identity, maintain provenance from normalized text back to the raw artifact, and validate parsing behaviour against real scholarly documents before downstream evidence extraction relies on it.
+**Mitigation:** preserve immutable raw artifact bytes and their SHA-256 identity, version the normalization algorithm, preserve upstream ambiguity, avoid unsupported reconstruction, and validate parsing against real scholarly documents.
 
 ### RISK-010 — Provider-authenticated artifact access
 
 Some OpenAlex-hosted cached full-text artifacts require authenticated access even when their location is returned through OpenAlex metadata.
 
 **Mitigation:** keep authentication ephemeral and provider-specific. Do not embed secrets into `SourceTextLocation`, `FetchedArtifact`, or downstream provenance.
+
+### RISK-011 — Evidence-address instability
+
+Offsets or paragraph identities may change when normalization logic changes, potentially invalidating previously extracted evidence.
+
+**Mitigation:** every evidence address must include the source artifact identity and normalization version. Evidence validation must fail explicitly when the referenced normalized document does not match that identity.
 
 ---
 
@@ -401,26 +487,28 @@ Current high-priority unknowns are:
 5. Data availability for candidate research topics.
 6. How much source text is required before a source can support a research claim rather than merely pass relevance assessment.
 7. Whether current open-access text resolution provides sufficient coverage across realistic thesis literature.
-8. What normalized scholarly-document representation best preserves useful structure and evidence provenance.
-9. Whether paragraph-level provenance is sufficient or exact character/span offsets will be required.
-10. How PDF-only documents should be parsed once GROBID-first normalization is validated.
-11. Whether orchestration requirements will justify introducing a dedicated workflow framework.
-12. Which persistence representation should eventually store source → artifact → document → evidence → claim relationships.
+8. Whether normalized paragraph-level text is sufficient for the majority of evidence extraction.
+9. What exact evidence-address schema should be stable across the research pipeline.
+10. How evidence derived from tables, figures, equations, or other non-prose structures should eventually be represented.
+11. How PDF-only documents should be normalized once GROBID-first processing is sufficiently mature.
+12. Whether orchestration requirements will justify introducing a dedicated workflow framework.
+13. Which persistence representation should eventually store source → artifact → document → evidence → claim relationships.
 
 ---
 
 ## Next Actions
 
-1. Introduce the minimal `NormalizedDocument` domain model.
-2. Implement deterministic parsing of GROBID TEI XML.
-3. Preserve the originating artifact SHA-256 on every normalized document.
-4. Preserve section hierarchy and stable paragraph ordering.
-5. Validate the parser against synthetic deterministic fixtures.
-6. Execute the parser against the real `W3010059221` GROBID artifact.
-7. Inspect the resulting real document structure before deciding whether additional provenance fields are necessary.
-8. Define the minimum stable evidence-addressing contract.
-9. Only then design document chunking and passage retrieval.
-10. Introduce Claude-backed evidence extraction only after deterministic normalization and retrieval are sufficiently reliable.
+1. Define the minimal stable text-span address.
+2. Include artifact SHA-256 and normalization version in every address.
+3. Address normalized paragraphs by deterministic paragraph ordinal.
+4. Add zero-based character start/end offsets within the normalized paragraph.
+5. Implement deterministic resolution of an address against a `NormalizedDocument`.
+6. Reject addresses targeting the wrong artifact or normalization version.
+7. Reject invalid paragraph ordinals and character ranges.
+8. Preserve the exact resolved text as evidence.
+9. Validate the addressing model against the real normalized `W3010059221` document.
+10. Only after stable evidence addressing exists, design chunking and passage retrieval.
+11. Introduce Claude-backed evidence extraction only after deterministic retrieval can return verifiable source spans.
 
 ---
 
@@ -437,6 +525,7 @@ The initial Topic Researchability milestone is complete when:
 * usable scholarly full text can be resolved where available;
 * retrieved artifacts have immutable identity and preserved provenance;
 * scholarly artifacts can be deterministically normalized into structured documents;
+* exact evidence spans can be addressed and verified deterministically;
 * relevant passages can be retrieved without sending an entire literature corpus to an LLM;
 * relevant evidence can be extracted with provenance;
 * plausible research gaps can be evaluated adversarially;
