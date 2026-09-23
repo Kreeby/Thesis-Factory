@@ -18,26 +18,30 @@ The project now has operational capabilities for:
 * immutable artifact acquisition;
 * deterministic scholarly-document normalization;
 * exact evidence addressing and verification;
-* paragraph-level retrieval;
-* deterministic BM25 lexical ranking.
+* multi-document paragraph retrieval;
+* deterministic BM25 lexical ranking;
+* human-reviewed retrieval benchmarking.
 
-The project is now moving from an operational retrieval baseline toward measurable retrieval evaluation.
+The project is now moving from a measured lexical retrieval baseline toward semantic retrieval comparison.
 
 ---
 
 ## Current Objective
 
-Establish a repeatable retrieval evaluation framework before introducing semantic embeddings or vector infrastructure.
+Determine whether semantic retrieval materially improves evidence retrieval over the current BM25 baseline, especially for paraphrased and cross-document research questions.
 
-The current focus is:
+The next retrieval implementation must be evaluated against the same fixed benchmark rather than against ad-hoc examples.
 
-**retrieval evaluation over normalized scholarly evidence.**
+The current baseline deliberately does not use:
 
-Paragraph-level BM25 retrieval is operational and has performed well on an initial real scholarly document.
+* embeddings;
+* vector databases;
+* semantic reranking;
+* LLM reranking;
+* automatic paragraph merging;
+* automatic paragraph splitting.
 
-However, the initial real diagnostic queries intentionally contained substantial lexical overlap with the source text.
-
-The next capability must evaluate retrieval using explicit relevance labels and harder paraphrased queries so that future semantic or hybrid retrieval can be compared against a meaningful baseline rather than against intuition.
+This provides a transparent deterministic baseline against which later retrieval capabilities can be measured.
 
 ---
 
@@ -97,19 +101,17 @@ The next capability must evaluate retrieval using explicit relevance labels and 
 ### Phase 1 — Literature Search Planning
 
 * Bounded `LiteratureSearchPlanner` implemented.
-* Search planning is explicitly separated from final thesis research-question formulation.
+* Search planning is separated from final thesis research-question formulation.
 * Search plans are limited to at most five complementary scholarly search tasks.
 * Search-planning output is operational metadata and is not treated as research evidence.
 * Topic-level literature assessment workflow implemented.
-* Results from multiple planned searches are aggregated before downstream processing.
+* Results from multiple searches are aggregated before downstream processing.
 * Duplicate scholarly sources are removed before bibliographic verification and relevance assessment.
-* Search-query provenance is preserved for each discovered source.
+* Search-query provenance is preserved.
 * OpenAlex lexical and semantic search modes implemented explicitly.
 * Live diagnostics demonstrated substantially better topical precision from OpenAlex semantic retrieval than lexical retrieval for the current candidate topic.
 * Planner-driven literature discovery currently uses OpenAlex semantic search.
-* OpenAlex semantic-search rate limiting is handled within the provider integration boundary.
 * Crossref abstracts can act as fallback textual evidence when OpenAlex does not expose an abstract.
-* The exact `SourceRecord` supplied to relevance assessment is preserved as `relevance_source`.
 
 ### Phase 1 — Real Literature Workflow Validation
 
@@ -124,201 +126,133 @@ a five-query semantic discovery run with five results per query produced:
 * 0 `NOT_RELEVANT`;
 * 0 `UNCERTAIN`;
 * 9 `INSUFFICIENT_EVIDENCE`;
-* 2 sources that could not proceed to relevance assessment because bibliographic verification could not be completed.
+* 2 sources unable to proceed because bibliographic verification could not be completed.
 
-This demonstrated that textual evidence availability was a more material bottleneck than initial scholarly retrieval precision.
+This demonstrated that textual evidence availability was a material bottleneck after discovery.
 
 ### Phase 1 — Source-Text Resolution
 
-* `SourceTextLocation` introduced as a domain artifact distinct from bibliographic `SourceRecord`.
-* Bibliographic source identity and retrievable textual representations are modelled separately.
+* `SourceTextLocation` introduced separately from `SourceRecord`.
+* Bibliographic identity and textual representation are distinct domain concepts.
 * OpenAlex full-text location lookup implemented.
-* OpenAlex `best_oa_location` support implemented.
-* Complete OpenAlex `locations` inspection implemented.
-* OpenAlex cached full-text `content_urls` support implemented.
-* Supported text-location representations include:
+* OpenAlex `best_oa_location`, complete `locations`, and cached `content_urls` are supported.
+* Supported location representations include:
 
   * OpenAlex GROBID XML;
   * OpenAlex cached PDF;
   * original open-access PDF;
   * scholarly landing page.
-* Multiple text locations for the same source are deduplicated.
-* Landing pages are distinguished from directly downloadable full-text artifacts.
-* Preferred text-location selection implemented.
-* Preferred order is:
+* Locations are deduplicated.
+* Landing pages are not treated as downloadable full text.
+* Preferred text-location order is:
 
   1. OpenAlex GROBID XML;
   2. OpenAlex cached PDF;
   3. original open-access PDF.
-* Landing pages are not treated as downloadable full text.
-
-A real source-text coverage diagnostic over nine sources previously terminating without abstract-level evidence found:
-
-* 9 sources lacking abstract-level evidence;
-* 2 with OpenAlex GROBID XML;
-* 2 with OpenAlex cached PDF;
-* 3 with original open-access PDF locations;
-* 3 with landing-page locations;
-* 5 with no usable text location through the current OpenAlex resolver.
-
-Inspecting all OpenAlex locations rather than only `best_oa_location` did not improve coverage for the sample.
-
-Incomplete full-text coverage is treated as an explicit supported state rather than as a trigger for unbounded provider searching.
+* Missing full text is an explicit supported outcome.
+* Full-text resolution does not trigger unbounded provider searching.
 
 ### Phase 1 — Artifact Acquisition
 
 * Deterministic artifact fetching implemented.
-* Direct full-text locations can be downloaded independently of reasoning agents.
-* Supported downloaded artifact formats currently include:
-
-  * GROBID XML;
-  * PDF.
-* Downloaded artifacts are validated against their expected representation.
-* HTML or access-denied responses masquerading as PDF are rejected.
+* Supported artifact formats currently include GROBID XML and PDF.
 * Empty artifacts are rejected.
+* Invalid PDF responses are rejected.
 * Maximum artifact size is bounded.
 * Downloaded artifact bytes receive deterministic SHA-256 identity.
-* Artifact metadata preserves the source-text location used for retrieval.
-* Provider credentials are not stored in provenance artifacts.
+* Authentication credentials are not stored in provenance artifacts.
 
-A live authenticated OpenAlex GROBID download was successfully executed for:
+A real OpenAlex GROBID artifact for:
 
 `Corporate default forecasting with machine learning`
 
-OpenAlex work:
+was downloaded with:
 
-`W3010059221`
-
-The downloaded artifact had:
-
-* format: `GROBID_XML`;
+* OpenAlex work: `W3010059221`;
 * size: `234692` bytes;
-* content type: `application/xml; charset=utf-8`;
-* SHA-256: `ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67`.
+* SHA-256:
+  `ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67`.
 
 ### Phase 1 — Scholarly Document Normalization
 
 * `NormalizedDocument` implemented.
 * `NormalizedSection` implemented.
 * `NormalizedParagraph` implemented.
-* Normalized documents preserve:
-
-  * originating artifact SHA-256;
-  * source provider;
-  * source provider work identity;
-  * normalization version;
-  * document title;
-  * ordered sections;
-  * ordered paragraphs.
-* Current normalization version is `grobid-tei-v1`.
-* GROBID TEI XML parser implemented.
-* XML parsing uses a hardened parser suitable for externally retrieved XML.
-* Both standard GROBID TEI and the older OpenAlex GROBID representation are supported.
-* TEI namespaces are handled without depending on one namespace layout.
-* Main article title extraction implemented.
-* Abstract extraction implemented.
-* Body-section extraction implemented.
-* Nested section paths are preserved when available.
-* Stable global paragraph ordinals are assigned during normalization.
-* Section ordinals are required to be unique.
-* Paragraph ordinals are required to be unique within a normalized document.
-* Original `xml:id` values are preserved when available.
-* Inline TEI elements are flattened into readable normalized paragraph text.
-* Whitespace is deterministically normalized.
-* Empty or unusable documents are rejected.
-* Non-GROBID artifacts are rejected by the GROBID parser.
+* Current normalization version is:
+  `grobid-tei-v1`.
+* GROBID TEI parser implemented using hardened XML parsing.
+* Standard GROBID TEI and legacy OpenAlex GROBID forms are supported.
+* Namespace differences are handled.
+* Title, abstract, sections, nested paths, paragraphs, and available `xml:id` values are preserved.
+* Paragraph whitespace is normalized deterministically.
+* Section and paragraph ordinals are deterministic and unique within a document.
 * Section heading roles are represented separately from section content type.
 * Current heading roles are:
 
   * `STANDARD`;
   * `TABLE`;
   * `FIGURE`.
-* Table-like and figure-like headings do not imply that every contained paragraph exclusively represents table or figure content.
-* Upstream structural ambiguity is preserved rather than silently repaired.
+* Table- or figure-like headings do not cause all contained paragraphs to be treated as non-prose.
+* Upstream GROBID structural ambiguities are preserved rather than heuristically repaired.
 
-A real normalization run for `W3010059221` produced:
+Real normalization of `W3010059221` produced:
 
-* title: `CORPORATE DEFAULT FORECASTING WITH MACHINE LEARNING`;
-* normalization version: `grobid-tei-v1`;
-* artifact SHA-256: `ae21bed28e5f9ab69878493e474bb41537621bebe692018944ed1cc2311d1d67`;
-* 25 normalized sections;
-* 119 normalized paragraphs.
+* 25 sections;
+* 119 paragraphs.
+
+A second real article:
+
+`Enhancing Credit Scoring with Alternative Data`
+
+OpenAlex work:
+
+`W3044323082`
+
+was also normalized successfully, producing:
+
+* 20 sections;
+* 93 paragraphs;
+* artifact SHA-256:
+  `640d703f9028b31a6ed1336b8deb38261a93cad81957616972ed8041ba3cf034`.
 
 ### Phase 1 — Stable Evidence Addressing
 
 * `EvidenceAddress` implemented.
 * `EvidenceSpan` implemented.
-* Evidence addressing uses:
+* Evidence addresses contain:
 
   * artifact SHA-256;
   * normalization version;
   * paragraph ordinal;
   * zero-based start character offset;
   * zero-based exclusive end character offset.
-* Character spans use half-open `[start_char, end_char)` semantics.
-* Evidence coordinates and resolved evidence are modelled separately.
-* Evidence text is not trusted as part of the address.
-* Exact evidence text is resolved deterministically from the normalized document.
-* Evidence resolution rejects:
+* Character spans use `[start_char, end_char)` semantics.
+* Evidence coordinates and evidence text are separate concepts.
+* Evidence text is deterministically resolved from the normalized document.
+* Wrong artifact identities, normalization versions, paragraph ordinals, and character ranges are rejected.
+* Evidence can be independently re-resolved and verified.
+* Fabricated or modified evidence text fails deterministic verification.
 
-  * incorrect artifact identity;
-  * incorrect normalization version;
-  * missing paragraph ordinals;
-  * invalid character ranges;
-  * out-of-bounds ranges.
-* Resolved evidence preserves source and section provenance.
-* Existing evidence can be independently re-resolved and verified.
-* Modified or fabricated evidence text fails deterministic verification.
-
-A live evidence diagnostic successfully resolved and verified:
-
-* section: `CONCLUSIONS`;
-* paragraph: `102`;
-* character range: `[0, 94)`.
-
-Resolved text:
-
-`This work compares statistical models usually employed in credit risk modelling with ML models`
+A live evidence diagnostic successfully resolved and verified an exact passage from paragraph 102 of `W3010059221`.
 
 ### Phase 1 — Retrieval-Unit Diagnostics
 
-Paragraph-size distribution was measured against real normalized work `W3010059221`.
+Paragraph-size distribution was measured on real scholarly text before choosing a chunking strategy.
 
-The document contained 119 paragraphs.
+For `W3010059221`:
 
-Character distribution:
+* 119 paragraphs;
+* median: 372 characters / 62 words;
+* P95: 1337 characters / 209 words;
+* maximum: 2377 characters / 399 words.
 
-* minimum: 22;
-* median: 372;
-* P75: 765;
-* P90: 1046;
-* P95: 1337;
-* maximum: 2377.
-
-Word distribution:
-
-* minimum: 3;
-* median: 62;
-* P75: 114;
-* P90: 161;
-* P95: 209;
-* maximum: 399.
-
-The distribution supports the initial decision:
+This supported the initial retrieval decision:
 
 `one NormalizedParagraph = one RetrievalUnit`
 
-without automatic paragraph splitting or merging.
+No automatic paragraph splitting or merging is currently performed.
 
-The diagnostic also demonstrated that size alone cannot safely classify retrieval quality because very short and very long paragraphs can contain:
-
-* genuine prose;
-* list fragments;
-* table labels;
-* flattened tables;
-* appendix structures.
-
-### Phase 1 — Paragraph Retrieval Baseline
+### Phase 1 — Multi-Document Retrieval Corpus
 
 * Immutable `RetrievalUnit` representation implemented.
 * Retrieval units preserve:
@@ -332,92 +266,249 @@ The diagnostic also demonstrated that size alone cannot safely classify retrieva
   * section kind;
   * heading role;
   * paragraph ordinal;
-  * exact normalized paragraph text.
-* Deterministic retrieval-corpus construction implemented.
-* Every normalized paragraph becomes exactly one retrieval unit.
-* Retrieval-unit construction does not split, merge, rewrite, summarize, or otherwise transform paragraph text.
+  * exact normalized text.
+* Canonical `RetrievalUnitId` implemented using:
+
+  * artifact SHA-256;
+  * normalization version;
+  * paragraph ordinal.
+* Retrieval identity remains unambiguous across multiple scholarly documents.
+* Deterministic single-document retrieval-unit construction implemented.
+* Deterministic multi-document retrieval-corpus construction implemented.
 * Duplicate retrieval-unit identities are rejected.
-* Deterministic BM25 lexical retriever implemented without introducing an external search dependency.
+
+The current real benchmark corpus contains:
+
+* 2 scholarly documents;
+* 212 retrieval units.
+
+### Phase 1 — BM25 Retrieval Baseline
+
+* Dependency-free deterministic BM25 lexical retrieval implemented.
 * BM25 indexing currently uses:
 
   * section path;
   * paragraph text.
-* Section headings therefore contribute to retrieval ranking without becoming evidence text.
+* Original paragraph text remains unchanged.
+* Section headings therefore contribute to discovery but do not become evidence.
 * Search is case-insensitive.
-* Zero-score units are not returned.
-* Ranking ties are resolved deterministically by corpus order.
-* `top_k` is explicitly bounded by the caller.
+* Zero-score units are excluded.
+* Ranking ties are deterministic.
+* Caller specifies bounded `top_k`.
 
-A live BM25 diagnostic was executed over all 119 paragraphs of `W3010059221`.
+Initial real diagnostics demonstrated good lexical retrieval while also exposing:
 
-Five research-oriented queries were tested:
+* table and appendix noise;
+* heading-driven matches;
+* weak paraphrase handling;
+* incomplete multi-facet evidence recovery.
 
-* machine-learning model description;
-* credit-allocation effects;
-* credit behavioral indicators;
-* backtesting;
-* variable importance.
+No heuristic filtering was introduced in response to those observations.
 
-For all five queries, the highest-ranked paragraph was substantively relevant to the requested concept.
+### Phase 1 — Retrieval Evaluation Framework
 
-Examples include:
+* Generic `Retriever` protocol implemented.
+* Retrieval evaluation is independent of BM25 and can be reused for future semantic and hybrid retrievers.
+* Query style and evaluation scope are represented as separate dimensions.
 
-* ML models → paragraph 28, `MACHINE LEARNING MODELS`;
-* credit allocation → paragraph 105, `CONCLUSIONS`;
-* credit behavioral indicators → paragraph 48, `FINANCIAL AND CREDIT BEHAVIORAL INDICATORS`;
-* backtesting → paragraph 78, `BACKTESTING`;
-* variable importance → paragraph 97, `VARIABLE IMPORTANCE AND MODEL ROBUSTNESS`.
+Current query styles:
 
-The diagnostic also exposed retrieval noise below the highest-ranked results.
+* `LEXICAL`;
+* `PARAPHRASE`.
 
-Observed noise includes:
+Current scopes:
 
-* flattened tabular content;
-* appendix tables;
-* short table labels;
-* figure-associated sections.
+* `SINGLE_DOCUMENT`;
+* `SOURCE_SELECTION`;
+* `CROSS_DOCUMENT`.
 
-Examples include paragraphs 99, 117, and 118 appearing highly because they contain many exact query terms.
+The initial exhaustive relevance-list approach was rejected after audit because the benchmark did not contain complete relevance judgements for all 212 passages.
 
-No filtering has been introduced in response to these cases because sections with table-like headings can also contain genuine prose.
+The evaluation model was changed to evidence targets.
+
+Each `RetrievalTarget` describes:
+
+* one evidence requirement;
+* one or more acceptable passages capable of satisfying that requirement.
+
+This avoids treating unlabelled but valid passages as automatically irrelevant.
+
+Current metrics are:
+
+* `Hit@K` — whether at least one evidence target was satisfied;
+* `Complete@K` — whether every required target was satisfied;
+* `Target Coverage@K` — fraction of required evidence targets satisfied;
+* reciprocal rank — rank of the first acceptable evidence anchor;
+* MRR — mean reciprocal rank across cases.
+
+### Phase 1 — Human-Reviewed Retrieval Benchmark
+
+A persistent benchmark has been created:
+
+`evals/retrieval/baseline_v2.json`
+
+Benchmark name:
+
+`credit-risk-two-paper-v2`
+
+The benchmark is pinned to the exact SHA-256 identities of both real scholarly artifacts.
+
+It contains:
+
+* 12 human-reviewed research queries;
+* 16 evidence targets;
+* lexical and paraphrased queries;
+* single-document questions;
+* source-selection questions;
+* cross-document questions.
+
+Acceptable evidence anchors were reviewed against the canonical 212-unit corpus.
+
+BM25 output was not treated as exhaustive ground truth.
+
+The benchmark therefore evaluates whether retrieval supplies evidence sufficient to satisfy explicit research requirements rather than pretending that every relevant paragraph has been exhaustively labelled.
+
+### Phase 1 — Measured BM25 Benchmark
+
+BM25 was evaluated at `K = 5`.
+
+Overall:
+
+* cases: 12;
+* `Hit@5`: `0.9167`;
+* `Complete@5`: `0.7500`;
+* `Target Coverage@5`: `0.8333`;
+* MRR: `0.6319`.
+
+Lexical queries:
+
+* cases: 5;
+* `Hit@5`: `1.0000`;
+* `Complete@5`: `1.0000`;
+* `Target Coverage@5`: `1.0000`;
+* MRR: `0.8667`.
+
+Paraphrased queries:
+
+* cases: 7;
+* `Hit@5`: `0.8571`;
+* `Complete@5`: `0.5714`;
+* `Target Coverage@5`: `0.7143`;
+* MRR: `0.4643`.
+
+Single-document queries:
+
+* cases: 8;
+* `Hit@5`: `0.8750`;
+* `Complete@5`: `0.7500`;
+* `Target Coverage@5`: `0.8125`;
+* MRR: `0.5312`.
+
+Source-selection queries:
+
+* cases: 2;
+* `Hit@5`: `1.0000`;
+* `Complete@5`: `1.0000`;
+* `Target Coverage@5`: `1.0000`;
+* MRR: `1.0000`.
+
+Cross-document queries:
+
+* cases: 2;
+* `Hit@5`: `1.0000`;
+* `Complete@5`: `0.5000`;
+* `Target Coverage@5`: `0.7500`;
+* MRR: `0.6667`.
+
+### Observed BM25 Failure Modes
+
+The benchmark exposes specific measured weaknesses rather than hypothetical ones.
+
+#### Paraphrase failure
+
+For:
+
+`combined_nontraditional_predictors`
+
+BM25 returned no acceptable evidence anchor in the top five results.
+
+Result:
+
+* `Hit@5 = false`;
+* `Complete@5 = false`;
+* `Target Coverage@5 = 0`.
+
+#### Multi-facet paraphrase failure
+
+For:
+
+`ml_advantage_conditions`
+
+BM25 found evidence related to rich information but failed to recover the separate small-training-set evidence target.
+
+Result:
+
+* target coverage: `0.5`;
+* complete: `false`.
+
+#### Cross-document evidence-completeness failure
+
+For:
+
+`sample_size_sensitivity_cross_paper`
+
+BM25 found evidence from the alternative-data paper but failed to retrieve the required corporate-default evidence target.
+
+Result:
+
+* target coverage: `0.5`;
+* complete: `false`.
+
+#### Ranking noise
+
+For a direct machine-learning-algorithm query, valid evidence was found, but appendix and table-derived material ranked above some stronger explanatory passages.
+
+This confirms that good `Hit@K` alone does not imply good evidence ranking.
 
 ### Verification
 
 The deterministic test suite currently contains:
 
-**73 passing tests.**
+**87 passing tests.**
 
-The pipeline has additionally been exercised against:
+Real-system validation now includes:
 
-* real OpenAlex metadata;
-* real OpenAlex full-text infrastructure;
-* a real 234 KB GROBID artifact;
-* a real normalized scholarly document;
-* a real exact evidence span;
-* a real 119-unit BM25 retrieval corpus.
+* live scholarly discovery;
+* live bibliographic verification;
+* real Claude relevance classification;
+* live OpenAlex full-text resolution;
+* authenticated artifact acquisition;
+* deterministic normalization of two scholarly articles;
+* exact evidence addressing;
+* a 212-unit multi-document retrieval corpus;
+* a fixed human-reviewed evidence-target benchmark;
+* repeatable BM25 evaluation over that benchmark.
 
 ---
 
 ## In Progress
 
-The current implementation boundary ends at a working deterministic lexical retrieval baseline.
+The lexical retrieval baseline is complete.
 
 The next capability is:
 
-**retrieval evaluation.**
+**semantic retrieval evaluation against the fixed benchmark.**
 
-The retrieval system must be evaluated against explicitly labelled cases before semantic embeddings, hybrid retrieval, reranking, context expansion, or vector storage are introduced.
+The purpose is not to replace BM25 merely because embeddings are conventional.
 
-Evaluation should distinguish at least:
+The purpose is to test whether semantic retrieval materially improves the measured BM25 weaknesses, particularly:
 
-* exact or near-exact lexical queries;
-* paraphrased conceptual queries with reduced lexical overlap.
+* paraphrased conceptual queries;
+* multi-facet evidence coverage;
+* cross-document evidence recovery;
+* rank quality.
 
-Initial evaluation metrics should measure:
-
-* whether at least one relevant passage appears in the top K;
-* how early the first relevant passage appears;
-* how much of the labelled relevant set is recovered.
+The fixed `credit-risk-two-paper-v2` benchmark must remain unchanged while semantic retrieval is evaluated.
 
 ---
 
@@ -425,18 +516,15 @@ Initial evaluation metrics should measure:
 
 The following Phase 1 capabilities have not yet been implemented:
 
-* structured retrieval-evaluation cases;
-* deterministic retrieval evaluation harness;
-* Recall@K measurement;
-* reciprocal-rank measurement;
-* Hit@K measurement;
-* semantic/paraphrase retrieval stress tests;
-* contextual-neighbour expansion;
-* semantic embedding retrieval;
+* semantic embedding generation;
+* semantic paragraph retrieval;
+* semantic-vs-BM25 benchmark comparison;
 * hybrid lexical/semantic retrieval;
 * reranking;
+* neighbour/context expansion;
 * vector persistence;
-* normalized document persistence;
+* retrieval over a larger scholarly corpus;
+* normalized-document persistence;
 * Claude-backed evidence extraction;
 * structured evidence-extraction artifacts;
 * claim ledger;
@@ -453,7 +541,7 @@ The following Phase 1 capabilities have not yet been implemented:
 * orchestration framework selection;
 * PDF document normalization.
 
-The following later-stage work has also not started:
+Later-stage work not yet started includes:
 
 * final thesis topic selection;
 * final thesis research question;
@@ -467,73 +555,55 @@ The following later-stage work has also not started:
 
 ### Confirmed
 
-* Claude models accessed through the Anthropic API are the default LLM family for autonomous reasoning agents.
-* Model-provider concerns remain isolated behind project-controlled boundaries where practical.
+* Claude is the default LLM family for autonomous reasoning agents.
 * LLM output is not factual evidence.
-* Scholarly discovery, bibliographic verification, relevance assessment, source-text acquisition, normalization, retrieval, and evidence extraction are separate concerns.
+* Provider concerns should remain behind project-controlled boundaries where practical.
+* Discovery, verification, relevance assessment, acquisition, normalization, retrieval, and evidence extraction are separate concerns.
 * Search-planning output is not research evidence.
-* The literature search planner must not formulate the final thesis research question.
-* The literature search planner must not invent research gaps, findings, datasets, or contributions.
-* Planner-driven scholarly discovery uses OpenAlex semantic retrieval.
-* OpenAlex lexical retrieval remains available explicitly.
-* DOI metadata verification is provider-independent.
-* Crossref coverage is not treated as universal DOI coverage.
-* Source identity verification remains deterministic where possible.
-* Source identity confirmation does not establish source relevance.
-* Source relevance does not establish evidential support for a research claim.
-* Titles alone are insufficient evidence for relevance classification.
+* The literature search planner does not formulate the final thesis research question.
+* DOI verification is provider-independent.
 * Missing evidence remains explicit.
-* Duplicate sources are removed before expensive downstream processing.
-* Provider-specific operational constraints belong inside integration boundaries.
-* Authentication credentials are not stored in provenance artifacts.
-* A scholarly source and a retrievable representation are different domain concepts.
-* One scholarly source may have multiple textual representations.
-* Landing pages are not automatically treated as full-text documents.
-* GROBID XML is preferred over PDF when appropriate machine-readable representation exists.
-* Raw downloaded artifacts are identified using SHA-256.
-* Document normalization occurs deterministically before LLM reasoning over full scholarly text.
-* Normalization algorithms are explicitly versioned.
-* Normalized paragraph order is deterministic.
-* Section and paragraph ordinals used for provenance must be unique within a normalized document.
-* Upstream structural uncertainty is not silently repaired by invented structure.
-* Markdown may later be used as an LLM-facing rendering but is not canonical provenance.
-* Full libraries of papers are not supplied directly to an LLM context.
+* Authentication credentials are not stored in provenance.
+* Raw artifacts are identified using SHA-256.
+* Normalization algorithms are versioned.
+* GROBID XML is preferred when a suitable machine-readable representation exists.
+* Upstream document ambiguity is preserved rather than silently reconstructed.
 * Evidence coordinates and evidence text are separate concepts.
-* Evidence text is deterministically resolved from coordinates.
-* Evidence addresses include raw artifact identity and normalization version.
-* Evidence offsets are zero-based half-open character ranges.
-* Inability to retrieve full text is a valid explicit outcome.
-* Full-text resolution does not become an unbounded provider-search loop.
+* Evidence addresses include artifact identity and normalization version.
+* Evidence spans are deterministically verifiable.
 * One normalized paragraph is one retrieval unit in retrieval v1.
-* Retrieval-unit text is not automatically split or merged.
-* Section paths participate in lexical indexing but are not treated as evidence text.
-* BM25 is the initial deterministic lexical retrieval baseline.
-* Retrieval ranking and contextual expansion remain separate concerns.
-* Retrieval quality must be evaluated before semantic retrieval is introduced.
-* Embeddings and vector storage are not introduced merely because they are conventional in RAG systems.
-* Table- or figure-associated paragraphs are not automatically excluded from retrieval.
-* Agent execution must be bounded.
-* Important project state is externalised into repository artifacts.
-* Human approval is required for consequential research decisions.
-* Technology is selected in response to executable requirements rather than anticipated future complexity.
-* Every pull request targeting `main` must update `CURRENT_STATE.md`.
-* The repository Current State Gate should prevent merge when that invariant is violated.
+* Paragraphs are not automatically split or merged.
+* Retrieval-unit identity is global across documents through artifact identity, normalization version, and paragraph ordinal.
+* Section headings may contribute to retrieval indexing but are not evidence text.
+* BM25 is the deterministic lexical baseline.
+* Retrieval quality must be measured before architectural escalation.
+* Query style and retrieval scope are independent evaluation dimensions.
+* Exhaustive relevance recall must not be claimed without exhaustive relevance judgements.
+* Current retrieval evaluation uses explicit evidence targets with alternative acceptable anchors.
+* The human-reviewed benchmark is pinned to exact artifact hashes.
+* The fixed benchmark must be reused when comparing subsequent retrievers.
+* A vector database is not required merely to evaluate semantic retrieval.
+* Table- and figure-associated paragraphs are not automatically excluded.
+* Agent execution must remain bounded.
+* Important state is externalised into repository artifacts.
+* Human approval remains required for consequential research decisions.
+* Every pull request targeting `main` updates `CURRENT_STATE.md`.
 
 ### Not Yet Decided
 
 * final thesis topic;
 * final thesis research question;
 * exact Claude model allocation by agent role;
-* orchestration framework;
-* persistence technology;
+* embedding provider;
 * embedding model;
-* semantic retrieval technology;
-* vector retrieval technology;
-* retrieval context-expansion policy;
+* semantic similarity implementation;
 * hybrid retrieval strategy;
+* score-normalization strategy;
 * reranking strategy;
-* retrieval score-combination strategy;
-* final retrieval evaluation metric set;
+* context-expansion policy;
+* vector database;
+* persistence technology;
+* orchestration framework;
 * execution sandbox;
 * experiment tracking system;
 * observability stack;
@@ -543,10 +613,10 @@ The following later-stage work has also not started:
 * final evaluation framework;
 * PDF parsing technology;
 * whether semantic retrieval materially improves the lexical baseline;
-* whether hybrid retrieval is necessary;
-* whether a vector database is required;
-* whether a dedicated workflow engine is required;
-* whether tables and figures eventually require independent first-class normalized nodes.
+* whether hybrid retrieval is required;
+* whether reranking is required;
+* whether vector persistence is required;
+* whether tables and figures require future first-class document nodes.
 
 ---
 
@@ -554,126 +624,142 @@ The following later-stage work has also not started:
 
 ### RISK-001 — Premature architecture
 
-The project may adopt infrastructure before executable requirements justify it.
+Infrastructure may be introduced before requirements justify it.
 
-**Mitigation:** continue implementing minimal measurable slices before selecting infrastructure.
+**Mitigation:** continue with minimal measurable implementations and compare them against fixed benchmarks.
 
 ### RISK-002 — Model-generated false certainty
 
-LLMs may interpret evidence more confidently than the underlying material supports.
+LLMs may interpret evidence more confidently than the underlying sources permit.
 
-**Mitigation:** structured outputs, explicit uncertainty, deterministic evidence addressing, external evidence, and independent verification.
+**Mitigation:** explicit uncertainty, exact provenance, deterministic verification, and independent auditing.
 
 ### RISK-003 — Relevance misclassification
 
-Scholarly retrieval and LLM relevance classification may both produce incorrect relevance judgments.
+Discovery or LLM relevance classification may be wrong.
 
-**Mitigation:** separate discovery from relevance assessment and preserve uncertainty.
+**Mitigation:** keep discovery separate from relevance assessment and preserve uncertainty.
 
 ### RISK-004 — Incomplete scholarly metadata
 
-Different scholarly providers expose incomplete or inconsistent metadata.
+Providers may expose inconsistent metadata.
 
-**Mitigation:** preserve discrepancies and use multiple metadata registries behind provider-independent boundaries.
+**Mitigation:** preserve discrepancies and support multiple metadata registries.
 
 ### RISK-005 — Unbounded agent cost
 
 Future autonomous loops may consume excessive calls or tokens.
 
-**Mitigation:** bounded search fan-out and explicit execution budgets.
+**Mitigation:** explicit execution budgets and bounded fan-out.
 
 ### RISK-006 — Documentation drift
 
-Canonical documentation may fall behind runtime state.
+Repository documentation may fall behind runtime state.
 
-**Mitigation:** every pull request targeting `main` updates `CURRENT_STATE.md`, enforced by CI.
+**Mitigation:** CI-enforced `CURRENT_STATE.md` updates and executable tests as runtime authority.
 
 ### RISK-007 — Incomplete full-text availability
 
-Some relevant scholarly sources do not expose usable open full text.
+Relevant papers may lack accessible full text.
 
-**Mitigation:** preserve explicit text-unavailable states and avoid unbounded provider searching.
+**Mitigation:** preserve explicit text-unavailable outcomes and avoid unbounded provider searching.
 
-### RISK-008 — Retrieval quality
+### RISK-008 — Lexical retrieval limitations
 
-Lexical retrieval may fail when research questions and evidence use different terminology.
+BM25 may fail when the research question and source passage use different terminology.
 
-**Mitigation:** establish an explicit BM25 baseline, evaluate paraphrased queries, and introduce semantic retrieval only when measured results justify it.
+**Evidence:** paraphrased benchmark queries materially underperform lexical queries.
+
+**Mitigation:** evaluate semantic retrieval against the unchanged benchmark.
 
 ### RISK-009 — Document parsing fidelity
 
-Machine-readable scholarly representations may merge or restructure original publication content.
+Machine-readable representations may merge or restructure publication content.
 
-**Mitigation:** preserve raw artifact identity, version normalization, and avoid unsupported structural reconstruction.
+**Mitigation:** immutable raw artifact identity, normalization versioning, and preservation of upstream ambiguity.
 
-### RISK-010 — Provider-authenticated artifact access
+### RISK-010 — Evidence-address instability
 
-Some full-text artifacts require authenticated access.
+Normalization changes can invalidate previous paragraph or character addresses.
 
-**Mitigation:** credentials remain ephemeral and outside provenance artifacts.
+**Mitigation:** every address includes both artifact identity and normalization version.
 
-### RISK-011 — Evidence-address instability
+### RISK-011 — Retrieval noise
 
-Normalization changes may invalidate old paragraph and character addresses.
+Tables, appendices, or repeated section vocabulary can rank highly despite weaker evidence quality.
 
-**Mitigation:** every address includes artifact identity and normalization version.
+**Mitigation:** measure ranking behaviour before introducing filtering or reranking.
 
-### RISK-012 — Retrieval-unit quality
+### RISK-012 — Benchmark incompleteness
 
-Short structural fragments and flattened tables can receive strong lexical scores despite being poor standalone evidence candidates.
+The current benchmark is human-reviewed but not an exhaustive relevance judgement over every query × paragraph pair.
 
-**Mitigation:** preserve them initially, measure their effect through retrieval evaluation, and introduce filtering or reranking only in response to demonstrated failure modes.
+**Mitigation:** evaluate evidence-target satisfaction rather than claiming exhaustive paragraph recall.
 
-### RISK-013 — Evaluation-set bias
+### RISK-013 — Small benchmark size
 
-A retrieval benchmark built from queries copied directly from paper terminology can overestimate lexical retrieval quality.
+The current retrieval benchmark contains only two documents and twelve queries.
 
-**Mitigation:** include independently phrased conceptual queries with reduced lexical overlap and keep relevance labels separate from query generation.
+**Mitigation:** use it as a controlled regression and architecture-comparison benchmark, not as evidence of general retrieval quality. Expand evaluation after the retrieval approach is technically established.
+
+### RISK-014 — Benchmark overfitting
+
+Repeatedly changing retrieval logic against a small fixed benchmark could overfit the system to those specific questions.
+
+**Mitigation:** keep the benchmark fixed for the first BM25/semantic comparison, record design changes explicitly, and later add held-out documents and queries.
 
 ---
 
 ## Known Unknowns
 
-The authoritative list of major unresolved project questions is maintained in `PROJECT.md`.
+The authoritative list of major unresolved project questions remains in `PROJECT.md`.
 
-Current high-priority unknowns are:
+Current high-priority unknowns include:
 
 1. University thesis requirements.
 2. University policy for AI-assisted academic work.
 3. Final FinTech thesis topic.
-4. Reliable criteria for determining topic researchability.
-5. Data availability for candidate research topics.
-6. How much source text is required before a source can support a research claim.
-7. Whether current open-access text resolution provides sufficient coverage.
-8. How BM25 performs on conceptual queries with weak lexical overlap.
-9. Whether headings should receive different retrieval weight from paragraph text.
-10. Whether neighbouring paragraphs should be added after retrieval.
-11. Whether semantic embeddings materially improve retrieval.
-12. Whether hybrid lexical/semantic retrieval is required.
-13. Whether reranking is required.
-14. Whether vector persistence is justified.
-15. How tables, figures, equations, and other non-prose evidence should eventually be represented.
-16. How PDF-only documents should be normalized.
-17. Whether orchestration requirements justify a dedicated workflow framework.
-18. Which persistence representation should store source → artifact → document → retrieval → evidence → claim relationships.
+4. Reliable criteria for topic researchability.
+5. Dataset availability for candidate topics.
+6. Whether current full-text resolution provides sufficient literature coverage.
+7. Which embedding model is appropriate for scholarly evidence retrieval.
+8. Whether semantic retrieval improves paraphrase and cross-document evidence coverage.
+9. Whether BM25 and semantic retrieval are complementary enough to justify hybrid retrieval.
+10. Whether section paths should receive different ranking weight from paragraph text.
+11. Whether neighbouring passages should be included after retrieval.
+12. Whether a dedicated reranker is necessary.
+13. Whether vector persistence is justified once the corpus grows.
+14. How tables, figures, equations, and non-prose evidence should eventually be represented.
+15. How PDF-only papers should be normalized.
+16. How large the retrieval benchmark must become before retrieval architecture is considered stable.
+17. Which persistence representation should eventually store source → artifact → document → retrieval → evidence → claim relationships.
 
 ---
 
 ## Next Actions
 
-1. Define a structured retrieval-evaluation case.
-2. Allow one query to reference multiple relevant paragraph ordinals.
-3. Define a minimal retriever interface suitable for evaluating BM25 and future retrievers.
-4. Implement deterministic Hit@K.
-5. Implement Recall@K.
-6. Implement reciprocal rank and mean reciprocal rank.
-7. Create a small initial labelled evaluation set for `W3010059221`.
-8. Include both direct lexical queries and independently phrased conceptual queries.
-9. Run the BM25 baseline against the evaluation set.
-10. Inspect failures rather than immediately modifying ranking.
-11. Decide whether lexical weighting, context expansion, semantic retrieval, or another capability addresses the measured failures.
-12. Only then introduce embeddings if justified.
-13. Introduce Claude-backed evidence extraction only after retrieval quality is sufficiently measurable and reliable.
+1. Preserve `credit-risk-two-paper-v2` unchanged as the initial retrieval comparison benchmark.
+2. Define a minimal semantic retriever behind the existing `Retriever` protocol.
+3. Select an embedding model based on explicit requirements rather than framework convenience.
+4. Generate embeddings for the existing 212 retrieval units.
+5. Keep the first semantic index in memory; do not introduce a vector database yet.
+6. Run semantic retrieval against exactly the same 12 benchmark cases.
+7. Compare:
+
+  * Hit@5;
+  * Complete@5;
+  * Target Coverage@5;
+  * MRR.
+8. Inspect per-case changes, especially:
+
+  * `combined_nontraditional_predictors`;
+  * `ml_advantage_conditions`;
+  * `sample_size_sensitivity_cross_paper`.
+9. Determine whether semantic retrieval fixes measured BM25 failures or introduces different ones.
+10. Evaluate hybrid retrieval only if the comparison demonstrates complementary failure modes.
+11. Introduce reranking only if ranking quality remains a measured problem after candidate generation.
+12. Expand the benchmark to additional papers before claiming general retrieval quality.
+13. Begin Claude-backed evidence extraction only after retrieval candidate quality is sufficiently stable and measurable.
 
 ---
 
@@ -681,22 +767,21 @@ Current high-priority unknowns are:
 
 The initial Topic Researchability milestone is complete when:
 
-* a candidate topic can drive bounded scholarly literature planning;
-* planned searches can drive scholarly literature discovery;
-* duplicate discoveries can be consolidated without losing query provenance;
-* discovered sources can be bibliographically verified;
-* source relevance can be assessed with explicit uncertainty;
-* insufficient evidence remains explicit;
-* usable scholarly full text can be resolved where available;
-* retrieved artifacts have immutable identity and provenance;
-* scholarly artifacts can be deterministically normalized;
-* exact evidence spans can be addressed and independently verified;
-* relevant passages can be retrieved without supplying an entire corpus to an LLM;
-* retrieval behaviour is evaluated against explicit labelled cases;
-* relevant evidence can be extracted with provenance;
-* plausible research gaps can be evaluated adversarially;
-* data availability and experimental feasibility can be assessed;
+* candidate topics can drive bounded scholarly search planning;
+* planned searches drive scholarly discovery;
+* duplicate discoveries are consolidated with provenance;
+* sources are bibliographically verified;
+* relevance is assessed with explicit uncertainty;
+* usable full text is resolved where available;
+* retrieved artifacts have immutable identities;
+* scholarly documents are deterministically normalized;
+* exact evidence spans are addressable and independently verifiable;
+* multi-document evidence retrieval operates without sending entire papers to an LLM;
+* retrieval behaviour is evaluated against fixed evidence requirements;
+* relevant evidence can be extracted with exact provenance;
+* research gaps can be evaluated adversarially;
+* datasets, baselines, metrics, and experimental feasibility can be assessed;
 * researchability dimensions can be assembled into a structured report;
 * unresolved questions remain explicit;
-* a human can approve, reject, or request further research on a candidate topic;
+* a human can approve, reject, or request further investigation;
 * the complete decision path is auditable from repository artifacts.
