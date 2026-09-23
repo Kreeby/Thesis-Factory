@@ -14,6 +14,7 @@ _OPENALEX_FIELDS = ",".join(
         "publication_year",
         "authorships",
         "primary_location",
+        "abstract_inverted_index",
     )
 )
 
@@ -87,6 +88,9 @@ def _work_to_source_record(work: Mapping[str, Any]) -> SourceRecord:
         authors=authors,
         publication_year=work.get("publication_year"),
         doi=work.get("doi"),
+        abstract=_reconstruct_abstract(
+            work.get("abstract_inverted_index")
+        ),
         venue=_extract_venue(work),
         provider="openalex",
         provider_id=work.get("id"),
@@ -116,3 +120,27 @@ def _extract_venue(work: Mapping[str, Any]) -> str | None:
 
     venue = source.get("display_name")
     return venue if isinstance(venue, str) else None
+
+def _reconstruct_abstract(value: Any) -> str | None:
+    if not isinstance(value, Mapping) or not value:
+        return None
+
+    words: list[tuple[int, str]] = []
+
+    for word, positions in value.items():
+        if not isinstance(word, str):
+            continue
+
+        if not isinstance(positions, list):
+            continue
+
+        for position in positions:
+            if isinstance(position, int) and position >= 0:
+                words.append((position, word))
+
+    if not words:
+        return None
+
+    words.sort(key=lambda item: item[0])
+
+    return " ".join(word for _, word in words)
