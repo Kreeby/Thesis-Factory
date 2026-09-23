@@ -4,56 +4,101 @@ Last updated: 2026-09-23
 
 ## Current Phase
 
-**Phase 0 — Project Foundation**
+**Phase 1 — Topic Researchability**
 
-The project is currently establishing its canonical documentation, decision process, and operating model before implementation begins.
+The project is implementing the first executable research workflow for determining whether a proposed thesis topic is sufficiently researchable.
+
+Phase 0 — Project Foundation — is complete.
 
 ---
 
 ## Current Objective
 
-Complete the minimum project foundation required before designing or implementing the first research workflow.
+Build and validate the minimum Topic Researchability workflow required to transform a candidate research topic into progressively more verified research artifacts.
+
+The current focus is adding the first bounded LLM reasoning component on top of the deterministic scholarly discovery and bibliographic verification pipeline.
 
 ---
 
 ## Completed
 
-* GitHub repository created.
-* `main` branch initialised.
-* `project-foundation` development branch created.
+### Project Foundation
+
+* GitHub repository created and `main` initialised.
+* Canonical project documentation established.
 * `PROJECT.md` created.
 * `AGENTS.md` created.
-* Claude selected as the required default LLM family for autonomous reasoning agents.
+* `ARCHITECTURE.md` created.
+* `CURRENT_STATE.md` established as the operational project-state artifact.
+* ADR process established under `docs/decisions/`.
+* ADR-0001 accepted: Claude is the default LLM family for autonomous reasoning agents.
 * Repository established as the canonical source of project truth.
 * Branch → pull request → human review → merge established as the default development workflow.
-* `ARCHITECTURE.md` created.
-* ADR process established under `docs/decisions/`.
-* ADR-0001 accepted: Claude selected as the default LLM family for autonomous reasoning agents.
+
+### Phase 1 — Topic Researchability
+
+* Python 3.12 project runtime established using `uv`.
+* `SourceRecord` domain model implemented with runtime validation.
+* OpenAlex scholarly discovery integration implemented.
+* OpenAlex metadata is normalized into internal `SourceRecord` artifacts.
+* OpenAlex abstract inverted indexes are reconstructed into plain-text abstracts when available.
+* Crossref DOI lookup integration implemented.
+* Bibliographic metadata comparison implemented.
+* Source identity verification implemented with explicit `CONFIRMED`, `CONFLICTING`, and `INSUFFICIENT_DATA` outcomes.
+* Verification discrepancies are preserved rather than hidden.
+* `discover_and_verify_sources` workflow implemented.
+* The workflow has been executed against real OpenAlex and Crossref data.
+* Current and target Topic Researchability architecture documented under `docs/architecture/topic-researchability.md`.
+* Deterministic workflow behaviour is covered by automated tests.
+
 ---
 
 ## In Progress
 
-Foundation pull request review.
+Implementation of the first Claude-backed reasoning component:
 
-No additional foundation artifacts are currently required.
+**Scholarly source relevance assessment.**
+
+The intended input is:
+
+* candidate research topic;
+* bibliographically verified scholarly source;
+* title;
+* available abstract.
+
+The intended output is a structured relevance artifact rather than unrestricted prose.
+
+Sources without sufficient textual evidence should terminate as insufficient evidence without requiring an LLM call.
+
 ---
 
 ## Not Started
 
-The following work has intentionally not started yet:
+The following Phase 1 capabilities have not yet been implemented:
 
-* thesis topic selection;
-* literature discovery;
+* Claude-backed relevance assessment;
+* relevance evaluation against a curated test set;
+* research-query planning;
+* evidence extraction;
+* adversarial research criticism;
 * research-gap analysis;
-* dataset selection;
-* experiment design;
-* application implementation;
-* agent implementation;
-* orchestration framework selection;
-* persistence technology selection;
-* retrieval architecture;
-* evaluation framework implementation;
-* thesis writing.
+* dataset availability analysis;
+* baseline identification;
+* evaluation-metric analysis;
+* experiment-feasibility analysis;
+* contribution analysis;
+* structured Topic Researchability report;
+* human approval gate for topic selection;
+* persistence of research artifacts;
+* orchestration framework selection.
+
+The following later-stage work has also not started:
+
+* final thesis topic selection;
+* final research question;
+* experiment implementation;
+* thesis writing;
+* final academic audit.
 
 ---
 
@@ -61,27 +106,34 @@ The following work has intentionally not started yet:
 
 ### Confirmed
 
-* Autonomous reasoning agents will use Claude models through the Anthropic API by default.
-* The system should remain architecturally isolated from provider-specific APIs where practical.
-* LLM output is not treated as factual evidence.
+* Claude models accessed through the Anthropic API are the default LLM family for autonomous reasoning agents.
+* Model-provider concerns should remain isolated behind project-controlled boundaries where practical.
+* LLM output is not factual evidence.
+* Scholarly discovery and bibliographic verification are separate concerns.
+* Bibliographic identity verification should remain deterministic where possible.
+* Source identity confirmation does not establish source relevance.
+* Source relevance does not establish evidential support for a research claim.
+* Missing evidence should remain explicit rather than being converted into artificial certainty.
 * Agent execution must be bounded.
 * Important project state must be externalised into repository artifacts.
 * Human approval is required for consequential research decisions.
-* Direct development changes should normally flow through pull requests.
+* Technology should be selected in response to executable requirements rather than anticipated future complexity.
 
 ### Not Yet Decided
 
-* thesis topic;
+* final thesis topic;
+* final research question;
+* exact Claude model allocation by agent role;
 * orchestration framework;
-* model version or model-routing strategy;
 * persistence technology;
 * vector or retrieval technology;
-* API framework;
 * execution sandbox;
 * experiment tracking system;
 * observability stack;
 * deployment architecture;
-* final agent topology.
+* final agent topology;
+* final provenance persistence schema;
+* final evaluation framework.
 
 ---
 
@@ -89,27 +141,39 @@ The following work has intentionally not started yet:
 
 ### RISK-001 — Premature architecture
 
-The project may adopt frameworks or infrastructure before concrete requirements justify them.
+The project may adopt orchestration, persistence, retrieval, or agent frameworks before concrete workflow requirements justify them.
 
-**Mitigation:** keep technology choices unresolved until driven by an actual workflow requirement.
+**Mitigation:** continue implementing minimal executable slices before selecting infrastructure.
 
 ### RISK-002 — Model-generated false certainty
 
-LLMs may present unsupported or fabricated information with high confidence.
+Claude or another reasoning model may classify or interpret research artifacts more confidently than the available evidence supports.
 
-**Mitigation:** preserve epistemic state and require external verification for claims that can be checked.
+**Mitigation:** use structured outputs, explicit uncertainty states, bounded responsibilities, external evidence, and evaluation.
 
-### RISK-003 — Unbounded agent cost
+### RISK-003 — Relevance misclassification
 
-Autonomous research or review loops may consume excessive model calls and tokens without meaningful progress.
+A scholarly search provider may return legitimate but topically irrelevant publications, and an LLM relevance classifier may also make incorrect relevance judgments.
 
-**Mitigation:** require bounded execution and human escalation for non-converging workflows.
+**Mitigation:** keep discovery separate from relevance assessment and introduce explicit evaluation cases before relying on relevance decisions downstream.
 
-### RISK-004 — Documentation drift
+### RISK-004 — Incomplete scholarly metadata
 
-Canonical documentation may accumulate speculative or contradictory rules over time.
+Different scholarly providers may expose different author names, publication dates, venue representations, or missing abstracts.
 
-**Mitigation:** `PROJECT.md` and root `AGENTS.md` are considered foundation documents and should only change for justified project-level reasons.
+**Mitigation:** preserve provider-specific discrepancies and avoid requiring exact agreement on secondary metadata to establish identity.
+
+### RISK-005 — Unbounded agent cost
+
+Future autonomous research or review loops may consume excessive model calls and tokens without meaningful progress.
+
+**Mitigation:** introduce explicit execution budgets before multi-step autonomous agent loops are enabled.
+
+### RISK-006 — Documentation drift
+
+Canonical documentation may fall behind the actual repository state.
+
+**Mitigation:** update `CURRENT_STATE.md` at meaningful workflow boundaries and treat executable code and tests as authoritative for runtime behaviour.
 
 ---
 
@@ -122,25 +186,35 @@ Current high-priority unknowns are:
 1. University thesis requirements.
 2. University policy for AI-assisted academic work.
 3. Final FinTech thesis topic.
-4. Criteria for determining whether a proposed topic is sufficiently researchable.
+4. Reliable criteria for determining topic researchability.
 5. Data availability for candidate research topics.
+6. How relevance assessments should be evaluated before being trusted downstream.
+7. Whether orchestration requirements will justify introducing a dedicated workflow framework.
 
 ---
 
 ## Next Actions
 
-1. Complete review of the foundation pull request.
-2. Merge the approved project foundation into `main`.
-3. Begin Phase 1: define the **Topic Researchability** workflow.
+1. Implement the provider-independent structured reasoning boundary.
+2. Implement the Anthropic / Claude structured reasoning adapter.
+3. Implement scholarly source relevance assessment.
+4. Test relevance behaviour without external API calls using deterministic fakes.
+5. Execute relevance assessment against real discovered and verified scholarly sources.
+6. Use observed failures to define the next minimal Topic Researchability capability.
+
 ---
 
 ## Current Milestone Exit Criteria
 
-Phase 0 is complete when:
+The initial Topic Researchability milestone is complete when:
 
-* canonical project documents exist;
-* the decision-recording mechanism exists;
-* current project state can be reconstructed from the repository;
-* foundational operating rules are reviewable;
-* the foundation changes have passed human review and have been merged;
-* the project is ready to design its first executable workflow.
+* a candidate topic can drive scholarly literature discovery;
+* discovered sources can be bibliographically verified;
+* source relevance can be assessed with explicit uncertainty;
+* relevant evidence can be extracted with provenance;
+* plausible research gaps can be evaluated adversarially;
+* data availability and experimental feasibility can be assessed;
+* researchability dimensions can be assembled into a structured report;
+* unresolved questions remain explicit;
+* a human can approve, reject, or request further research on a candidate topic;
+* the complete decision path is auditable from repository artifacts.

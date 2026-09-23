@@ -6,11 +6,19 @@ The project is not intended to generate a thesis from a single prompt. Its goal 
 
 ## Project Status
 
-**Phase 0 — Project Foundation**
+**Phase 1 — Topic Researchability**
 
-No application implementation has started yet.
+The project foundation is complete.
 
-The current focus is establishing the project contract, architecture boundaries, decision process, and operating rules before designing the first executable research workflow.
+The current focus is implementing the first executable research workflow for evaluating whether candidate FinTech thesis topics are genuinely researchable.
+
+The current implementation already supports scholarly discovery through OpenAlex, independent DOI metadata lookup through Crossref, normalized source artifacts, bibliographic comparison, source identity verification, and abstract ingestion.
+
+## Current Direction
+
+The next implementation step is the first Claude-backed reasoning component: structured scholarly-source relevance assessment.
+
+No orchestration framework, database, vector store, or deployment architecture has been selected yet. These decisions remain requirement-driven.
 
 ## Documentation
 
