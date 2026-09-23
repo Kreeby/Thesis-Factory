@@ -1,4 +1,6 @@
-from pydantic import BaseModel, ConfigDict, Field
+from typing import Any
+
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 
 class SourceRecord(BaseModel):
@@ -18,3 +20,23 @@ class SourceRecord(BaseModel):
 
     provider: str = Field(min_length=1)
     provider_id: str = Field(min_length=1)
+
+    @field_validator("doi", mode="before")
+    @classmethod
+    def normalize_doi(cls, value: Any) -> Any:
+        if not isinstance(value, str):
+            return value
+
+        normalized = value.strip()
+
+        for prefix in (
+                "https://doi.org/",
+                "http://doi.org/",
+                "http://dx.doi.org/",
+                "https://dx.doi.org/",
+                "doi:",
+        ):
+            if normalized.lower().startswith(prefix):
+                return normalized[len(prefix):].strip()
+
+        return normalized

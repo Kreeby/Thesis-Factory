@@ -29,3 +29,13 @@ def test_source_record_rejects_unknown_fields() -> None:
             provider_id="W123",
             hallucinated_field="should not exist",
         )
+
+def test_source_record_normalizes_doi_url() -> None:
+    source = SourceRecord(
+        title="Example",
+        provider="openalex",
+        provider_id="W123",
+        doi="https://doi.org/10.1234/example",
+    )
+
+    assert source.doi == "10.1234/example"
