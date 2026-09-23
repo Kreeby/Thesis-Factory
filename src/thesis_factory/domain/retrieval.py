@@ -100,5 +100,5 @@ class RetrievalHit(BaseModel):
     unit: RetrievalUnit
 
     score: float = Field(
-        gt=0,
+        allow_inf_nan=False,
     )
