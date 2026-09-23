@@ -12,7 +12,6 @@ from thesis_factory.workflows.source_verification import (
     discover_and_verify_sources,
 )
 
-
 class RelevanceAssessor(Protocol):
     def assess(
             self,
@@ -21,7 +20,6 @@ class RelevanceAssessor(Protocol):
             source: SourceRecord,
     ) -> RelevanceAssessment:
         ...
-
 
 class AssessedSource(BaseModel):
     model_config = ConfigDict(
@@ -33,7 +31,6 @@ class AssessedSource(BaseModel):
     relevance_source: SourceRecord | None = None
     relevance: RelevanceAssessment | None = None
 
-
 class LiteratureQueryResult(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
@@ -44,7 +41,6 @@ class LiteratureQueryResult(BaseModel):
     query: str = Field(min_length=1)
     sources: tuple[AssessedSource, ...]
 
-
 def assess_literature_for_query(
         *,
         topic: str,
@@ -54,56 +50,35 @@ def assess_literature_for_query(
         registry: DoiRegistry,
         relevance_assessor: RelevanceAssessor,
 ) -> LiteratureQueryResult:
-    if not topic.strip():
+    normalized_topic = topic.strip()
+    normalized_query = query.strip()
+
+    if not normalized_topic:
         raise ValueError("topic must not be empty")
 
-    if not query.strip():
+    if not normalized_query:
         raise ValueError("query must not be empty")
 
     verified_sources = discover_and_verify_sources(
-        query,
+        normalized_query,
         limit=limit,
         searcher=searcher,
         registry=registry,
     )
 
-    assessed_sources: list[AssessedSource] = []
-
-    for verification in verified_sources:
-        identity = verification.identity
-
-        if (
-                identity is None
-                or identity.status != IdentityStatus.CONFIRMED
-        ):
-            assessed_sources.append(
-                AssessedSource(
-                    verification=verification,
-                )
-            )
-            continue
-
-        relevance_source = _select_relevance_source(
-            verification
+    assessed_sources = tuple(
+        assess_verified_source(
+            topic=normalized_topic,
+            verification=verification,
+            relevance_assessor=relevance_assessor,
         )
-
-        relevance = relevance_assessor.assess(
-            topic=topic,
-            source=relevance_source,
-        )
-
-        assessed_sources.append(
-            AssessedSource(
-                verification=verification,
-                relevance_source=relevance_source,
-                relevance=relevance,
-            )
-        )
+        for verification in verified_sources
+    )
 
     return LiteratureQueryResult(
-        topic=topic.strip(),
-        query=query.strip(),
-        sources=tuple(assessed_sources),
+        topic=normalized_topic,
+        query=normalized_query,
+        sources=assessed_sources,
     )
 
 def _select_relevance_source(
@@ -124,3 +99,34 @@ def _select_relevance_source(
         return registry
 
     return discovered
+
+def assess_verified_source(
+        *,
+        topic: str,
+        verification: SourceVerificationResult,
+        relevance_assessor: RelevanceAssessor,
+) -> AssessedSource:
+    identity = verification.identity
+
+    if (
+            identity is None
+            or identity.status != IdentityStatus.CONFIRMED
+    ):
+        return AssessedSource(
+            verification=verification,
+        )
+
+    relevance_source = _select_relevance_source(
+        verification
+    )
+
+    relevance = relevance_assessor.assess(
+        topic=topic,
+        source=relevance_source,
+    )
+
+    return AssessedSource(
+        verification=verification,
+        relevance_source=relevance_source,
+        relevance=relevance,
+    )

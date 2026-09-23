@@ -166,7 +166,7 @@ def test_assess_literature_for_query_composes_pipeline() -> None:
 
     assert (
             not_found.verification.status
-            == SourceVerificationStatus.NOT_FOUND_IN_CROSSREF
+            == SourceVerificationStatus.NOT_FOUND_IN_REGISTRY
     )
     assert not_found.relevance is None
 

@@ -1,0 +1,40 @@
+name: Current State Gate
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - ready_for_review
+
+permissions:
+  contents: read
+
+jobs:
+  current-state-required:
+    name: Current State Updated
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out pull request
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Require CURRENT_STATE.md change
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git fetch origin "${{ github.base_ref }}" --depth=1
+
+          if ! git diff --name-only "origin/${{ github.base_ref }}...HEAD" \
+              | grep -Fxq "CURRENT_STATE.md"; then
+            echo "::error::Every pull request targeting main must update CURRENT_STATE.md."
+            exit 1
+          fi
+
+          echo "CURRENT_STATE.md was updated."

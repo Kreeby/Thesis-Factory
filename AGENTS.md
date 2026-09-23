@@ -308,6 +308,12 @@ Changes to canonical project documents should be reviewable like source-code cha
 
 Where possible, commits should remain logically coherent and understandable independently.
 
+Every pull request targeting `main` must include an update to
+`CURRENT_STATE.md` that reflects the resulting repository state.
+
+A pull request that does not modify `CURRENT_STATE.md` must fail the
+repository's required Current State Gate and must not be merged.
+
 ---
 
 ## 17. Completion Criteria
