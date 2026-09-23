@@ -1,12 +1,16 @@
 import json
 import os
 from pathlib import Path
+from typing import Protocol
 
 import httpx
 
 from thesis_factory.artifacts.fetching import (
     ArtifactFetcher,
     select_preferred_text_location,
+)
+from thesis_factory.domain.retrieval import (
+    RetrievalHit,
 )
 from thesis_factory.domain.source import (
     SourceRecord,
@@ -34,6 +38,9 @@ from thesis_factory.retrieval.evaluation import (
     evaluate_retriever,
     summarize_eval_results,
 )
+from thesis_factory.retrieval.hybrid import (
+    HybridRetriever,
+)
 from thesis_factory.retrieval.semantic import (
     SemanticRetriever,
 )
@@ -52,41 +59,124 @@ BENCHMARK_PATH = (
         / "baseline_v2.json"
 )
 
-
-def print_metrics(
-        label: str,
-        metrics: RetrievalEvalMetrics,
-        *,
-        top_k: int,
-) -> None:
-    print(label)
-
-    print(
-        f"  HIT@{top_k}:",
-        f"{metrics.hit_rate_at_k:.4f}",
-    )
-
-    print(
-        f"  COMPLETE@{top_k}:",
-        f"{metrics.complete_rate_at_k:.4f}",
-    )
-
-    print(
-        f"  TARGET COVERAGE@{top_k}:",
-        f"{metrics.mean_target_coverage_at_k:.4f}",
-    )
-
-    print(
-        "  MRR:",
-        f"{metrics.mean_reciprocal_rank:.4f}",
-    )
+HYBRID_CANDIDATE_K = 20
+RRF_CONSTANT = 60.0
 
 
-def print_comparison(
+class RankedRetriever(Protocol):
+    def search(
+            self,
+            query: str,
+            *,
+            top_k: int = 10,
+    ) -> tuple[
+        RetrievalHit,
+        ...
+    ]:
+        ...
+
+
+class PrefetchingRetriever:
+    """
+    Diagnostic-only wrapper.
+
+    The first search for a query asks the underlying retriever
+    for at least prefetch_k results and caches that ranking.
+
+    Later requests at a shallower depth reuse the same ranking.
+    This prevents the hybrid benchmark from making duplicate
+    Voyage query-embedding calls.
+    """
+
+    def __init__(
+            self,
+            retriever: RankedRetriever,
+            *,
+            prefetch_k: int,
+    ) -> None:
+        if prefetch_k < 1:
+            raise ValueError(
+                "prefetch_k must be positive"
+            )
+
+        self._retriever = retriever
+        self._prefetch_k = prefetch_k
+
+        self._cache: dict[
+            str,
+            tuple[
+                RetrievalHit,
+                ...
+            ],
+        ] = {}
+
+        self._cache_depth: dict[
+            str,
+            int,
+        ] = {}
+
+    def search(
+            self,
+            query: str,
+            *,
+            top_k: int = 10,
+    ) -> tuple[
+        RetrievalHit,
+        ...
+    ]:
+        if top_k < 1:
+            raise ValueError(
+                "top_k must be positive"
+            )
+
+        normalized_query = (
+            query.strip()
+        )
+
+        if not normalized_query:
+            raise ValueError(
+                "query must not be empty"
+            )
+
+        required_depth = max(
+            self._prefetch_k,
+            top_k,
+        )
+
+        cached_depth = (
+            self._cache_depth.get(
+                normalized_query,
+                0,
+            )
+        )
+
+        if cached_depth < required_depth:
+            hits = (
+                self._retriever.search(
+                    normalized_query,
+                    top_k=required_depth,
+                )
+            )
+
+            self._cache[
+                normalized_query
+            ] = hits
+
+            self._cache_depth[
+                normalized_query
+            ] = required_depth
+
+        return self._cache[
+            normalized_query
+        ][:top_k]
+
+
+def print_three_way_comparison(
         label: str,
         *,
         bm25: RetrievalEvalMetrics,
         semantic: RetrievalEvalMetrics,
+        hybrid: RetrievalEvalMetrics,
         top_k: int,
 ) -> None:
     print(label)
@@ -95,7 +185,9 @@ def print_comparison(
         f"  {'METRIC':<24}"
         f"{'BM25':>10}"
         f"{'VOYAGE':>10}"
-        f"{'DELTA':>10}"
+        f"{'HYBRID':>10}"
+        f"{'H-BM25':>10}"
+        f"{'H-VOY':>10}"
     )
 
     rows = (
@@ -103,21 +195,25 @@ def print_comparison(
             f"Hit@{top_k}",
             bm25.hit_rate_at_k,
             semantic.hit_rate_at_k,
+            hybrid.hit_rate_at_k,
         ),
         (
             f"Complete@{top_k}",
             bm25.complete_rate_at_k,
             semantic.complete_rate_at_k,
+            hybrid.complete_rate_at_k,
         ),
         (
             f"Target Coverage@{top_k}",
             bm25.mean_target_coverage_at_k,
             semantic.mean_target_coverage_at_k,
+            hybrid.mean_target_coverage_at_k,
         ),
         (
             "MRR",
             bm25.mean_reciprocal_rank,
             semantic.mean_reciprocal_rank,
+            hybrid.mean_reciprocal_rank,
         ),
     )
 
@@ -125,17 +221,15 @@ def print_comparison(
             metric_name,
             bm25_value,
             semantic_value,
+            hybrid_value,
     ) in rows:
-        delta = (
-                semantic_value
-                - bm25_value
-        )
-
         print(
             f"  {metric_name:<24}"
             f"{bm25_value:>10.4f}"
             f"{semantic_value:>10.4f}"
-            f"{delta:>+10.4f}"
+            f"{hybrid_value:>10.4f}"
+            f"{hybrid_value - bm25_value:>+10.4f}"
+            f"{hybrid_value - semantic_value:>+10.4f}"
         )
 
 
@@ -308,6 +402,7 @@ def print_case_comparison(
         cases,
         bm25_report,
         semantic_report,
+        hybrid_report,
         corpus,
 ) -> None:
     corpus_by_id = {
@@ -327,8 +422,14 @@ def print_case_comparison(
         in semantic_report.results
     }
 
+    hybrid_by_case = {
+        result.case_id: result
+        for result
+        in hybrid_report.results
+    }
+
     print()
-    print("=" * 100)
+    print("=" * 110)
     print("CASE COMPARISON")
 
     for case in cases:
@@ -340,8 +441,12 @@ def print_case_comparison(
             case.id
         ]
 
+        hybrid = hybrid_by_case[
+            case.id
+        ]
+
         print()
-        print("-" * 100)
+        print("-" * 110)
 
         print(
             "CASE:",
@@ -366,79 +471,50 @@ def print_case_comparison(
         print()
 
         print(
-            "BM25:"
+            f"  {'SYSTEM':<12}"
+            f"{'HIT':>8}"
+            f"{'COMPLETE':>12}"
+            f"{'COVERAGE':>12}"
+            f"{'RR':>10}"
+            f"  SATISFIED"
         )
 
-        print(
-            "  HIT:",
-            bm25.hit_at_k,
-        )
-
-        print(
-            "  COMPLETE:",
-            bm25.complete_at_k,
-        )
-
-        print(
-            "  TARGET COVERAGE:",
-            f"{bm25.target_coverage_at_k:.4f}",
-        )
-
-        print(
-            "  RR:",
-            f"{bm25.reciprocal_rank:.4f}",
-        )
-
-        print(
-            "  SATISFIED:",
-            (
+        for (
+                label,
+                result,
+        ) in (
+                (
+                        "BM25",
+                        bm25,
+                ),
+                (
+                        "VOYAGE",
+                        semantic,
+                ),
+                (
+                        "HYBRID",
+                        hybrid,
+                ),
+        ):
+            satisfied = (
                     ", ".join(
-                        bm25.satisfied_target_ids
+                        result.satisfied_target_ids
                     )
                     or "-"
-            ),
-        )
+            )
+
+            print(
+                f"  {label:<12}"
+                f"{str(result.hit_at_k):>8}"
+                f"{str(result.complete_at_k):>12}"
+                f"{result.target_coverage_at_k:>12.4f}"
+                f"{result.reciprocal_rank:>10.4f}"
+                f"  {satisfied}"
+            )
 
         print()
-
         print(
-            "VOYAGE:"
-        )
-
-        print(
-            "  HIT:",
-            semantic.hit_at_k,
-        )
-
-        print(
-            "  COMPLETE:",
-            semantic.complete_at_k,
-        )
-
-        print(
-            "  TARGET COVERAGE:",
-            f"{semantic.target_coverage_at_k:.4f}",
-        )
-
-        print(
-            "  RR:",
-            f"{semantic.reciprocal_rank:.4f}",
-        )
-
-        print(
-            "  SATISFIED:",
-            (
-                    ", ".join(
-                        semantic.satisfied_target_ids
-                    )
-                    or "-"
-            ),
-        )
-
-        print()
-
-        print(
-            "VOYAGE TOP RESULTS:"
+            "HYBRID TOP RESULTS:"
         )
 
         acceptable_units = {
@@ -452,7 +528,7 @@ def print_case_comparison(
                 rank,
                 unit_id,
         ) in enumerate(
-            semantic.retrieved_units,
+            hybrid.retrieved_units,
             start=1,
         ):
             unit = corpus_by_id[
@@ -510,11 +586,21 @@ def main() -> None:
         in benchmark["cases"]
     )
 
-    print("=" * 100)
+    print("=" * 110)
 
     print(
         "RETRIEVAL COMPARISON:",
         benchmark["name"],
+    )
+
+    print(
+        "HYBRID:",
+        (
+            "RRF("
+            f"candidate_k={HYBRID_CANDIDATE_K}, "
+            f"constant={RRF_CONSTANT:g}"
+            ")"
+        ),
     )
 
     print()
@@ -571,10 +657,36 @@ def main() -> None:
     )
 
     try:
-        semantic_retriever = (
+        raw_semantic_retriever = (
             SemanticRetriever(
                 corpus,
                 embedder=voyage,
+            )
+        )
+
+        semantic_retriever = (
+            PrefetchingRetriever(
+                raw_semantic_retriever,
+                prefetch_k=(
+                    HYBRID_CANDIDATE_K
+                ),
+            )
+        )
+
+        hybrid_retriever = (
+            HybridRetriever(
+                lexical_retriever=(
+                    bm25_retriever
+                ),
+                semantic_retriever=(
+                    semantic_retriever
+                ),
+                candidate_k=(
+                    HYBRID_CANDIDATE_K
+                ),
+                rrf_constant=(
+                    RRF_CONSTANT
+                ),
             )
         )
 
@@ -602,14 +714,26 @@ def main() -> None:
             )
         )
 
+        print(
+            "Running Hybrid RRF evaluation..."
+        )
+
+        hybrid_report = (
+            evaluate_retriever(
+                hybrid_retriever,
+                cases,
+                top_k=top_k,
+            )
+        )
+
     finally:
         voyage.close()
 
     print()
-    print("=" * 100)
+    print("=" * 110)
     print("OVERALL COMPARISON")
 
-    print_comparison(
+    print_three_way_comparison(
         "ALL CASES",
         bm25=(
             bm25_report.overall
@@ -617,11 +741,14 @@ def main() -> None:
         semantic=(
             semantic_report.overall
         ),
+        hybrid=(
+            hybrid_report.overall
+        ),
         top_k=top_k,
     )
 
     print()
-    print("=" * 100)
+    print("=" * 110)
     print("BY QUERY STYLE")
 
     for style in (
@@ -629,7 +756,7 @@ def main() -> None:
     ):
         print()
 
-        print_comparison(
+        print_three_way_comparison(
             style.value,
             bm25=subset_metrics(
                 bm25_report.results,
@@ -639,11 +766,15 @@ def main() -> None:
                 semantic_report.results,
                 query_style=style,
             ),
+            hybrid=subset_metrics(
+                hybrid_report.results,
+                query_style=style,
+            ),
             top_k=top_k,
         )
 
     print()
-    print("=" * 100)
+    print("=" * 110)
     print("BY SCOPE")
 
     for scope in (
@@ -651,7 +782,7 @@ def main() -> None:
     ):
         print()
 
-        print_comparison(
+        print_three_way_comparison(
             scope.value,
             bm25=subset_metrics(
                 bm25_report.results,
@@ -659,6 +790,10 @@ def main() -> None:
             ),
             semantic=subset_metrics(
                 semantic_report.results,
+                scope=scope,
+            ),
+            hybrid=subset_metrics(
+                hybrid_report.results,
                 scope=scope,
             ),
             top_k=top_k,
@@ -670,11 +805,14 @@ def main() -> None:
         semantic_report=(
             semantic_report
         ),
+        hybrid_report=(
+            hybrid_report
+        ),
         corpus=corpus,
     )
 
     print()
-    print("=" * 100)
+    print("=" * 110)
 
     print(
         "* = acceptable evidence anchor "
