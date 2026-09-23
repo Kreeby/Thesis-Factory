@@ -6,6 +6,10 @@ from typing import Any
 import httpx
 
 from thesis_factory.domain.source import SourceRecord
+from thesis_factory.domain.source_text import (
+    SourceTextLocation,
+    SourceTextLocationKind,
+)
 
 
 _OPENALEX_FIELDS = ",".join(
@@ -114,6 +118,43 @@ class OpenAlexClient:
             for work in results
         )
 
+    def get_text_locations(
+            self,
+            source: SourceRecord,
+    ) -> tuple[SourceTextLocation, ...]:
+        if source.provider != "openalex":
+            raise ValueError(
+                "source must originate from OpenAlex"
+            )
+
+        work_id = _openalex_work_id(
+            source.provider_id
+        )
+
+        params: dict[str, str] = {
+            "select": (
+                "id,"
+                "best_oa_location,"
+                "locations,"
+                "content_urls"
+            )
+        }
+
+        if self._api_key:
+            params["api_key"] = self._api_key
+
+        response = self._http_client.get(
+            f"/works/{work_id}",
+            params=params,
+        )
+        response.raise_for_status()
+
+        payload = response.json()
+
+        return _extract_text_locations(
+            payload
+        )
+
     def _wait_for_semantic_rate_limit(self) -> None:
         if self._search_mode != OpenAlexSearchMode.SEMANTIC:
             return
@@ -150,7 +191,9 @@ def _work_to_source_record(
         author_name
         for authorship in authorships
         if isinstance(authorship, Mapping)
-        for author_name in [_extract_author_name(authorship)]
+        for author_name in [
+            _extract_author_name(authorship)
+        ]
         if author_name is not None
     )
 
@@ -239,3 +282,235 @@ def _reconstruct_abstract(
         word
         for _, word in words
     )
+
+
+def _openalex_work_id(
+        provider_id: str,
+) -> str:
+    normalized = provider_id.strip()
+
+    if not normalized:
+        raise ValueError(
+            "OpenAlex provider_id must not be empty"
+        )
+
+    prefix = "https://openalex.org/"
+
+    if normalized.startswith(prefix):
+        normalized = normalized[len(prefix):]
+
+    if not normalized.startswith("W"):
+        raise ValueError(
+            "invalid OpenAlex work id"
+        )
+
+    return normalized
+
+
+def _extract_text_locations(
+        work: Mapping[str, Any],
+) -> tuple[SourceTextLocation, ...]:
+    work_id = work.get("id")
+
+    if not isinstance(work_id, str) or not work_id.strip():
+        raise ValueError(
+            "OpenAlex work does not contain an id"
+        )
+
+    locations: list[SourceTextLocation] = []
+
+    # ------------------------------------------------------------
+    # OpenAlex-hosted full text
+    # ------------------------------------------------------------
+
+    content_urls = work.get("content_urls")
+
+    if isinstance(content_urls, Mapping):
+        grobid_xml = content_urls.get(
+            "grobid_xml"
+        )
+
+        if (
+                isinstance(grobid_xml, str)
+                and grobid_xml.strip()
+        ):
+            locations.append(
+                SourceTextLocation(
+                    kind=(
+                        SourceTextLocationKind
+                        .OPENALEX_GROBID_XML
+                    ),
+                    url=grobid_xml.strip(),
+                    provider="openalex",
+                    provider_work_id=work_id,
+                    is_open_access=True,
+                )
+            )
+
+        pdf = content_urls.get("pdf")
+
+        if isinstance(pdf, str) and pdf.strip():
+            locations.append(
+                SourceTextLocation(
+                    kind=(
+                        SourceTextLocationKind
+                        .OPENALEX_PDF
+                    ),
+                    url=pdf.strip(),
+                    provider="openalex",
+                    provider_work_id=work_id,
+                    is_open_access=True,
+                )
+            )
+
+    # ------------------------------------------------------------
+    # OpenAlex preferred OA location
+    # ------------------------------------------------------------
+
+    best_oa = work.get(
+        "best_oa_location"
+    )
+
+    if isinstance(best_oa, Mapping):
+        _append_openalex_location(
+            locations,
+            work_id=work_id,
+            location=best_oa,
+        )
+
+    # ------------------------------------------------------------
+    # Every other OA location known to OpenAlex
+    # ------------------------------------------------------------
+
+    raw_locations = work.get(
+        "locations"
+    )
+
+    if isinstance(raw_locations, list):
+        for location in raw_locations:
+            if not isinstance(location, Mapping):
+                continue
+
+            if location.get("is_oa") is not True:
+                continue
+
+            _append_openalex_location(
+                locations,
+                work_id=work_id,
+                location=location,
+            )
+
+    return tuple(
+        _deduplicate_locations(
+            locations
+        )
+    )
+
+
+def _append_openalex_location(
+        locations: list[SourceTextLocation],
+        *,
+        work_id: str,
+        location: Mapping[str, Any],
+) -> None:
+    source = location.get("source")
+
+    host_name = None
+
+    if isinstance(source, Mapping):
+        display_name = source.get(
+            "display_name"
+        )
+
+        if (
+                isinstance(display_name, str)
+                and display_name.strip()
+        ):
+            host_name = display_name.strip()
+
+    version = location.get("version")
+    license_value = location.get("license")
+
+    normalized_version = (
+        version
+        if isinstance(version, str)
+        else None
+    )
+
+    normalized_license = (
+        license_value
+        if isinstance(license_value, str)
+        else None
+    )
+
+    pdf_url = location.get(
+        "pdf_url"
+    )
+
+    if (
+            isinstance(pdf_url, str)
+            and pdf_url.strip()
+    ):
+        locations.append(
+            SourceTextLocation(
+                kind=(
+                    SourceTextLocationKind
+                    .ORIGINAL_PDF
+                ),
+                url=pdf_url.strip(),
+                provider="openalex",
+                provider_work_id=work_id,
+                host_name=host_name,
+                version=normalized_version,
+                license=normalized_license,
+                is_open_access=True,
+            )
+        )
+
+    landing_page_url = location.get(
+        "landing_page_url"
+    )
+
+    if (
+            isinstance(
+                landing_page_url,
+                str,
+            )
+            and landing_page_url.strip()
+    ):
+        locations.append(
+            SourceTextLocation(
+                kind=(
+                    SourceTextLocationKind
+                    .LANDING_PAGE
+                ),
+                url=landing_page_url.strip(),
+                provider="openalex",
+                provider_work_id=work_id,
+                host_name=host_name,
+                version=normalized_version,
+                license=normalized_license,
+                is_open_access=True,
+            )
+        )
+
+
+def _deduplicate_locations(
+        locations: list[SourceTextLocation],
+) -> list[SourceTextLocation]:
+    seen_urls: set[str] = set()
+    result: list[SourceTextLocation] = []
+
+    for location in locations:
+        if location.url in seen_urls:
+            continue
+
+        seen_urls.add(
+            location.url
+        )
+
+        result.append(
+            location
+        )
+
+    return result
