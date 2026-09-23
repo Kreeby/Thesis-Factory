@@ -3,6 +3,8 @@ from typing import Any
 from urllib.parse import quote
 
 import httpx
+import html
+import re
 
 from thesis_factory.domain.source import SourceRecord
 
@@ -88,6 +90,7 @@ def _work_to_source_record(work: Mapping[str, Any]) -> SourceRecord:
         authors=authors,
         publication_year=_publication_year(work),
         doi=work.get("DOI"),
+        abstract=_abstract_text(work.get("abstract")),
         venue=_first_string(work.get("container-title")),
         provider="crossref",
         provider_id=str(work.get("DOI")),
@@ -134,3 +137,21 @@ def _publication_year(work: Mapping[str, Any]) -> int | None:
             return date_parts[0][0]
 
     return None
+
+def _abstract_text(value: Any) -> str | None:
+    if not isinstance(value, str):
+        return None
+
+    without_tags = re.sub(
+        r"<[^>]+>",
+        " ",
+        value,
+    )
+
+    unescaped = html.unescape(without_tags)
+
+    normalized = " ".join(
+        unescaped.split()
+    )
+
+    return normalized or None
