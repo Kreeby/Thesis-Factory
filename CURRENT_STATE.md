@@ -26,20 +26,16 @@ Complete the minimum project foundation required before designing or implementin
 * Claude selected as the required default LLM family for autonomous reasoning agents.
 * Repository established as the canonical source of project truth.
 * Branch → pull request → human review → merge established as the default development workflow.
-
+* `ARCHITECTURE.md` created.
+* ADR process established under `docs/decisions/`.
+* ADR-0001 accepted: Claude selected as the default LLM family for autonomous reasoning agents.
 ---
 
 ## In Progress
 
-Project foundation documentation.
+Foundation pull request review.
 
-Remaining bootstrap artifacts:
-
-* `ARCHITECTURE.md`
-* `docs/decisions/README.md`
-* initial Architecture Decision Records, where justified
-* repository structure required for the next phase
-
+No additional foundation artifacts are currently required.
 ---
 
 ## Not Started
@@ -133,12 +129,9 @@ Current high-priority unknowns are:
 
 ## Next Actions
 
-1. Create `ARCHITECTURE.md`.
-2. Establish the Architecture Decision Record process.
-3. Finish and review the foundation pull request.
-4. Merge the approved project foundation into `main`.
-5. Begin Phase 1: define the **Topic Researchability** workflow.
-
+1. Complete review of the foundation pull request.
+2. Merge the approved project foundation into `main`.
+3. Begin Phase 1: define the **Topic Researchability** workflow.
 ---
 
 ## Current Milestone Exit Criteria
