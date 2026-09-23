@@ -39,3 +39,13 @@ def test_source_record_normalizes_doi_url() -> None:
     )
 
     assert source.doi == "10.1234/example"
+
+def test_source_record_decodes_html_entities() -> None:
+    source = SourceRecord(
+        title="Example",
+        venue="Journal of Banking &amp; Finance",
+        provider="crossref",
+        provider_id="10.1234/example",
+    )
+
+    assert source.venue == "Journal of Banking & Finance"
