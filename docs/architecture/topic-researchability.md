@@ -167,7 +167,7 @@ At this stage:
 
 ---
 
-# 4. Phase 1 Target State
+## 4. Phase 1 Target State
 
 Phase 1 is not intended to generate thesis prose.
 
