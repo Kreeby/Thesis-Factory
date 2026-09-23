@@ -1,17 +1,19 @@
 from enum import StrEnum
-from typing import Literal
+from typing import Literal, Self
 
 from pydantic import (
     BaseModel,
     ConfigDict,
     Field,
     field_validator,
+    model_validator,
 )
 
 
 class DocumentSectionKind(StrEnum):
     ABSTRACT = "ABSTRACT"
     BODY = "BODY"
+
 
 class SectionHeadingRole(StrEnum):
     STANDARD = "STANDARD"
@@ -109,6 +111,7 @@ class NormalizedSection(BaseModel):
 
         return normalized
 
+
 class NormalizedDocument(BaseModel):
     model_config = ConfigDict(
         extra="forbid",
@@ -139,3 +142,38 @@ class NormalizedDocument(BaseModel):
     ] = Field(
         min_length=1,
     )
+
+    @model_validator(
+        mode="after",
+    )
+    def validate_unique_ordinals(
+            self,
+    ) -> Self:
+        section_ordinals = [
+            section.ordinal
+            for section in self.sections
+        ]
+
+        if (
+                len(section_ordinals)
+                != len(set(section_ordinals))
+        ):
+            raise ValueError(
+                "section ordinals must be unique"
+            )
+
+        paragraph_ordinals = [
+            paragraph.ordinal
+            for section in self.sections
+            for paragraph in section.paragraphs
+        ]
+
+        if (
+                len(paragraph_ordinals)
+                != len(set(paragraph_ordinals))
+        ):
+            raise ValueError(
+                "paragraph ordinals must be unique"
+            )
+
+        return self
