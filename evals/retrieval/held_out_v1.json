@@ -1,0 +1,448 @@
+{
+  "name": "credit-risk-four-paper-held-out-v1",
+  "description": "Frozen held-out evidence-target retrieval benchmark over four previously unseen OpenAlex GROBID documents selected without using BM25, Voyage, or RRF results. The benchmark does not claim exhaustive relevance judgements. Each target defines one evidence requirement and one or more human-reviewed acceptable passages.",
+  "top_k": 5,
+  "selection_protocol": {
+    "discovery_provider": "OpenAlex",
+    "discovery_mode": "SEMANTIC",
+    "queries": [
+      "consumer credit scoring machine learning",
+      "corporate default prediction machine learning",
+      "alternative data credit scoring",
+      "explainable machine learning credit risk"
+    ],
+    "per_query_limit": 25,
+    "selection_rule": "For each query in fixed order, select the first previously unseen result with a DOI, downloadable OpenAlex GROBID XML, successful grobid-tei-v1 normalization, and at least 30 paragraphs.",
+    "excluded_baseline_dois": [
+      "10.1016/j.eswa.2020.113567",
+      "10.1016/j.eswa.2020.113766"
+    ],
+    "retrieval_systems_used_for_selection": []
+  },
+  "documents": [
+    {
+      "title": "Developing machine learning models for automated credit scoring and loan approvals",
+      "doi": "10.70593/978-93-49910-78-2_3",
+      "provider": "openalex",
+      "provider_id": "https://openalex.org/W4411246912",
+      "expected_artifact_sha256": "b674fc01eb85313a75f8670e0c5e2d6b74da9b1d7b3d65b8494437786dfe3757",
+      "selection_query": "consumer credit scoring machine learning",
+      "selection_rank": 11
+    },
+    {
+      "title": "Corporate Default Predictions Using Machine Learning: Literature Review",
+      "doi": "10.3390/su12166325",
+      "provider": "openalex",
+      "provider_id": "https://openalex.org/W3047063927",
+      "expected_artifact_sha256": "84125ef740441a8237bf166e584f327ecb6175d2a5a8d754b5e85c78aa2da804",
+      "selection_query": "corporate default prediction machine learning",
+      "selection_rank": 2
+    },
+    {
+      "title": "Credit Scoring Using Alternative Data Sources: A Machine Learning Approach",
+      "doi": "10.25236/ajcis.2025.080407",
+      "provider": "openalex",
+      "provider_id": "https://openalex.org/W4411067263",
+      "expected_artifact_sha256": "44b3f8d6dd1e93dc796d1a989d3dd75c92850b364d67590c633348373b942a8e",
+      "selection_query": "alternative data credit scoring",
+      "selection_rank": 24
+    },
+    {
+      "title": "Explainable Machine Learning in Credit Risk Management",
+      "doi": "10.1007/s10614-020-10042-0",
+      "provider": "openalex",
+      "provider_id": "https://openalex.org/W3000463950",
+      "expected_artifact_sha256": "0a8a371851257a08bdae408b8c4170bf621c6bfba7bcb0e8ee4f7b543657a46f",
+      "selection_query": "explainable machine learning credit risk",
+      "selection_rank": 1
+    }
+  ],
+  "cases": [
+    {
+      "id": "consumer_model_family_comparison",
+      "query_style": "LEXICAL",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "logistic regression decision trees random forest support vector machine k-nearest neighbors Gaussian naive Bayes credit scoring",
+      "targets": [
+        {
+          "id": "consumer-model-families",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "b674fc01eb85313a75f8670e0c5e2d6b74da9b1d7b3d65b8494437786dfe3757",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 24
+            },
+            {
+              "artifact_sha256": "b674fc01eb85313a75f8670e0c5e2d6b74da9b1d7b3d65b8494437786dfe3757",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 25
+            },
+            {
+              "artifact_sha256": "b674fc01eb85313a75f8670e0c5e2d6b74da9b1d7b3d65b8494437786dfe3757",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 26
+            },
+            {
+              "artifact_sha256": "b674fc01eb85313a75f8670e0c5e2d6b74da9b1d7b3d65b8494437786dfe3757",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 27
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "consumer_imbalanced_metrics",
+      "query_style": "PARAPHRASE",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "Why can a credit classifier look accurate while still failing on the borrowers that matter most?",
+      "targets": [
+        {
+          "id": "class-imbalance",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "b674fc01eb85313a75f8670e0c5e2d6b74da9b1d7b3d65b8494437786dfe3757",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 39
+            },
+            {
+              "artifact_sha256": "b674fc01eb85313a75f8670e0c5e2d6b74da9b1d7b3d65b8494437786dfe3757",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 41
+            }
+          ]
+        },
+        {
+          "id": "asymmetric-error-costs",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "b674fc01eb85313a75f8670e0c5e2d6b74da9b1d7b3d65b8494437786dfe3757",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 37
+            },
+            {
+              "artifact_sha256": "b674fc01eb85313a75f8670e0c5e2d6b74da9b1d7b3d65b8494437786dfe3757",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 40
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "corporate_model_generations",
+      "query_style": "LEXICAL",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "discriminant analysis binary response hazard models corporate default prediction generations",
+      "targets": [
+        {
+          "id": "statistical-generations",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "84125ef740441a8237bf166e584f327ecb6175d2a5a8d754b5e85c78aa2da804",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 1
+            },
+            {
+              "artifact_sha256": "84125ef740441a8237bf166e584f327ecb6175d2a5a8d754b5e85c78aa2da804",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 4
+            },
+            {
+              "artifact_sha256": "84125ef740441a8237bf166e584f327ecb6175d2a5a8d754b5e85c78aa2da804",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 7
+            },
+            {
+              "artifact_sha256": "84125ef740441a8237bf166e584f327ecb6175d2a5a8d754b5e85c78aa2da804",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 10
+            },
+            {
+              "artifact_sha256": "84125ef740441a8237bf166e584f327ecb6175d2a5a8d754b5e85c78aa2da804",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 16
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "corporate_temporal_context",
+      "query_style": "PARAPHRASE",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "Why is a one-period snapshot inadequate for explaining company failure, and what modeling direction does the review propose?",
+      "targets": [
+        {
+          "id": "multi-period-default-modeling",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "84125ef740441a8237bf166e584f327ecb6175d2a5a8d754b5e85c78aa2da804",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 1
+            },
+            {
+              "artifact_sha256": "84125ef740441a8237bf166e584f327ecb6175d2a5a8d754b5e85c78aa2da804",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 35
+            },
+            {
+              "artifact_sha256": "84125ef740441a8237bf166e584f327ecb6175d2a5a8d754b5e85c78aa2da804",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 36
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "alternative_data_modalities",
+      "query_style": "LEXICAL",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "mobile app usage e-commerce call SMS location trajectory alternative data credit scoring",
+      "targets": [
+        {
+          "id": "alternative-data-modalities",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "44b3f8d6dd1e93dc796d1a989d3dd75c92850b364d67590c633348373b942a8e",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 5
+            },
+            {
+              "artifact_sha256": "44b3f8d6dd1e93dc796d1a989d3dd75c92850b364d67590c633348373b942a8e",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 7
+            },
+            {
+              "artifact_sha256": "44b3f8d6dd1e93dc796d1a989d3dd75c92850b364d67590c633348373b942a8e",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 8
+            },
+            {
+              "artifact_sha256": "44b3f8d6dd1e93dc796d1a989d3dd75c92850b364d67590c633348373b942a8e",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 9
+            },
+            {
+              "artifact_sha256": "44b3f8d6dd1e93dc796d1a989d3dd75c92850b364d67590c633348373b942a8e",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 35
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pca_accuracy_tradeoff",
+      "query_style": "PARAPHRASE",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "What happens when borrower behavior features are compressed before random-forest scoring, and how much predictive performance is sacrificed?",
+      "targets": [
+        {
+          "id": "pca-performance-tradeoff",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "44b3f8d6dd1e93dc796d1a989d3dd75c92850b364d67590c633348373b942a8e",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 40
+            },
+            {
+              "artifact_sha256": "44b3f8d6dd1e93dc796d1a989d3dd75c92850b364d67590c633348373b942a8e",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 47
+            },
+            {
+              "artifact_sha256": "44b3f8d6dd1e93dc796d1a989d3dd75c92850b364d67590c633348373b942a8e",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 48
+            }
+          ]
+        },
+        {
+          "id": "principal-component-retention",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "44b3f8d6dd1e93dc796d1a989d3dd75c92850b364d67590c633348373b942a8e",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 49
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xai_shapley_network_method",
+      "query_style": "LEXICAL",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "Shapley values similarity network correlation network credit risk explanations",
+      "targets": [
+        {
+          "id": "shapley-network-explanation",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "0a8a371851257a08bdae408b8c4170bf621c6bfba7bcb0e8ee4f7b543657a46f",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 17
+            },
+            {
+              "artifact_sha256": "0a8a371851257a08bdae408b8c4170bf621c6bfba7bcb0e8ee4f7b543657a46f",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 18
+            },
+            {
+              "artifact_sha256": "0a8a371851257a08bdae408b8c4170bf621c6bfba7bcb0e8ee4f7b543657a46f",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 40
+            },
+            {
+              "artifact_sha256": "0a8a371851257a08bdae408b8c4170bf621c6bfba7bcb0e8ee4f7b543657a46f",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 46
+            },
+            {
+              "artifact_sha256": "0a8a371851257a08bdae408b8c4170bf621c6bfba7bcb0e8ee4f7b543657a46f",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 62
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xai_local_global_explanations",
+      "query_style": "PARAPHRASE",
+      "scope": "SINGLE_DOCUMENT",
+      "query": "How does the proposed method explain an individual firm's default score differently from explaining the portfolio as a whole?",
+      "targets": [
+        {
+          "id": "local-versus-global-explanation",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "0a8a371851257a08bdae408b8c4170bf621c6bfba7bcb0e8ee4f7b543657a46f",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 60
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pca_alternative_data_source",
+      "query_style": "PARAPHRASE",
+      "scope": "SOURCE_SELECTION",
+      "query": "Which study builds a credit-risk model from mobile-app, shopping, communication, and location behavior and then compresses those features with principal components?",
+      "targets": [
+        {
+          "id": "pca-alternative-data-study",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "44b3f8d6dd1e93dc796d1a989d3dd75c92850b364d67590c633348373b942a8e",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "xai_source_selection",
+      "query_style": "LEXICAL",
+      "scope": "SOURCE_SELECTION",
+      "query": "Which study uses XGBoost with TreeSHAP to explain credit-risk predictions?",
+      "targets": [
+        {
+          "id": "xgboost-treeshap-study",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "0a8a371851257a08bdae408b8c4170bf621c6bfba7bcb0e8ee4f7b543657a46f",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 63
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "interpretability_cross_paper",
+      "query_style": "PARAPHRASE",
+      "scope": "CROSS_DOCUMENT",
+      "query": "Across the selected studies, what evidence shows that stronger predictive models can trade transparency for accuracy, and how can post-hoc explanations address that problem?",
+      "targets": [
+        {
+          "id": "consumer-accuracy-interpretability-tradeoff",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "b674fc01eb85313a75f8670e0c5e2d6b74da9b1d7b3d65b8494437786dfe3757",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 25
+            },
+            {
+              "artifact_sha256": "b674fc01eb85313a75f8670e0c5e2d6b74da9b1d7b3d65b8494437786dfe3757",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 26
+            }
+          ]
+        },
+        {
+          "id": "xai-posthoc-remedy",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "0a8a371851257a08bdae408b8c4170bf621c6bfba7bcb0e8ee4f7b543657a46f",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 12
+            },
+            {
+              "artifact_sha256": "0a8a371851257a08bdae408b8c4170bf621c6bfba7bcb0e8ee4f7b543657a46f",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 13
+            },
+            {
+              "artifact_sha256": "0a8a371851257a08bdae408b8c4170bf621c6bfba7bcb0e8ee4f7b543657a46f",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 20
+            },
+            {
+              "artifact_sha256": "0a8a371851257a08bdae408b8c4170bf621c6bfba7bcb0e8ee4f7b543657a46f",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 29
+            },
+            {
+              "artifact_sha256": "0a8a371851257a08bdae408b8c4170bf621c6bfba7bcb0e8ee4f7b543657a46f",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 62
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "rare_defaults_cross_paper",
+      "query_style": "PARAPHRASE",
+      "scope": "CROSS_DOCUMENT",
+      "query": "Across the corporate-default review and the explainable-credit study, what problems do rare defaults create and what methodological responses are proposed?",
+      "targets": [
+        {
+          "id": "corporate-training-imbalance",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "84125ef740441a8237bf166e584f327ecb6175d2a5a8d754b5e85c78aa2da804",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 34
+            }
+          ]
+        },
+        {
+          "id": "xai-rare-default-extension",
+          "acceptable_units": [
+            {
+              "artifact_sha256": "0a8a371851257a08bdae408b8c4170bf621c6bfba7bcb0e8ee4f7b543657a46f",
+              "normalization_version": "grobid-tei-v1",
+              "paragraph_ordinal": 65
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
