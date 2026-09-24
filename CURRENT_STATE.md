@@ -821,7 +821,8 @@ Later-stage work not yet started includes:
 * final agent topology;
 * final provenance persistence schema;
 * PDF parsing technology for PDF-only scholarly papers;
-* whether tables and figures require future first-class document nodes.
+* whether tables and figures require future first-class document nodes;
+* whether third-party open-source tooling should replace parts of scholarly discovery, DOI verification, relevance screening, or lexical/hybrid retrieval (candidate analysis: `docs/proposals/oss-replacement-analysis.md`, not yet reviewed or accepted).
 
 ---
 
