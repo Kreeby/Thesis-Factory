@@ -1,0 +1,199 @@
+{
+  "id": "elte-ik-msc-v1",
+  "institution": "ELTE",
+  "faculty": "Faculty of Informatics",
+  "source_title": "Links to MSc / TDK dissertation topics and dissertation guidance",
+  "source_sha256": "129d548384f437e2eb3b4fdee15a8471371b2b664cf86b3400b34790d12f72d5",
+  "requirements": [
+    {
+      "id": "specialization-fit",
+      "category": "TOPIC_FIT",
+      "level": "REQUIRED",
+      "authority": "FACULTY_REQUIREMENT",
+      "scopes": [
+        "MSC"
+      ],
+      "statement": "The thesis topic must be related to the student's master's degree or specialization, and the thesis must make its objectives clear.",
+      "source_pages": [
+        14,
+        15
+      ]
+    },
+    {
+      "id": "systematic-research",
+      "category": "RESEARCH",
+      "level": "REQUIRED",
+      "authority": "FACULTY_REQUIREMENT",
+      "scopes": [
+        "MSC"
+      ],
+      "statement": "The thesis must conduct research and systematically investigate the selected domain.",
+      "source_pages": [
+        11,
+        14
+      ]
+    },
+    {
+      "id": "state-of-the-art-methods",
+      "category": "METHOD",
+      "level": "REQUIRED",
+      "authority": "FACULTY_REQUIREMENT",
+      "scopes": [
+        "MSC"
+      ],
+      "statement": "The work must apply appropriate state-of-the-art scientific, technological, engineering, or research methods.",
+      "source_pages": [
+        11,
+        14,
+        15
+      ]
+    },
+    {
+      "id": "independent-research-or-engineering-project",
+      "category": "RESEARCH",
+      "level": "REQUIRED",
+      "authority": "FACULTY_REQUIREMENT",
+      "scopes": [
+        "MSC"
+      ],
+      "statement": "The thesis must constitute an independent engineering design and/or research project, with the student's substantive contribution identifiable when the work belongs to a larger project.",
+      "source_pages": [
+        14,
+        15
+      ]
+    },
+    {
+      "id": "experimental-software-work",
+      "category": "ENGINEERING",
+      "level": "EXPECTED",
+      "authority": "DEPARTMENT_GUIDANCE",
+      "scopes": [
+        "MSC"
+      ],
+      "statement": "The topic should support experimental software design, development, software investigation, or another experimental engineering activity rather than routine implementation alone.",
+      "source_pages": [
+        11,
+        14
+      ]
+    },
+    {
+      "id": "literature-review-alone-insufficient",
+      "category": "RESEARCH",
+      "level": "REQUIRED",
+      "authority": "DEPARTMENT_GUIDANCE",
+      "scopes": [
+        "MSC"
+      ],
+      "statement": "A literature survey or scientific essay consisting only of processing existing literature is not sufficient as the thesis contribution.",
+      "source_pages": [
+        12
+      ]
+    },
+    {
+      "id": "innovation-or-novelty",
+      "category": "NOVELTY",
+      "level": "EXPECTED",
+      "authority": "DEPARTMENT_GUIDANCE",
+      "scopes": [
+        "MSC"
+      ],
+      "statement": "Fundamental research novelty is not required, but the thesis should contain innovation, some novelty, or an interesting contribution supported by comparison, analysis, experimental design, or development.",
+      "source_pages": [
+        11,
+        12
+      ]
+    },
+    {
+      "id": "validation",
+      "category": "VALIDATION",
+      "level": "REQUIRED",
+      "authority": "DEPARTMENT_GUIDANCE",
+      "scopes": [
+        "MSC"
+      ],
+      "statement": "The developed model, system, or experimental result must be verified or validated using appropriate domain-specific methods or metrics.",
+      "source_pages": [
+        11,
+        18,
+        19
+      ]
+    },
+    {
+      "id": "results-based-contribution",
+      "category": "CONTRIBUTION",
+      "level": "REQUIRED",
+      "authority": "FACULTY_REQUIREMENT",
+      "scopes": [
+        "MSC"
+      ],
+      "statement": "Conclusions and claimed contributions must be grounded in the results of the engineering design and/or research process and must answer the stated objectives or research questions.",
+      "source_pages": [
+        14,
+        15
+      ]
+    },
+    {
+      "id": "differentiated-solution",
+      "category": "NOVELTY",
+      "level": "REQUIRED",
+      "authority": "FACULTY_REQUIREMENT",
+      "scopes": [
+        "MSC"
+      ],
+      "statement": "The thesis should address a problem where the problem, the developed method, or the effectiveness of the resulting solution provides a meaningful distinction from comparable solutions.",
+      "source_pages": [
+        14
+      ]
+    },
+    {
+      "id": "independent-and-ethical-authorship",
+      "category": "INDEPENDENCE",
+      "level": "REQUIRED",
+      "authority": "FACULTY_REQUIREMENT",
+      "scopes": [
+        "MSC"
+      ],
+      "statement": "The thesis must be prepared independently and according to expected engineering, research, and ethical practices.",
+      "source_pages": [
+        16
+      ]
+    },
+    {
+      "id": "eit-prototype",
+      "category": "ENGINEERING",
+      "level": "REQUIRED",
+      "authority": "EIT_GUIDANCE",
+      "scopes": [
+        "EIT"
+      ],
+      "statement": "For EIT students, the proposed design must be operationalized through a software prototype or wire-frame.",
+      "source_pages": [
+        17
+      ]
+    },
+    {
+      "id": "expected-effort-and-length",
+      "category": "FEASIBILITY",
+      "level": "GUIDANCE",
+      "authority": "GUIDE_SUMMARY",
+      "scopes": [
+        "MSC"
+      ],
+      "statement": "The guide describes the MSc dissertation as approximately 50 to 60 pages and associates it with roughly 900 hours of effort.",
+      "source_pages": [
+        13,
+        14
+      ]
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "ai-assistance-policy",
+      "question": "What forms of generative-AI assistance are permitted, restricted, or required to be disclosed for the student's MSc dissertation?",
+      "reason": "The supplied guide lists AI-assisted research tools and material about citing generative AI, but it does not define a clear policy governing AI use in the dissertation itself.",
+      "source_pages": [
+        22
+      ]
+    }
+  ]
+}
