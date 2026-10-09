@@ -3,6 +3,10 @@ from typing import TypeVar
 from anthropic import Anthropic
 from pydantic import BaseModel
 
+from thesis_factory.integrations.anthropic.client_factory import (
+    create_anthropic_client,
+)
+
 
 T = TypeVar("T", bound=BaseModel)
 
@@ -16,7 +20,10 @@ class AnthropicStructuredReasoner:
             max_tokens: int = 512,
     ) -> None:
         self._model = model
-        self._client = client or Anthropic()
+        self._client = (
+            client
+            or create_anthropic_client()
+        )
         self._max_tokens = max_tokens
 
     def generate(

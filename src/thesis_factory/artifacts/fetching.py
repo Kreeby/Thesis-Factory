@@ -1,5 +1,6 @@
 import hashlib
 from enum import StrEnum
+from urllib.parse import urlsplit
 
 import httpx
 from pydantic import (
@@ -17,6 +18,12 @@ from thesis_factory.domain.source_text import (
 class ArtifactFormat(StrEnum):
     GROBID_XML = "GROBID_XML"
     PDF = "PDF"
+
+
+class ArtifactFetchError(
+    ValueError
+):
+    pass
 
 
 class FetchedArtifact(BaseModel):
@@ -50,6 +57,7 @@ class ArtifactFetcher:
             self,
             *,
             max_bytes: int = 25 * 1024 * 1024,
+            openalex_api_key: str | None = None,
             http_client: httpx.Client | None = None,
     ) -> None:
         if max_bytes < 1:
@@ -58,6 +66,20 @@ class ArtifactFetcher:
             )
 
         self._max_bytes = max_bytes
+
+        normalized_key = (
+            openalex_api_key.strip()
+            if isinstance(
+                openalex_api_key,
+                str,
+            )
+            else None
+        )
+
+        self._openalex_api_key = (
+            normalized_key
+            or None
+        )
 
         self._http_client = (
                 http_client
@@ -68,7 +90,7 @@ class ArtifactFetcher:
         )
 
         self._owns_http_client = (
-                http_client is None
+            http_client is None
         )
 
     def fetch(
@@ -79,9 +101,45 @@ class ArtifactFetcher:
             location
         )
 
-        response = self._http_client.get(
-            location.url
+        openalex_content = (
+            _is_openalex_content_url(
+                location.url
+            )
         )
+
+        params = None
+
+        if openalex_content:
+            if self._openalex_api_key is None:
+                raise ArtifactFetchError(
+                    "OpenAlex content download "
+                    "requires an API key"
+                )
+
+            params = {
+                "api_key": (
+                    self._openalex_api_key
+                )
+            }
+
+        response = self._http_client.get(
+            location.url,
+            params=params,
+        )
+
+        if (
+                openalex_content
+                and response.is_error
+        ):
+            # Do not call raise_for_status() here:
+            # the request URL contains the API key
+            # as a query parameter and must never
+            # appear in logs or persisted errors.
+            raise ArtifactFetchError(
+                "OpenAlex content download failed "
+                f"with HTTP {response.status_code} "
+                f"for {_safe_url(location.url)}"
+            )
 
         response.raise_for_status()
 
@@ -161,6 +219,29 @@ def _artifact_format(
 
     raise ValueError(
         "location does not point directly to supported full text"
+    )
+
+
+def _is_openalex_content_url(
+        url: str,
+) -> bool:
+    return (
+        urlsplit(url).hostname
+        == "content.openalex.org"
+    )
+
+
+def _safe_url(
+        url: str,
+) -> str:
+    parsed = urlsplit(
+        url
+    )
+
+    return (
+        f"{parsed.scheme}://"
+        f"{parsed.netloc}"
+        f"{parsed.path}"
     )
 
 
