@@ -20,8 +20,8 @@ def _lead(index: int) -> ResearchLead:
         why_relevant=(
             "Relevant to dataset selection."
         ),
-        source_urls=(
-            "https://example.org/source",
+        source_citation_ids=(
+            "c1",
         ),
         verification_need=(
             "Verify the source and properties."
