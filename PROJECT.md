@@ -1,6 +1,16 @@
 Thesis Factory
 ==============
 
+**Current product objective (October 2026).** Given the human-approved topic
+*A Legally Grounded Empirical Evaluation of Explainable AI for Consumer Credit
+Scoring*, build a bounded, auditable, human-supervised workflow that can be
+started once and autonomously conduct research, design and run experiments,
+analyse results, draft, cite, and audit an MSc thesis. An unattended run of
+approximately ten hours is an **aspirational capability, not yet implemented**.
+Human academic approval and final submission remain external gates. For the
+implemented checkpoint see `CURRENT_STATE.md`; the sections below originated
+as foundational design and may describe an earlier project phase.
+
 1\. Purpose
 -----------
 

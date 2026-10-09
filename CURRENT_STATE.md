@@ -1,5 +1,21 @@
 # Current Project State
 
+## Post-merge continuation (2026-10-09)
+
+PR #16 has been merged into `main`. The user reported **207 passing local
+pytest tests** on its final head. Earlier references below to PR #16 being
+unmerged and its pre-merge test status are historical review snapshots.
+
+The long-term product objective is a single bounded, auditable run that can
+research the approved credit-scoring XAI topic, perform reproducible thesis
+experiments, prepare a complete draft, and independently critique its claims.
+It must preserve all intermediate evidence and permit explicit human gates.
+**A ten-hour end-to-end thesis orchestrator is not yet implemented.**
+
+Next incremental slice: offline research JSON checkpointing, stage-level
+append-only logging, model-usage event API, and human-reviewable intermediate
+PR preparation. See `docs/architecture/autonomous-thesis-workflow.md`.
+
 Last updated: 2026-10-09
 
 ## Current Phase

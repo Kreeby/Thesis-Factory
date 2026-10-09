@@ -21,3 +21,9 @@ venv/
 .env
 .env.*
 !.env.example
+
+# Local research-run logs, checkpoints, source text and credentials
+.thesis-runs/
+
+# Untracked source research exports (kept in private checkpoint store)
+/proposal_*.json
