@@ -1,10 +1,10 @@
 # Current Project State
 
-Last updated: 2026-10-05
+Last updated: 2026-10-09
 
 ## Current Phase
 
-**Phase 1 — Evidence Acquisition and Proposal Research**
+**Phase 1 — Evidence Acquisition and Proposal Research — PR #16 under review (unmerged)**
 
 Phase 0 — Project Foundation — is complete.
 
@@ -16,7 +16,7 @@ The retrieval architecture comparison cycle is complete for the current Phase 1 
 
 The system now supports bounded proposal-oriented research from an approved topic through discovery, verification, exact evidence extraction, research synthesis, adversarial critique, and proposal writing.
 
-The immediate objective is to finish the Project Proposal from the evidence already collected, without opening another broad research loop.
+The immediate objective is to review and integrate PR #16 safely. A Project Proposal DOCX has already been generated outside the repository through a deadline-specific direct writer invocation; formal university submission is not confirmed. The normal Critic-to-Writer production pipeline was not completed.
 
 The governing rule remains:
 
@@ -26,39 +26,14 @@ The governing rule remains:
 
 ## Current Objective
 
-Complete the Project Proposal using the current verified evidence artifacts.
+Complete an engineering review of [PR #16](https://github.com/Kreeby/Thesis-Factory/pull/16), branch `phase1/evidence-acquisition` targeting `main`, before merging. This PR currently consists of 3 commits, 67 changed files and about 12,657 added lines. The branch contains source implementations and unit tests for acquisition, scholarly and primary source verification, research synthesis, Critic and Writer. It already contains a `CURRENT_STATE.md` change, but its existing content incorrectly describes the proposal as unfinished and some gates as passed.
 
-Target flow:
+1. Run the **full local deterministic test suite on the exact PR head**; current GitHub Actions only verifies that `CURRENT_STATE.md` changed, not test success.
+2. Review new source trust boundaries, exact span claims, error handling, bounded API cost and coverage.
+3. Preserve the actual proposal artifacts and the history of merged Phase 1 retrieval benchmarks without pretending the deadline-specific proposal was produced through a fully validated end-to-end pipeline.
+4. Address merge blockers; retain later research improvements as explicit next steps rather than expanding this PR indefinitely.
 
-`approved thesis topic`
-
-→ bounded research discovery
-
-→ deterministic verification planning
-
-→ scholarly verification
-
-→ official primary-source verification
-
-→ verified evidence artifacts
-
-→ proposal research synthesis
-
-→ deterministic synthesis validation
-
-→ adversarial proposal critique
-
-→ proposal writing
-
-→ deterministic proposal validation
-
-→ DOCX rendering
-
-→ human review
-
-Missing evidence must remain explicit. The proposal must weaken, qualify, or remove unsupported claims instead of forcing them into a supported state.
-
-The current deadline makes bounded completion more important than expanding the research architecture.
+The governing rule remains **LLM proposes. Software verifies. Evidence proves. Human approves.**
 
 ---
 
@@ -144,10 +119,10 @@ Dataset, model, XAI-method, metric, legal-criterion, and experiment choices rema
 * Context expansion is deterministic and bounded.
 * Claude-backed extraction operates only over supplied bounded context.
 * Evidence support states are:
-    * `SUPPORTED`;
-    * `PARTIAL`;
-    * `NOT_SUPPORTED`;
-    * `INSUFFICIENT_EVIDENCE`.
+  * `SUPPORTED`;
+  * `PARTIAL`;
+  * `NOT_SUPPORTED`;
+  * `INSUFFICIENT_EVIDENCE`.
 * Supporting proposals require exact quote candidates.
 * Unsupported and insufficient proposals cannot fabricate supporting evidence.
 * Exact quote verification is deterministic.
@@ -157,22 +132,22 @@ Dataset, model, XAI-method, metric, legal-criterion, and experiment choices rema
 ### Proposal Research Domain
 
 * Proposal research dimensions include:
-    * problem;
-    * research gap;
-    * research question;
-    * dataset;
-    * baseline;
-    * method;
-    * metric;
-    * feasibility;
-    * contribution;
-    * risk;
-    * deliverable.
+  * problem;
+  * research gap;
+  * research question;
+  * dataset;
+  * baseline;
+  * method;
+  * metric;
+  * feasibility;
+  * contribution;
+  * risk;
+  * deliverable.
 * Research epistemic states are:
-    * `SUPPORTED`;
-    * `DERIVED`;
-    * `ASSUMPTION`;
-    * `UNKNOWN`.
+  * `SUPPORTED`;
+  * `DERIVED`;
+  * `ASSUMPTION`;
+  * `UNKNOWN`.
 * Supported and derived findings must reference evidence requirements.
 * Assumptions and unknowns cannot masquerade as evidence-backed findings.
 * Proposal research synthesis may use only the approved topic, supplied requirements, and verified evidence.
@@ -314,7 +289,7 @@ Known dataset families use deterministic canonical routes where possible:
 
 Primary-source retrieval now searches both the verification question and the explicit `why_needed` criteria before semantic ranking.
 
-The user has run the bounded dataset retry. Its final artifact is the next item to review before proposal synthesis.
+The bounded dataset retry completed. Final primary results: 5 legal tasks PARTIAL, German Credit dataset task PARTIAL (2 exact spans), FICO HELOC and Home Credit INSUFFICIENT_EVIDENCE. Legal verification had 11 exact spans; scholarly verification had 16. Across 18 verification tasks: 13 PARTIAL, 5 INSUFFICIENT_EVIDENCE and 29 exact spans. These statuses are not evidence of full support for each broad requirement.
 
 No additional broad dataset-landscape stage is required before the current Project Proposal.
 
@@ -322,7 +297,7 @@ No additional broad dataset-landscape stage is required before the current Proje
 
 ## Current Research Artifacts
 
-The proposal workflow currently uses:
+The recorded proposal workflow uses:
 
 * `proposal_discovery.json`
 * `proposal_verification_plan.json`
@@ -335,31 +310,57 @@ They are not themselves trusted prose.
 
 ---
 
+## PR #16 — Verified Implementation and Research Checkpoint
+
+**PR facts as observed on GitHub, 2026-10-09:** `main` base `26701a0`; head `e2b2775`; 3 commits (`2bd80bb`, `c79866f`, `e2b2775`); 67 changed files; open and unmerged. The PR does include `CURRENT_STATE.md`. The GitHub Actions `Current State Gate` ran successfully and checks only that this file was changed. Full suite status on the exact head remains unknown.
+
+### Code implemented in the branch
+
+* **Evidence requirements and extraction:** `domain/evidence_acquisition.py`, `evidence/context.py`, `evidence/extraction.py`. Typed evidence states, bounded queries and contexts, quote proposals, exact source spans and deterministic address verification. A citation reference is not proof of semantic entailment.
+* **Research roles:** `domain/proposal_research.py`, `research/proposal_research.py`, `research/proposal_critique.py`, `research/proposal_writing.py`. SUPPORTED, DERIVED, ASSUMPTION and UNKNOWN are epistemically distinct. Critic supports PASS/REVISE/FAIL. The writer's normal API requires PASS.
+* **Web discovery and planning:** Anthropic web research, lead extraction, bounded deterministic verification planning and scripts. Web citations are discovery provenance only.
+* **Scholarly acquisition:** OpenAlex bibliographic identity and GROBID full text, BM25/Voyage retrieval, exact verified extraction and bounded scholarly verification executor.
+* **Primary source acquisition:** deterministic legal CELEX candidate routing; Publications Office/Cellar primary-source content, HTML/XHTML/XML normalization, source authority host policy, source audit and SHA-256 identities. Canonical dataset URLs for FICO HELOC, UCI German/South German Credit and Kaggle Home Credit are seeded candidates, **not a landscape search**.
+* **Checkpointed CLI scripts:** research discovery, verification planner, scholarly verification, primary verification and dataset retry. Dataset retry preserves previous primary task results and replaces insufficient dataset tasks.
+* **Tests:** domain, context, extraction, model integration, legal source routing, fetch and normalization, planners, scholarly and primary executors, proposal research, Critic and Writer have test files in the PR. Earlier local reports: 153 passed after evidence core, 162 passed after research contracts; another later development run reported 201 passed / 1 stale assertion failed and a focused correction test. These are historical snapshots, not proof that the final head's full test suite passes.
+
+### Real research artifacts — live run outcomes, outside this PR
+
+* **Discovery:** 5 bounded objectives, 97 citations, 39 leads. Citations were discovery-only.
+* **Plan:** 18 tasks (5 official legal, 3 dataset-primary, 10 scholarly), 21 leads deferred.
+* **Scholarly:** 10 task results, 7 PARTIAL / 3 INSUFFICIENT_EVIDENCE, 30 usable full texts and 16 exact spans. Outstanding specific gaps include HELOC baseline performance, preprocessing details and out-of-time validation.
+* **Official legal:** 5 PARTIAL, 11 exact spans from SCHUFA C-634/21, Dun & Bradstreet Austria C-203/22, GDPR discussion, CCD2 recital and AI Act profiling text. Other aspects (CCD2 operative Art. 18(8), Annex III 5(b) and fraud exclusion, broad legal extension claims) are not verified by the selected spans.
+* **Datasets:** German Credit PARTIAL with two exact UCI snippets distinguishing original categorical `german.data` and edited indicator-file; FICO HELOC and Home Credit INSUFFICIENT_EVIDENCE. No final dataset selection is justified.
+* **Aggregate:** 18 tasks; 13 PARTIAL, 5 INSUFFICIENT_EVIDENCE, 29 verified exact spans. These numbers do not mean all legal/dataset questions were answered.
+* **Synthesizer:** `proposal_research_draft.json` produced and structurally validated, acknowledging unproven research gap, provisional model choices, no final dataset and non-compliance claims.
+* **Critic:** live response truncated into invalid JSON; no validated verdict or critique artifact. Human explicitly skipped Critic rather than fabricating findings or PASS.
+* **Document:** direct one-off structured writer call, document structural validation and external DOCX render succeeded. Not reproducible through an integrated renderer in PR #16. University submission remains unconfirmed.
+
+### Engineering review findings (require prioritization, not fabricated fixes)
+
+1. `validate_research_draft` checks evidence IDs/status/spans but **does not guarantee semantic support** for generated claims. `validate_proposal_document` checks finding references and paragraph class, not external truth, complete citation bibliographies or legal compliance.
+2. Critic's large structured output can truncate and cause parsing errors. Never spend more API tokens on blind retries; add local fake-client/size tests before a future targeted fix.
+3. Primary executor's bounded `max_documents` and ranking of a **single best result** can omit complementary partial evidence across sources. PARTIAL and INSUFFICIENT_EVIDENCE must remain visible.
+4. Host allowlists establish authority of domain but do not establish that the fetched content proves the requirement. HTTP 503, HTML shells and rate limits can cause legitimate verification gaps.
+5. Seeded three-dataset canonical routing cannot be treated as a comprehensive autonomous search and evaluation of all candidate datasets.
+6. Preserving the old `CURRENT_STATE.md` evaluation history matters: earlier abbreviated replacement removed many exact historical retrieval benchmark measurements. This document keeps current capabilities and the decision not to retune frozen benchmarks, but that earlier detailed historical measurement record remains retrievable from `main` before merge and should be preserved durably.
+7. `PROJECT.md` still contains older phase/unknowns language; align after the feature PR is reviewed. Do not silently invent or rewrite ADRs.
+
+### Outstanding decisions after integration
+
+Final research gap; dataset and licence strategy; feature provenance and representativeness; model/baseline/XAI selection; preprocessing and split; technical explanation-quality and calibration metrics; legal-to-metric mapping without compliance claims; empirical evaluation and statistical design; Claim Ledger; provenance storage and end-to-end artifact generation; scalable but bounded agent exploration; formal university AI policy. None of these are complete just because a proposal draft exists.
+
+---
+
 ## In Progress
 
-**Review the completed dataset-primary retry artifact, then synthesize the Project Proposal.**
+**PR #16 review and merge readiness.** No new source discovery or Anthropic/Voyage calls are necessary to complete this checkpoint.
 
-Bounded next sequence:
+The recorded live research run produced `proposal_research_draft.json` with 31 findings and passed the structural validator. The Critic call failed because the generated JSON was truncated (Pydantic EOF while parsing around column 8160). **No valid Critic result or verdict was produced**. The beginning of the invalid output mentioned `REVISE`, but this is not a parsed/validated verdict.
 
-`final primary-evidence artifact`
+The human expressly rejected fabricating a critique or a fake `PASS` and authorized skipping Critic for the immediate deadline. An isolated direct call to `AnthropicStructuredReasoner.generate` produced `proposal_document_draft.json`; `validate_proposal_document` passed. A DOCX Project Proposal was then generated separately from the repository. **Normal `ProposalWriter.write` still requires a genuine Critic `PASS`, and PR #16 contains no integrated human-override workflow or DOCX exporter.**
 
-→ proposal research synthesis
-
-→ deterministic validation
-
-→ one adversarial critic pass
-
-→ at most one bounded correction pass if required
-
-→ writer
-
-→ deterministic proposal validation
-
-→ DOCX rendering and visual inspection
-
-→ human review
-
-No new general discovery loop should be added before the current Project Proposal unless the critic identifies a blocker that cannot be resolved by weakening or removing a claim.
+Formal proposal submission is not confirmed. Dataset selection, novelty, research gap and experimental feasibility remain provisional. No empirical thesis experiments have been conducted.
 
 ---
 
@@ -446,9 +447,9 @@ The proposal may describe these as planned work. It must not claim they are alre
 
 ### RISK-001 — Deadline-driven architecture expansion
 
-The proposal can miss its deadline if every incomplete facet triggers a new subsystem.
+The earlier proposal deadline exposed the risk that every incomplete research facet triggers a new subsystem.
 
-**Mitigation:** complete the proposal from the current bounded evidence set; weaken or remove unsupported claims instead of opening new general research loops.
+**Mitigation:** scope new architecture against measured blockers, preserve provenance, and treat existing proposal output as a historical checkpoint.
 
 ### RISK-002 — Model-generated false certainty
 
@@ -535,42 +536,20 @@ These unknowns do not all need to be eliminated before the Project Proposal.
 
 ## Next Actions
 
-1. Review the completed dataset-primary retry artifact.
-2. Preserve the five verified legal results already present in the primary evidence artifact.
-3. Do not rerun broad scholarly discovery or the full scholarly verification lane before synthesis.
-4. Combine final primary evidence with `proposal_scholarly_evidence_v2.json`.
-5. Run proposal research synthesis using only the approved topic, verification requirements, and verified evidence.
-6. Deterministically validate every evidence-backed finding.
-7. Run one adversarial proposal critic pass.
-8. Resolve critic issues by weakening, qualifying, or removing unsupported claims; use at most one bounded correction pass.
-9. Do not open a new broad research loop unless an unresolved blocker makes the proposal invalid.
-10. Run the writer only after critic approval.
-11. Validate that evidence-backed prose points only to supported or partially supported findings.
-12. Produce the final DOCX.
-13. Render and visually inspect the DOCX.
-14. Human-review title, research questions, dataset strategy, methodology, evaluation, contribution, limitations, and references.
-15. Submit the Project Proposal.
+1. Review [PR #16](https://github.com/Kreeby/Thesis-Factory/pull/16) at head `e2b277528dbeeb671f6e8f82797333c47376c808` and verify full `./scripts/uv run pytest` result locally (**FREE / LOCAL**). Earlier checkpoint test counts are not a current-head test result.
+2. Inspect the complete diff for correctness, provenance, unsafe secret handling and unintended checked-in research artifacts. The only GitHub Actions run observed for the PR is the passing `Current State Gate`; it does **not** run pytest.
+3. Update `CURRENT_STATE.md` in the same feature branch; do not make fictional audit results or claim an integrated Critic-bypass implementation.
+4. Keep canonical run artifacts (`proposal_discovery.json`, `proposal_verification_plan.json`, `proposal_scholarly_evidence_v2.json`, `proposal_primary_evidence_v3.json`, `proposal_research_draft.json`, `proposal_document_draft.json`) and the DOCX under controlled provenance if storage/versioning is explicitly chosen; they are not currently part of PR #16.
+5. Preserve the existing held-out retrieval benchmark and `voyage-4` decision from PR #14 without retrospective tuning.
+6. After human review and approval, merge the PR. Then consider a durable proposal workflow and careful dataset landscape comparison as **future** work, not accomplished PR functionality.
 
 ---
 
 ## Current Milestone Exit Criteria
 
-The Project Proposal milestone is complete when:
+**For this PR**, acceptance requires accurate documentation, a current full local test report, reviewed code and bounded provider calls, no accidental credentials/runtime outputs committed, known gaps clearly recorded, and explicit human review. A passing documentation gate alone is not sufficient.
 
-* the approved topic is explicit;
-* proposal research findings are derived from verified evidence;
-* legal framing is grounded in official primary sources;
-* dataset strategy is evidence-backed or explicitly qualified as provisional;
-* baselines, methods, and metrics are justified from verified scholarly evidence or clearly labelled as proposed;
-* unsupported novelty claims are absent;
-* unsupported legal-compliance claims are absent;
-* unresolved evidence gaps appear as limitations;
-* the critic returns `PASS`;
-* the writer performs no new research;
-* final proposal prose passes deterministic validation;
-* the DOCX renders correctly;
-* a human has reviewed the final proposal;
-* the proposal is submitted.
+The Project Proposal draft and DOCX were generated under an explicit deadline-specific decision to skip Critic. The integrated Critic→Writer PASS-gated path remains unverified, and formal submission has not been established.
 
 ---
 
