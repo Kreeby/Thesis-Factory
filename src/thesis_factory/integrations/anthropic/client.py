@@ -1,6 +1,6 @@
 from typing import TypeVar
 
-from anthropic import Anthropic
+from anthropic import Anthropic, transform_schema
 from pydantic import BaseModel
 
 from thesis_factory.integrations.anthropic.client_factory import (
@@ -33,7 +33,9 @@ class AnthropicStructuredReasoner:
             prompt: str,
             output_model: type[T],
     ) -> T:
-        response = self._client.messages.parse(
+        # create() instead of parse(): parse() validates before stop_reason
+        # can be inspected, hiding truncation behind a generic EOF error.
+        response = self._client.messages.create(
             model=self._model,
             max_tokens=self._max_tokens,
             system=system,
@@ -43,14 +45,31 @@ class AnthropicStructuredReasoner:
                     "content": prompt,
                 }
             ],
-            output_format=output_model,
+            output_config={
+                "format": {
+                    "type": "json_schema",
+                    "schema": transform_schema(
+                        output_model.model_json_schema()
+                    ),
+                },
+            },
         )
 
-        result = response.parsed_output
+        if response.stop_reason == "max_tokens":
+            raise RuntimeError(
+                "Claude output was truncated at max_tokens="
+                f"{self._max_tokens}"
+            )
 
-        if result is None:
+        text = "".join(
+            block.text
+            for block in response.content
+            if block.type == "text"
+        )
+
+        if not text.strip():
             raise RuntimeError(
                 "Claude returned no structured output"
             )
 
-        return result
+        return output_model.model_validate_json(text)
