@@ -1,6 +1,7 @@
 import argparse
 import json
 import sys
+import time
 from collections import Counter
 from pathlib import Path
 
@@ -19,6 +20,7 @@ def main() -> int:
     parser.add_argument("--queries", type=Path, required=True)
     parser.add_argument("--model", default="qwen3:8b")
     parser.add_argument("--limit", type=int, required=True, help="max papers this run")
+    parser.add_argument("--pause", type=float, default=0.0, help="seconds idle between papers (cooler, quieter)")
     args = parser.parse_args()
 
     config = json.loads(args.queries.read_text(encoding="utf-8"))
@@ -63,6 +65,7 @@ def main() -> int:
                 rationale=result.rationale,
             )
             statuses[result.status] += 1
+            time.sleep(args.pause)
 
             if done % 50 == 0:
                 print(f"{done}/{len(pending)} {dict(statuses)}", flush=True)
