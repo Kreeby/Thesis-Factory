@@ -1,7 +1,9 @@
 """Print corpus pipeline progress as JSON (read-only; used by the progress pane)."""
 
 import json
+import os
 import sqlite3
+import time
 import sys
 from pathlib import Path
 
@@ -9,11 +11,33 @@ from thesis_factory.corpus.screening import needs_screening
 
 DB = Path(".thesis-corpus/corpus.sqlite")
 CONFIG = Path("config/corpus/credit_xai.json")
+TASKS = Path(".thesis-runs/tasks")
+
+
+def _alive(pid: int) -> bool:
+    try:
+        os.kill(pid, 0)
+    except OSError:
+        return False
+    return True
+
+
+def tracked_tasks() -> list[dict]:
+    """Tasks started via scripts/track.py; a dead 'running' task reads as stopped."""
+
+    tasks = []
+    for path in sorted(TASKS.glob("*.json")) if TASKS.exists() else []:
+        task = json.loads(path.read_text(encoding="utf-8"))
+        if task["status"] == "running" and not _alive(task["pid"]):
+            task["status"] = "stopped"
+        end = task.get("ended") or time.time()
+        tasks.append({"name": task["name"], "status": task["status"], "elapsed_s": int(end - task["started"])})
+    return tasks
 
 
 def main() -> int:
     if not DB.exists():
-        print(json.dumps({"stages": []}))
+        print(json.dumps({"stages": [], "tasks": tracked_tasks()}))
         return 0
 
     config = json.loads(CONFIG.read_text(encoding="utf-8"))
@@ -40,6 +64,7 @@ def main() -> int:
             {"name": "Citation graph", "done": count("SELECT COUNT(*) FROM references_fetched"), "total": papers},
             {"name": "Screening (qwen3, broad-only)", "done": len(broad_only & screened), "total": len(broad_only)},
         ],
+        "tasks": tracked_tasks(),
         "facts": {
             "papers": papers,
             "citation_edges": count("SELECT COUNT(*) FROM citations"),
