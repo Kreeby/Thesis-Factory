@@ -1,5 +1,39 @@
 # Current Project State
 
+Last updated: 2026-11-16
+
+## Current state (2026-11-16) — authoritative summary
+
+**VERIFIED (repository, local run):** PR #16 and PR #17 are merged into `main` (head `1065fd8` before this branch). On this branch `./scripts/uv run pytest` reports **225 passed** (219 before this change). Everything below the line "Historical checkpoint" is a historical record; where it says PR #16 is "under review / unmerged", that is superseded.
+
+**Direction decided by the project owner (2026-11-16):**
+
+* One thesis first (approved topic unchanged), with layers reusable for future theses (corpus, embeddings, per-paper appraisal cache).
+* Target reading scale: thousands to hundreds of thousands of papers via a reading pyramid (metadata/graph → local screening → deep reading of hundreds → synthesis), not tens.
+* Repository code should not call remote LLMs by default; bulk tasks move to local models (Ollama). Heavy reasoning is done by the orchestrating agent session. See **ADR-0003 (PROPOSED)**.
+* Owner wants minimal involvement by the end of the project; decisions are made by agent panels with recorded rationale and an owner veto window. A defense-preparation role is required because the owner must defend the thesis.
+* Deadline: end of May 2027. Thesis language: English. Institution profile: `config/requirements/elte_ik_msc.json`.
+
+**This branch (`phase2/local-llm-runtime`):**
+
+* `OllamaStructuredReasoner` (`integrations/ollama/client.py`): schema-constrained, temperature 0, truncation is an explicit error. VERIFIED BY TEST (mock transport) and by live local eval.
+* `AnthropicStructuredReasoner` now uses `messages.create` and raises on `stop_reason == "max_tokens"`. Root cause of the earlier Critic EOF: SDK `parse()` validated JSON before the stop reason could be inspected. VERIFIED BY TEST (fake client); NOT EXECUTED against the live API.
+* `scripts/eval_relevance.py --ollama-model <name>`. Relevance eval, 7 cases: `qwen3:8b` 6/7, `llama3.1:8b` 5/7. Sample too small for adoption decisions.
+* CI workflow `tests.yml` runs pytest on PRs (previously only the Current State Gate ran). NOT EXECUTED on GitHub yet.
+
+**Known gaps:**
+
+* Live research JSON artifacts from the proposal run (`proposal_*.json`) are not present in the repository or the documented sibling directory; location UNKNOWN.
+* No study design, experiments, analysis, thesis chapters, Claim Ledger, orchestrator or demo exist yet.
+* Relevance eval set (7 cases) is too small; needs expansion before screening is delegated to a local model.
+* Subscription limits for headless `claude -p` / `codex exec` are UNKNOWN until measured.
+
+**Next actions:** expand evals; Semantic Scholar + OpenAlex corpus builder (L0/L1); local quote-candidate extraction evaluated against the exact-span verifier; file-based resumable run loop; owner decision on ADR-0002 and ADR-0003.
+
+---
+
+# Historical checkpoint
+
 ## Post-merge continuation (2026-10-09)
 
 PR #16 has been merged into `main`. The user reported **207 passing local

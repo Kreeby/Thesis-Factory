@@ -1,3 +1,4 @@
+import argparse
 import json
 import os
 import sys
@@ -8,6 +9,9 @@ from pydantic import BaseModel, ConfigDict
 from thesis_factory.domain.source import SourceRecord
 from thesis_factory.integrations.anthropic.client import (
     AnthropicStructuredReasoner,
+)
+from thesis_factory.integrations.ollama.client import (
+    OllamaStructuredReasoner,
 )
 from thesis_factory.research.relevance import (
     RelevanceAgent,
@@ -42,8 +46,19 @@ def load_cases() -> tuple[RelevanceEvalCase, ...]:
 
 
 def main() -> int:
-    reasoner = AnthropicStructuredReasoner(
-        model=os.environ["THESIS_FACTORY_CLAUDE_MODEL"],
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--ollama-model",
+        help="evaluate a local Ollama model instead of Claude",
+    )
+    args = parser.parse_args()
+
+    reasoner = (
+        OllamaStructuredReasoner(model=args.ollama_model)
+        if args.ollama_model
+        else AnthropicStructuredReasoner(
+            model=os.environ["THESIS_FACTORY_CLAUDE_MODEL"],
+        )
     )
 
     agent = RelevanceAgent(reasoner)
