@@ -1,0 +1,20 @@
+{
+  "topic": "A Legally Grounded Empirical Evaluation of Explainable AI for Consumer Credit Scoring",
+  "note": "Semantic Scholar bulk-search syntax: \"phrase\", + (AND), | (OR), * (prefix). Discovery only, not evidence.",
+  "max_papers_per_query": 20000,
+  "queries": [
+    "\"credit scoring\"",
+    "\"credit risk\" + (\"machine learning\" | \"deep learning\" | \"gradient boosting\")",
+    "\"loan default\" + (prediction | model*)",
+    "(\"credit scoring\" | \"credit risk\" | lending | loan*) + (explainab* | interpretab* | XAI)",
+    "(SHAP | \"Shapley additive\" | \"Shapley value*\") + explanation*",
+    "(LIME | \"local interpretable model-agnostic\") + explanation*",
+    "\"counterfactual explanation*\" | \"algorithmic recourse\"",
+    "(\"explanation quality\" | \"evaluating explanations\" | \"XAI evaluation\" | faithfulness | \"explanation stability\") + (explainab* | XAI | attribution*)",
+    "(fairness | discriminat* | bias) + (lending | \"credit scoring\" | \"credit decision*\")",
+    "(\"right to explanation\" | GDPR | \"Article 22\") + (\"automated decision*\" | profiling)",
+    "(\"AI Act\" | \"Artificial Intelligence Act\") + (\"high-risk\" | explanation* | transparency)",
+    "\"consumer credit\" + (algorithm* | \"artificial intelligence\" | regulation)",
+    "(\"feature attribution\" | \"post-hoc explanation*\") + (tabular | benchmark*)"
+  ]
+}
