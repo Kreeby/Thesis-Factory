@@ -10,7 +10,7 @@ Last updated: 2026-11-16
 
 * One thesis first (approved topic unchanged), with layers reusable for future theses (corpus, embeddings, per-paper appraisal cache).
 * Target reading scale: thousands to hundreds of thousands of papers via a reading pyramid (metadata/graph → local screening → deep reading of hundreds → synthesis), not tens.
-* Repository code should not call remote LLMs by default; bulk tasks move to local models (Ollama). Heavy reasoning is done by the orchestrating agent session. See **ADR-0003 (PROPOSED)**.
+* Repository code should not call remote LLMs by default; bulk tasks move to local models (Ollama). Heavy reasoning is done by the orchestrating agent session. See **ADR-0003 (ACCEPTED)**.
 * Owner wants minimal involvement by the end of the project; decisions are made by agent panels with recorded rationale and an owner veto window. A defense-preparation role is required because the owner must defend the thesis.
 * Deadline: end of May 2027. Thesis language: English. Institution profile: `config/requirements/elte_ik_msc.json`.
 
@@ -21,14 +21,22 @@ Last updated: 2026-11-16
 * `scripts/eval_relevance.py --ollama-model <name>`. Relevance eval, 7 cases: `qwen3:8b` 6/7, `llama3.1:8b` 5/7. Sample too small for adoption decisions.
 * CI workflow `tests.yml` runs pytest on PRs (previously only the Current State Gate ran). NOT EXECUTED on GitHub yet.
 
+**Corpus and screening (branch `phase2/corpus-and-screening`, 2026-11-16):**
+
+* Local reusable corpus (`.thesis-corpus/corpus.sqlite`, gitignored, rebuildable with `scripts/build_corpus.py --queries config/corpus/credit_xai.json`): **50,641 Semantic Scholar papers** from 13 queries, SPECTER2 embeddings for 49,030, citation graph collection in progress (320k+ edges at time of writing). Built without an S2 key on the shared pool, zero LLM tokens. VERIFIED by local run.
+* Deterministic field map (`scripts/map_corpus.py`): KMeans on SPECTER2, TF-IDF labels, PageRank. Discovery artifact only.
+* Screening eval `evals/relevance/corpus_silver_v1.json`: 180 papers in two strata, labelled independently by Claude and Codex (κ = 0.81 core stratum, κ = 0.60 broad stratum), disagreements → UNCERTAIN. **SILVER**, no human expert labels; texts not stored (publisher copyright).
+* Measured local screening (`qwen3:8b`): naive topic prompt kept only 27/59 RELEVANT (unusable); "any one facet" prompt 51/59. Adopted recall-first policy: papers from core queries kept without LLM; only broad-method-query papers (26.5k) are screened. On the eval the policy keeps 59/59 RELEVANT and 87/88 RELEVANT|UNCERTAIN in the core stratum; in the broad stratum it keeps 1/1 RELEVANT, drops 5/9 UNCERTAIN (generic non-tabular XAI methods) and removes 50/50 NOT_RELEVANT. **Limitation:** the broad stratum contains only one RELEVANT case, so recall for explanation-quality literature is not yet estimated.
+* Throughput: ~5 s per abstract on M4 (qwen3:8b) → screening all broad-only papers ≈ 1.5 days of local compute.
+
 **Known gaps:**
 
 * Live research JSON artifacts from the proposal run (`proposal_*.json`) are not present in the repository or the documented sibling directory; location UNKNOWN.
 * No study design, experiments, analysis, thesis chapters, Claim Ledger, orchestrator or demo exist yet.
-* Relevance eval set (7 cases) is too small; needs expansion before screening is delegated to a local model.
+* Recall on explanation-quality (broad-query) literature is not yet estimated; needs a targeted eval stratum.
 * Subscription limits for headless `claude -p` / `codex exec` are UNKNOWN until measured.
 
-**Next actions:** expand evals; Semantic Scholar + OpenAlex corpus builder (L0/L1); local quote-candidate extraction evaluated against the exact-span verifier; file-based resumable run loop; owner decision on ADR-0002 and ADR-0003.
+**Next actions:** finish citation graph and broad screening; field map on full corpus; citation snowballing; local quote-candidate extraction evaluated against the exact-span verifier; file-based resumable run loop. ADR-0002 and ADR-0003 ACCEPTED (owner approved PR #18).
 
 ---
 

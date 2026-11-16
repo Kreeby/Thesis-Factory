@@ -94,3 +94,18 @@ def test_references_build_citation_edges_once(tmp_path) -> None:
 
     assert store.citations() == [("a", "b")]
     assert len(client.batch_calls) == 1
+
+
+def test_only_broad_only_papers_are_screened_and_unscreened_are_reported(tmp_path) -> None:
+    from thesis_factory.corpus.screening import included_papers
+
+    store = _store(tmp_path)
+    store.upsert_papers([_paper("core")], query="credit")
+    store.upsert_papers([_paper("core"), _paper("noise"), _paper("xai"), _paper("todo")], query="shap")
+    for paper_id, status in [("noise", "NOT_RELEVANT"), ("xai", "UNCERTAIN")]:
+        store.put_screening(paper_id, topic="t", model="m", status=status, rationale="r")
+
+    included, unscreened = included_papers(store, broad_queries={"shap"}, topic="t", model="m")
+
+    assert included == {"core", "xai"}
+    assert unscreened == {"todo"}

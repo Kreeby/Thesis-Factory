@@ -249,6 +249,16 @@ class CorpusStore:
         )
         return [dict(zip(keys, row)) for row in rows]
 
+    def paper_queries(self) -> dict[str, set[str]]:
+        hits: dict[str, set[str]] = {}
+
+        for query, paper_id in self._db.execute(
+                "SELECT query, paper_id FROM query_hits"
+        ):
+            hits.setdefault(paper_id, set()).add(query)
+
+        return hits
+
     def unscreened_papers(
             self,
             topic: str,
