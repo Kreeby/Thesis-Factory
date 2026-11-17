@@ -12,6 +12,7 @@ from thesis_factory.corpus.screening import needs_screening
 DB = Path(".thesis-corpus/corpus.sqlite")
 CONFIG = Path("config/corpus/credit_xai.json")
 TASKS = Path(".thesis-runs/tasks")
+PLAN = Path(".thesis-corpus/screening_priority_plan.json")
 
 
 def _alive(pid: int) -> bool:
@@ -51,23 +52,41 @@ def main() -> int:
     for query, paper_id in db.execute("SELECT query, paper_id FROM query_hits"):
         hits.setdefault(paper_id, set()).add(query)
     broad_only = {p for p, qs in hits.items() if needs_screening(qs, broad)}
-    screened = {
-        p for (p,) in db.execute(
-            "SELECT paper_id FROM screenings WHERE topic = ?",
-            (config["screening_topic"],),
-        )
-    }
+    verdicts = dict(db.execute(
+        "SELECT paper_id, status FROM screenings WHERE topic = ?",
+        (config["screening_topic"],),
+    ).fetchall())
+    screened = set(verdicts)
+    broad_verdicts = [verdicts[p] for p in broad_only & screened]
+    screening = [{"name": "Screening (qwen3, broad-only)", "done": len(broad_only & screened), "total": len(broad_only)}]
+    tail_left = None
+
+    if PLAN.exists():
+        groups = json.loads(PLAN.read_text(encoding="utf-8"))["groups"]
+        top = set(groups["no_abstract"]) | set(groups["no_embedding"]) | set(groups["top"])
+        audit = set(groups["audit"])
+        planned = top | audit
+        screening = [
+            {"name": "Screening: top-ranked", "done": len(top & screened), "total": len(top)},
+            {"name": "Screening: tail audit", "done": len(audit & screened), "total": len(audit)},
+        ]
+        tail_left = len(broad_only - screened - planned)
 
     print(json.dumps({
         "stages": [
             {"name": "Embeddings (SPECTER2)", "done": count("SELECT COUNT(*) FROM embeddings"), "total": papers},
             {"name": "Citation graph", "done": count("SELECT COUNT(*) FROM references_fetched"), "total": papers},
-            {"name": "Screening (qwen3, broad-only)", "done": len(broad_only & screened), "total": len(broad_only)},
+            *screening,
         ],
         "tasks": tracked_tasks(),
         "facts": {
             "papers": papers,
             "citation_edges": count("SELECT COUNT(*) FROM citations"),
+            "core_kept": len(hits) - len(broad_only),
+            "broad_relevant": broad_verdicts.count("RELEVANT"),
+            "broad_kept": sum(v != "NOT_RELEVANT" for v in broad_verdicts),
+            "broad_dropped": broad_verdicts.count("NOT_RELEVANT"),
+            **({"tail_unscreened": tail_left} if tail_left is not None else {}),
         },
     }))
     return 0
