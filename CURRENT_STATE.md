@@ -28,6 +28,8 @@ Last updated: 2026-11-16
 * Screening eval `evals/relevance/corpus_silver_v1.json`: 180 papers in two strata, labelled independently by Claude and Codex (κ = 0.81 core stratum, κ = 0.60 broad stratum), disagreements → UNCERTAIN. **SILVER**, no human expert labels; texts not stored (publisher copyright).
 * Measured local screening (`qwen3:8b`): naive topic prompt kept only 27/59 RELEVANT (unusable); "any one facet" prompt 51/59. Adopted recall-first policy: papers from core queries kept without LLM; only broad-method-query papers (26.5k) are screened. On the eval the policy keeps 59/59 RELEVANT and 87/88 RELEVANT|UNCERTAIN in the core stratum; in the broad stratum it keeps 1/1 RELEVANT, drops 5/9 UNCERTAIN (generic non-tabular XAI methods) and removes 50/50 NOT_RELEVANT. **Limitation:** the broad stratum contains only one RELEVANT case, so recall for explanation-quality literature is not yet estimated.
 * Throughput: ~5 s per abstract on M4 (qwen3:8b) → screening all broad-only papers ≈ 1.5 days of local compute.
+* Priority screening (owner-approved 2026-11-17): after 14,570 papers screened in citation order, the remaining 11,951 broad-only papers are screened in predicted-relevance order. A logistic regression on SPECTER2 vectors is trained on qwen's own verdicts: 12,722 labels, 5-fold CV AUC 0.948, CV recall 0.971 at the top 40%. Plan in `.thesis-corpus/screening_priority_plan.json`. Papers without an abstract (1,442) are decided by rule with no LLM call. The top 40% (4,201) are screened. A random audit of 300 tail papers measures what the cut leaves. The other 6,002 tail papers stay **unscreened and reported**, not dropped silently. Caveats: CV was measured on the higher-cited half, the tail is lower-cited, so the audit is the real recall estimate. The classifier inherits qwen's narrow view of general XAI.
+* Known screening gap: qwen marks foundational general-XAI work NOT_RELEVANT (e.g. DARPA XAI program, XAI surveys, human-subject studies of explanations), because facet (c) is restricted to SHAP/LIME/counterfactual evaluation. Planned fix: a citation-graph rescue that re-screens rejected papers cited by several included papers, using a widened facet, and adds silver-eval cases for this stratum.
 
 **Known gaps:**
 
@@ -36,7 +38,7 @@ Last updated: 2026-11-16
 * Recall on explanation-quality (broad-query) literature is not yet estimated; needs a targeted eval stratum.
 * Subscription limits for headless `claude -p` / `codex exec` are UNKNOWN until measured.
 
-**Next actions:** finish citation graph and broad screening; field map on full corpus; citation snowballing; local quote-candidate extraction evaluated against the exact-span verifier; file-based resumable run loop. ADR-0002 and ADR-0003 ACCEPTED (owner approved PR #18).
+**Next actions:** finish priority screening and evaluate the tail audit; citation-graph rescue of foundational XAI papers; rebuild field map on included papers (full-corpus map done: 49,030 papers, 31 clusters); citation snowballing; local quote-candidate extraction evaluated against the exact-span verifier; file-based resumable run loop. ADR-0002 and ADR-0003 ACCEPTED (owner approved PR #18).
 
 ---
 

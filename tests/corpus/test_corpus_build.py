@@ -109,3 +109,29 @@ def test_only_broad_only_papers_are_screened_and_unscreened_are_reported(tmp_pat
 
     assert included == {"core", "xai"}
     assert unscreened == {"todo"}
+
+
+def test_priority_plan_ranks_by_learned_relevance_and_audits_the_tail(tmp_path) -> None:
+    from thesis_factory.corpus.screening import priority_plan
+
+    store = _store(tmp_path)
+    papers = []
+    for i in range(40):
+        relevant = i % 4 == 0
+        paper_id = f"p{i:02d}"
+        store.put_embedding(paper_id, "e", [1.0, 0.1 * (i % 3)] if relevant else [0.1 * (i % 3), 1.0])
+        if i < 20:
+            store.put_screening(paper_id, topic="t", model="m",
+                                status="RELEVANT" if relevant else "NOT_RELEVANT", rationale="r")
+        else:
+            papers.append({"paper_id": paper_id, "abstract": "a"})
+    papers.append({"paper_id": "bare", "abstract": None})
+
+    plan = priority_plan(store, papers, topic="t", model="m", embedding_model="e",
+                         top_fraction=0.25, audit_size=3)
+
+    groups = plan["groups"]
+    assert groups["no_abstract"] == ["bare"]
+    assert set(groups["top"]) == {"p20", "p24", "p28", "p32", "p36"}
+    assert len(groups["audit"]) == 3 and not set(groups["audit"]) & set(groups["top"])
+    assert plan["tail_unscreened"] == 12

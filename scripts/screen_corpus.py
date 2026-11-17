@@ -5,7 +5,8 @@ import time
 from collections import Counter
 from pathlib import Path
 
-from thesis_factory.corpus.screening import included_papers, needs_screening
+from thesis_factory.corpus.build import SPECTER_V2
+from thesis_factory.corpus.screening import included_papers, needs_screening, priority_plan
 from thesis_factory.corpus.store import CorpusStore
 from thesis_factory.domain.source import SourceRecord
 from thesis_factory.integrations.ollama.client import OllamaStructuredReasoner
@@ -21,6 +22,9 @@ def main() -> int:
     parser.add_argument("--model", default="qwen3:8b")
     parser.add_argument("--limit", type=int, required=True, help="max papers this run")
     parser.add_argument("--pause", type=float, default=0.0, help="seconds idle between papers (cooler, quieter)")
+    parser.add_argument("--priority-plan", type=Path, help="screen in predicted-relevance order; write/reuse the plan here")
+    parser.add_argument("--top-fraction", type=float, default=0.4)
+    parser.add_argument("--audit", type=int, default=300, help="random tail papers screened to measure the cut")
     args = parser.parse_args()
 
     config = json.loads(args.queries.read_text(encoding="utf-8"))
@@ -40,7 +44,30 @@ def main() -> int:
                 if needs_screening(hits.get(paper["paper_id"], set()), broad)
             ),
             key=lambda p: (-(p["citation_count"] or 0), p["paper_id"]),
-        )[:args.limit]
+        )
+
+        if args.priority_plan:
+            # Reuse a saved plan on restart so the order and audit sample stay fixed.
+            if args.priority_plan.exists():
+                plan = json.loads(args.priority_plan.read_text(encoding="utf-8"))
+            else:
+                plan = priority_plan(
+                    store, pending, topic=topic, model=model_id,
+                    embedding_model=SPECTER_V2,
+                    top_fraction=args.top_fraction, audit_size=args.audit,
+                )
+                args.priority_plan.write_text(json.dumps(plan, indent=1), encoding="utf-8")
+            by_id = {paper["paper_id"]: paper for paper in pending}
+            pending = [
+                by_id[paper_id]
+                for group in ("no_abstract", "no_embedding", "top", "audit")
+                for paper_id in plan["groups"][group]
+                if paper_id in by_id
+            ]
+            print(f"priority plan: cv AUC {plan['cv_auc']}, cv recall {plan['cv_recall_at_top_fraction']}, "
+                  f"{len(pending)} to screen, {plan['tail_unscreened']} tail left unscreened", flush=True)
+
+        pending = pending[:args.limit]
         statuses = Counter()
 
         for done, paper in enumerate(pending, start=1):
@@ -65,7 +92,10 @@ def main() -> int:
                 rationale=result.rationale,
             )
             statuses[result.status] += 1
-            time.sleep(args.pause)
+
+            # Papers without an abstract are decided without an LLM call; no need to cool down.
+            if (paper["abstract"] or "").strip():
+                time.sleep(args.pause)
 
             if done % 50 == 0:
                 print(f"{done}/{len(pending)} {dict(statuses)}", flush=True)
