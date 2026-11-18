@@ -154,3 +154,18 @@ def test_rejects_cited_by_included_papers_are_rescued(tmp_path) -> None:
     assert rescued == {"classic"}
     assert included == {"a", "b", "classic"}
     assert unscreened == set()
+
+
+def test_no_abstract_paper_dropped_only_by_title_only_not_relevant(tmp_path) -> None:
+    from thesis_factory.corpus.screening import included_papers
+
+    store = _store(tmp_path)
+    store.upsert_papers([_paper("bare_noise"), _paper("bare_maybe"), _paper("bare_todo")], query="shap")
+    for paper_id in ("bare_noise", "bare_maybe", "bare_todo"):
+        store.put_screening(paper_id, topic="t", model="m", status="INSUFFICIENT_EVIDENCE", rationale="r")
+    store.put_screening("bare_noise", topic="t", model="m:title-only", status="NOT_RELEVANT", rationale="r")
+    store.put_screening("bare_maybe", topic="t", model="m:title-only", status="UNCERTAIN", rationale="r")
+
+    included, _ = included_papers(store, broad_queries={"shap"}, topic="t", model="m")
+
+    assert included == {"bare_maybe", "bare_todo"}

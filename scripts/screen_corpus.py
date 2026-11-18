@@ -25,6 +25,7 @@ def main() -> int:
     parser.add_argument("--priority-plan", type=Path, help="screen in predicted-relevance order; write/reuse the plan here")
     parser.add_argument("--top-fraction", type=float, default=0.4)
     parser.add_argument("--audit", type=int, default=300, help="random tail papers screened to measure the cut")
+    parser.add_argument("--title-only", action="store_true", help="screen no-abstract papers by title (recall-first)")
     args = parser.parse_args()
 
     config = json.loads(args.queries.read_text(encoding="utf-8"))
@@ -46,7 +47,18 @@ def main() -> int:
             key=lambda p: (-(p["citation_count"] or 0), p["paper_id"]),
         )
 
-        if args.priority_plan:
+        if args.title_only:
+            # Papers the abstract screen could not judge; verdicts kept under a separate model key.
+            screened = store.screenings(topic, model_id)
+            done_ids = set(store.screenings(topic, f"{model_id}:title-only"))
+            pending = [
+                paper
+                for paper in store.papers()
+                if screened.get(paper["paper_id"]) == "INSUFFICIENT_EVIDENCE"
+                and paper["paper_id"] not in done_ids
+            ]
+
+        if args.priority_plan and not args.title_only:
             # Reuse a saved plan on restart so the order and audit sample stay fixed.
             if args.priority_plan.exists():
                 plan = json.loads(args.priority_plan.read_text(encoding="utf-8"))
@@ -79,7 +91,11 @@ def main() -> int:
             )
 
             try:
-                result = agent.assess(topic=topic, source=source)
+                result = (
+                    agent.assess_title_only(topic=topic, title=paper["title"])
+                    if args.title_only
+                    else agent.assess(topic=topic, source=source)
+                )
             except Exception as error:  # one bad response must not stop a long run
                 print(f"error {paper['paper_id']}: {error}", file=sys.stderr)
                 continue
@@ -87,14 +103,14 @@ def main() -> int:
             store.put_screening(
                 paper["paper_id"],
                 topic=topic,
-                model=model_id,
+                model=f"{model_id}:title-only" if args.title_only else model_id,
                 status=result.status,
                 rationale=result.rationale,
             )
             statuses[result.status] += 1
 
             # Papers without an abstract are decided without an LLM call; no need to cool down.
-            if (paper["abstract"] or "").strip():
+            if args.title_only or (paper["abstract"] or "").strip():
                 time.sleep(args.pause)
 
             if done % 50 == 0:

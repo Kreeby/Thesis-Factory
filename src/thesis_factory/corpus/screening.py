@@ -27,10 +27,13 @@ def included_papers(
     """Return (included, unscreened) paper ids.
 
     Unscreened broad-only papers are reported, never silently dropped or kept.
+    A paper without abstract (INSUFFICIENT_EVIDENCE) is dropped only when its
+    title-only screen (model key ``<model>:title-only``) says NOT_RELEVANT.
     ``rescued`` papers (see rescue_candidates) are included whatever the screen said.
     """
 
     screenings = store.screenings(topic, model)
+    title_only = store.screenings(topic, f"{model}:title-only")
     rescued = rescued or set()
     included: set[str] = set()
     unscreened: set[str] = set()
@@ -40,6 +43,9 @@ def included_papers(
             included.add(paper_id)
         elif paper_id not in screenings:
             unscreened.add(paper_id)
+        elif screenings[paper_id] == "INSUFFICIENT_EVIDENCE":
+            if title_only.get(paper_id) != "NOT_RELEVANT":
+                included.add(paper_id)
         elif screenings[paper_id] != "NOT_RELEVANT":
             included.add(paper_id)
 
