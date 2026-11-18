@@ -135,3 +135,22 @@ def test_priority_plan_ranks_by_learned_relevance_and_audits_the_tail(tmp_path) 
     assert set(groups["top"]) == {"p20", "p24", "p28", "p32", "p36"}
     assert len(groups["audit"]) == 3 and not set(groups["audit"]) & set(groups["top"])
     assert plan["tail_unscreened"] == 12
+
+
+def test_rejects_cited_by_included_papers_are_rescued(tmp_path) -> None:
+    from thesis_factory.corpus.screening import policy_included
+
+    store = _store(tmp_path)
+    store.upsert_papers([_paper("a"), _paper("b")], query="credit")
+    store.upsert_papers([_paper("classic"), _paper("noise")], query="shap")
+    for paper_id in ("classic", "noise"):
+        store.put_screening(paper_id, topic="t", model="m", status="NOT_RELEVANT", rationale="r")
+    store.put_references("a", ["classic", "noise"])
+    store.put_references("b", ["classic"])
+    config = {"broad_queries": ["shap"], "screening_topic": "t", "rescue_min_citations": 2}
+
+    included, unscreened, rescued = policy_included(store, config, model="m")
+
+    assert rescued == {"classic"}
+    assert included == {"a", "b", "classic"}
+    assert unscreened == set()

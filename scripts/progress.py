@@ -13,6 +13,7 @@ DB = Path(".thesis-corpus/corpus.sqlite")
 CONFIG = Path("config/corpus/credit_xai.json")
 TASKS = Path(".thesis-runs/tasks")
 PLAN = Path(".thesis-corpus/screening_priority_plan.json")
+RESCUED = Path(".thesis-corpus/rescued.json")  # written by map_corpus.py --included
 
 
 def _alive(pid: int) -> bool:
@@ -87,6 +88,7 @@ def main() -> int:
             "broad_kept": sum(v != "NOT_RELEVANT" for v in broad_verdicts),
             "broad_dropped": broad_verdicts.count("NOT_RELEVANT"),
             **({"tail_unscreened": tail_left} if tail_left is not None else {}),
+            **({"citation_rescued": len(json.loads(RESCUED.read_text(encoding="utf-8")))} if RESCUED.exists() else {}),
         },
     }))
     return 0

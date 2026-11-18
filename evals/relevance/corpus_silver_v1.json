@@ -1,7 +1,7 @@
 {
  "id": "corpus-relevance-silver-v1",
  "created": "2026-11-16",
- "provenance": "Stratified random sample (seed 20261116, first 5 corpus queries) from the local Semantic Scholar corpus. Labelled independently by Claude Opus 5.5 and Codex CLI (ChatGPT Plus) from title+abstract with the rubric below; disagreements resolved to UNCERTAIN. SILVER standard: no human expert labels. Second stratum: 60 papers sampled (seed 20261117) from papers hit only by broad method queries (SHAP/LIME/counterfactual/explanation-quality/feature-attribution).",
+ "provenance": "Stratified random sample (seed 20261116, first 5 corpus queries) from the local Semantic Scholar corpus. Labelled independently by Claude Opus 5.5 and Codex CLI (ChatGPT Plus) from title+abstract with the rubric below; disagreements resolved to UNCERTAIN. SILVER standard: no human expert labels. Second stratum: 60 papers sampled (seed 20261117) from papers hit only by broad method queries (SHAP/LIME/counterfactual/explanation-quality/feature-attribution). Third stratum (2026-11-18): 50 papers sampled (seed 20261118) from the 225 citation-rescue candidates, i.e. broad-only papers rejected by the screen but cited by >=2 included papers.",
  "agreement": {
   "core-queries-sample": {
    "exact": "106/120",
@@ -12,6 +12,11 @@
    "exact": "54/60",
    "cohen_kappa": 0.604,
    "keep_drop": "57/60"
+  },
+  "rescue-candidates-sample": {
+   "exact": "42/50",
+   "cohen_kappa": 0.681,
+   "keep_drop": "44/50"
   }
  },
  "text_source": "Titles/abstracts are not stored here (publisher copyright); resolve paper_id against the local corpus.",
@@ -1276,6 +1281,360 @@
    "codex": "NOT_RELEVANT",
    "label": "NOT_RELEVANT",
    "stratum": "broad-only-sample"
+  },
+  {
+   "paper_id": "0217aa3acc27d07a2ea2aa53618459943a8d97e2",
+   "claude": "NOT_RELEVANT",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "05bfeb2aa3a0eb77e1c318254210a8724b27cbb6",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "06c211d0a0937839d7e0c867a718731a02c179b3",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "106b55f668eb9be1c2558095b22251c1be23618b",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "139a2b13e7336f3fbfe472d302650c51caf5cb7a",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "14b76875dc3d243b9f040db7df0373eb9256a196",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "19eb316064bbebb53d1609d53128f16c0f4461cf",
+   "claude": "UNCERTAIN",
+   "codex": "RELEVANT",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "1a4057f0be03d5036880ae1b547139379073709d",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "22245483dc5a74363fa7984270fc59e3036ae53c",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "262e060ddfa7db0563b083d31552b2855e2daa1e",
+   "claude": "UNCERTAIN",
+   "codex": "RELEVANT",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "29db3697ba36197a10ddad5a0a14dff43a42efce",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "2a3886510316ffd241f328db51b2c87cdced51f9",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "2d7cdde4a09c6685711c365fd85a04a4efa92604",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "376d799b03fbe22c75a2418fa38b484662647f43",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "39be6e8eaf20d17e42ba5ad3bc04127704aad6b3",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "4627d3fd86423fe911ee40b8eb35b1e389ab41fd",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "4922e89201273b4040cfa5c90a5ab2906d725146",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "51cd861e87e1611c44e5d61c283d3b2e1281a7ea",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "56f531eb3a8eaa03a6dbcf74a6c12c80b2e90f45",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "5b60cfa5ada16c22566e1eea48b166a861391afd",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "5e6b2c0a61b008b9b550f4cf388bf118e72c3b7d",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "606daeca44aaf41874b54fcbdc82636d55fef0ac",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "6936f7e97ed4a587fcb347d0636f1e5cbcadf227",
+   "claude": "NOT_RELEVANT",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "71723f07a8e10db8ea72ad38c11c8922026338d9",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "7dd561e01708885d99ce23de9ca492b76a8fd66b",
+   "claude": "NOT_RELEVANT",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "82f700c3eaf9c8e2d187566aedc18027f0b290ef",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "887b8a4be2838eae0880bca36ef93fd415af2c38",
+   "claude": "NOT_RELEVANT",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "8e7a7c0633aa12a4a13568ad3c607d89de76d65c",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "8ed6e33483f302f372199fa037061d835f8ed5b6",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "9084ff8578c445d4add36f141622c1a33b3f0e94",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "9345c40a23b6fe15e2fe9af5c2d029fd28f8c4ef",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "9a05059886aa5d6352b97e9ef301277e9a8e268d",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "9bc9fb325eb6783158065ce3f582e2d69f13f2ca",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "9f27ee1a9b285cdd5f4a8b722a8f99361946bb3d",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "a3cc4dd2ef5b3d1c059ef8e3c20a49c540e81434",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "a4552ac3d7a4510227203b8388c899ff9428a969",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "a74bbe24318dd0970ff2df91285697ef86bc4ba4",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "ac383ecf48d59e6726e8265dd490fc267aae4a5c",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "af5572c027423724f01246a6a98b9f4f9da192ef",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "b6cd406b9676db3861ce233469da2a09c9b14422",
+   "claude": "NOT_RELEVANT",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "be117d812cdac8e9700e89e943a01e96e4f3c3f9",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "c20bddfeda85b286d7729bbf85f250acdd9ce3ee",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "c550c113c7301b5ccc3126bf089d50c435639af3",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "c7f27209cde61f615dc4a4633b91ebe7b432b3d0",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "cb6ddebb4501011a4530eb270976f97cb4ebb01c",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "ccbd2b988ab12549a305f3009da414698a1e4616",
+   "claude": "NOT_RELEVANT",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "cd0cf4b573a461ad70797b703ed04d6eb43e5053",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "ea8fcd754845fbf517a6b7dce6da32a5b48c14d8",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "f4f6bf7c3d708102359e86730df15e514e201854",
+   "claude": "UNCERTAIN",
+   "codex": "UNCERTAIN",
+   "label": "UNCERTAIN",
+   "stratum": "rescue-candidates-sample"
+  },
+  {
+   "paper_id": "f7231aee1e18428d6c0b314b5e1e65d6707e8747",
+   "claude": "NOT_RELEVANT",
+   "codex": "NOT_RELEVANT",
+   "label": "NOT_RELEVANT",
+   "stratum": "rescue-candidates-sample"
   }
- ]
+ ],
+ "rescue_prompt_evaluated": {
+  "prompt": "Literature screening for a thesis on explainable credit scoring. The paper is RELEVANT if it matches ANY ONE of these facets (it does NOT need to match several): (a) machine-learning or statistical models for credit scoring, credit risk or loan default, even without explainability; (b) explainability or interpretability methods applied to credit, lending or financial decisions; (c) evaluating explanation quality (faithfulness, stability, fairness of explanations) of SHAP, LIME or counterfactual explainers; (d) legal or regulatory transparency/explanation requirements for automated credit decisions or profiling; (e) fairness or discrimination in credit or lending. (f) algorithmic recourse or counterfactual explanations for consequential decisions about people, even outside credit; (g) foundational, survey, benchmark, robustness or human-subject work on explainable AI and interpretability methods in general (SHAP, LIME, counterfactuals, feature attribution), even outside credit. Papers that merely USE an explainer to interpret a medical, physical, chemical or engineering prediction model are NOT_RELEVANT. Use UNCERTAIN when a paper is peripheral to these facets, e.g. general finance AI surveys.",
+  "result": "qwen3:8b with this widened prompt kept 8/23 silver keep-worthy (RELEVANT|UNCERTAIN) and 1/27 silver NOT_RELEVANT; rejected (too strict). Adopted rule instead: keep all candidates cited by >=2 included papers (23/23 keep-worthy, 23/50 precision)."
+ }
 }

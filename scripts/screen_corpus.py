@@ -6,7 +6,7 @@ from collections import Counter
 from pathlib import Path
 
 from thesis_factory.corpus.build import SPECTER_V2
-from thesis_factory.corpus.screening import included_papers, needs_screening, priority_plan
+from thesis_factory.corpus.screening import needs_screening, policy_included, priority_plan
 from thesis_factory.corpus.store import CorpusStore
 from thesis_factory.domain.source import SourceRecord
 from thesis_factory.integrations.ollama.client import OllamaStructuredReasoner
@@ -100,11 +100,9 @@ def main() -> int:
             if done % 50 == 0:
                 print(f"{done}/{len(pending)} {dict(statuses)}", flush=True)
 
-        included, unscreened = included_papers(
-            store, broad_queries=broad, topic=topic, model=model_id,
-        )
+        included, unscreened, rescued = policy_included(store, config, model=model_id)
         print(f"screened this run {sum(statuses.values())}: {dict(statuses)}")
-        print(f"included {len(included)}, broad-only still unscreened {len(unscreened)}")
+        print(f"included {len(included)} (citation-rescued {len(rescued)}), broad-only still unscreened {len(unscreened)}")
     finally:
         store.close()
 

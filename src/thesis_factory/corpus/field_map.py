@@ -67,8 +67,13 @@ def build_field_map(
         top_papers: int = 10,
         top_terms: int = 8,
         seed: int = 0,
+        only: set[str] | None = None,
 ) -> dict[str, Any]:
-    embedded = list(store.embeddings(SPECTER_V2))
+    embedded = [
+        (paper_id, vector)
+        for paper_id, vector in store.embeddings(SPECTER_V2)
+        if only is None or paper_id in only
+    ]
 
     if len(embedded) < 2:
         raise ValueError("field map needs at least two embedded papers")

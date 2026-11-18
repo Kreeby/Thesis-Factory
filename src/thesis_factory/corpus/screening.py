@@ -22,18 +22,21 @@ def included_papers(
         broad_queries: set[str],
         topic: str,
         model: str,
+        rescued: set[str] | None = None,
 ) -> tuple[set[str], set[str]]:
     """Return (included, unscreened) paper ids.
 
     Unscreened broad-only papers are reported, never silently dropped or kept.
+    ``rescued`` papers (see rescue_candidates) are included whatever the screen said.
     """
 
     screenings = store.screenings(topic, model)
+    rescued = rescued or set()
     included: set[str] = set()
     unscreened: set[str] = set()
 
     for paper_id, queries in store.paper_queries().items():
-        if not needs_screening(queries, broad_queries):
+        if not needs_screening(queries, broad_queries) or paper_id in rescued:
             included.add(paper_id)
         elif paper_id not in screenings:
             unscreened.add(paper_id)
@@ -42,6 +45,61 @@ def included_papers(
 
     return included, unscreened
 
+
+def rescue_candidates(
+        store: CorpusStore,
+        *,
+        broad_queries: set[str],
+        topic: str,
+        model: str,
+        min_citations: int,
+) -> list[str]:
+    """Rejected or unscreened broad-only papers cited by >= min_citations included papers.
+
+    Being cited inside the included literature signals foundational work the
+    topic prompt missed. They are kept without an LLM verdict: a re-screen with
+    a widened prompt still kept only 8/23 silver keep-worthy candidates, while
+    this rule keeps 23/23 at ~46% precision (evals/relevance, rescue stratum).
+    """
+
+    included, unscreened = included_papers(store, broad_queries=broad_queries, topic=topic, model=model)
+    screenings = store.screenings(topic, model)
+    candidates = unscreened | {p for p, status in screenings.items() if status == "NOT_RELEVANT"}
+    cited: dict[str, int] = {}
+
+    for citing, cited_id in store.citations():
+        if citing in included and cited_id in candidates:
+            cited[cited_id] = cited.get(cited_id, 0) + 1
+
+    return sorted(
+        (p for p, n in cited.items() if n >= min_citations),
+        key=lambda p: (-cited[p], p),
+    )
+
+
+
+def policy_included(
+        store: CorpusStore,
+        config: dict,
+        *,
+        model: str,
+) -> tuple[set[str], set[str], set[str]]:
+    """Apply the corpus config's full inclusion policy: (included, unscreened, rescued)."""
+
+    broad = set(config["broad_queries"])
+    rescued = set()
+
+    if "rescue_min_citations" in config:
+        rescued = set(rescue_candidates(
+            store, broad_queries=broad, topic=config["screening_topic"],
+            model=model, min_citations=config["rescue_min_citations"],
+        ))
+
+    included, unscreened = included_papers(
+        store, broad_queries=broad, topic=config["screening_topic"],
+        model=model, rescued=rescued,
+    )
+    return included, unscreened - rescued, rescued
 
 def priority_plan(
         store: CorpusStore,
