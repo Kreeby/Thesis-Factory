@@ -96,6 +96,10 @@ def main() -> int:
         checked = sum(e.get("status") in {"fetched", "no_doi", "no_grobid", "bad_content"} for e in index.values())
         screening.append({"name": "Full text: reading list checked", "done": checked, "total": total})
         fetched = sum(e.get("status") == "fetched" for e in index.values())
+        cards = Path(".thesis-corpus/cards")
+        carded = len(list(cards.glob("*.json"))) if cards.exists() else 0
+        if carded:
+            screening.append({"name": "Deep reading: verified-claim cards", "done": carded, "total": fetched})
 
     print(json.dumps({
         "stages": [
