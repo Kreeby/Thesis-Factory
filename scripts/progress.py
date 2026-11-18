@@ -13,6 +13,8 @@ DB = Path(".thesis-corpus/corpus.sqlite")
 CONFIG = Path("config/corpus/credit_xai.json")
 TASKS = Path(".thesis-runs/tasks")
 PLAN = Path(".thesis-corpus/screening_priority_plan.json")
+FULLTEXT = Path(".thesis-corpus/fulltext/index.json")
+READING = Path("config/reading/credit_xai_reading_list_v1.json")
 RESCUED = Path(".thesis-corpus/rescued.json")  # written by map_corpus.py --included
 
 
@@ -86,6 +88,15 @@ def main() -> int:
             for p in broad_only & screened
         ]
 
+    fetched = None
+    if READING.exists():
+        reading = json.loads(READING.read_text(encoding="utf-8"))
+        total = sum(len(f["papers"]) for f in reading["facets"].values())
+        index = json.loads(FULLTEXT.read_text(encoding="utf-8")) if FULLTEXT.exists() else {}
+        checked = sum(e.get("status") in {"fetched", "no_doi", "no_grobid", "bad_content"} for e in index.values())
+        screening.append({"name": "Full text: reading list checked", "done": checked, "total": total})
+        fetched = sum(e.get("status") == "fetched" for e in index.values())
+
     print(json.dumps({
         "stages": [
             {"name": "Embeddings (SPECTER2)", "done": count("SELECT COUNT(*) FROM embeddings"), "total": papers},
@@ -101,6 +112,7 @@ def main() -> int:
             "broad_kept": sum(v != "NOT_RELEVANT" for v in broad_verdicts),
             "broad_dropped": broad_verdicts.count("NOT_RELEVANT"),
             **({"tail_unscreened": tail_left} if tail_left is not None else {}),
+            **({"fulltext_fetched": fetched} if fetched is not None else {}),
             **({"citation_rescued": len(json.loads(RESCUED.read_text(encoding="utf-8")))} if RESCUED.exists() else {}),
         },
     }))

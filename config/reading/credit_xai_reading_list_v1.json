@@ -1,0 +1,2714 @@
+{
+ "version": 1,
+ "created": "2026-11-18",
+ "method": "Candidate pool from scripts/reading_pool.py (title-pattern facets ranked by in-library citations); selection by the orchestrator (Claude Opus 5.5) from titles/venues/years/citation counts, not full text. A reading list is a discovery decision, not evidence.",
+ "facets": {
+  "xai_credit": {
+   "rationale": "Core facet (explainability applied to credit decisions). All papers cited by >=1 other included paper, minus fraud/churn/insurance; plus uncited recent papers on explanation evaluation, stability, adverse-action reasons and EU/UK legal fit of credit explanations (the thesis's direct neighbours, too recent to be cited).",
+   "papers": [
+    {
+     "paper_id": "c5506b9cb68922ac262fce2545f110ecafb6f53b",
+     "title": "Explainable Machine Learning in Credit Risk Management",
+     "year": 2020,
+     "doi": "10.1007/s10614-020-10042-0"
+    },
+    {
+     "paper_id": "7fb0bcd1d295fa2c4b84dcf1278ec80467b42d19",
+     "title": "Interpretable Credit Application Predictions With Counterfactual Explanations",
+     "year": 2018,
+     "doi": "10.48550/arxiv.1811.05245"
+    },
+    {
+     "paper_id": "8e30eecef7f815b1c001e9e179a366016fdf782f",
+     "title": "Transparency, auditability, and explainability of machine learning models in credit scoring",
+     "year": 2020,
+     "doi": "10.1080/01605682.2021.1922098"
+    },
+    {
+     "paper_id": "42b9b2f19c28e55772f9304bb708f9a6bf3ad568",
+     "title": "Explainability of a Machine Learning Granting Scoring Model in Peer-to-Peer Lending",
+     "year": 2020,
+     "doi": "10.1109/access.2020.2984412"
+    },
+    {
+     "paper_id": "c1200661e5d985d8225bd50c8f392f4c5b0e9567",
+     "title": "SHAP and LIME: An Evaluation of Discriminative Power in Credit Risk",
+     "year": 2021,
+     "doi": "10.3389/frai.2021.752558"
+    },
+    {
+     "paper_id": "3ba896dd0cc8d975f93ca7375ad68197e18db0a8",
+     "title": "Explainable AI in Credit Risk Management",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2103.00949"
+    },
+    {
+     "paper_id": "3b3e8a3b16dec52a53a8e23df6947491cc564989",
+     "title": "Making Deep Learning-Based Predictions for Credit Scoring Explainable",
+     "year": 2021,
+     "doi": "10.1109/access.2021.3068854"
+    },
+    {
+     "paper_id": "6d9125aabc52f723360eac694bf85d73f1f22579",
+     "title": "Explainable AI for Interpretable Credit Scoring",
+     "year": 2020,
+     "doi": "10.5121/csit.2020.101516"
+    },
+    {
+     "paper_id": "b1955a6b4a463e2ce59af9a0a52e62767a30ee1e",
+     "title": "Interpretable machine learning for imbalanced credit scoring datasets",
+     "year": 2023,
+     "doi": "10.1016/j.ejor.2023.06.036"
+    },
+    {
+     "paper_id": "e3b6199a29c7defb3e53a965aebcbf521a95fa4f",
+     "title": "Toward interpretable credit scoring: integrating explainable artificial intelligence with deep learning for credit card default prediction",
+     "year": 2023,
+     "doi": "10.1007/s00521-023-09232-2"
+    },
+    {
+     "paper_id": "bb4a1032d421ff54bf6e6fb227025c32c55b4fdb",
+     "title": "Enhancing accuracy and interpretability of ensemble strategies in credit risk assessment. A correlated-adjusted decision forest proposal",
+     "year": 2015,
+     "doi": "10.1016/j.eswa.2015.02.042"
+    },
+    {
+     "paper_id": "15ad7353a129b74cfc5bf02cfd4ab20145d0f177",
+     "title": "Explainable AI for Credit Assessment in Banks",
+     "year": 2022,
+     "doi": "10.3390/jrfm15120556"
+    },
+    {
+     "paper_id": "d90efcfd92752987eb0a3281aad92201b2c5e683",
+     "title": "PermuteAttack: Counterfactual Explanation of Machine Learning Credit Scorecards",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2008.10138"
+    },
+    {
+     "paper_id": "575fe1fa01e4aa5b97ed0f3600c89c48aff32068",
+     "title": "Explainable prediction of loan default based on machine learning models",
+     "year": 2023,
+     "doi": "10.1016/j.dsm.2023.04.003"
+    },
+    {
+     "paper_id": "2b32eb056336360606d475799d9a421844eb375c",
+     "title": "Credit Risk Assessment and Financial Decision Support Using Explainable Artificial Intelligence",
+     "year": 2024,
+     "doi": "10.3390/risks12100164"
+    },
+    {
+     "paper_id": "ecdfd97d18d76fef6c9862f0a7177a3f767fe746",
+     "title": "Explainable models of credit losses",
+     "year": 2021,
+     "doi": "10.1016/j.ejor.2021.11.009"
+    },
+    {
+     "paper_id": "1ce9f073bd6f23dd2b600c4eb59b24c12e8b9958",
+     "title": "Prediction of bank credit worthiness through credit risk analysis: an explainable machine learning study",
+     "year": 2024,
+     "doi": "10.1007/s10479-024-06134-x"
+    },
+    {
+     "paper_id": "ca1ab397d669d5bb7f7fc009afc7c9b35c434fdf",
+     "title": "A multi-objective genetic optimization for fast, fuzzy rule-based credit classification with balanced accuracy and interpretability",
+     "year": 2016,
+     "doi": "10.1016/j.asoc.2015.11.037"
+    },
+    {
+     "paper_id": "6e1708e821104f245136df2770fd343510b36750",
+     "title": "Globally-Consistent Rule-Based Summary-Explanations for Machine Learning Models: Application to Credit-Risk Evaluation",
+     "year": 2019,
+     "doi": "10.2139/ssrn.3395422"
+    },
+    {
+     "paper_id": "2e6b6c2e96ac7f8e70ca3b305b50726df3bf4d0b",
+     "title": "Machine learning interpretability for a stress scenario generation in credit scoring based on counterfactuals",
+     "year": 2022,
+     "doi": "10.1016/j.eswa.2022.117271"
+    },
+    {
+     "paper_id": "d8cc1eefda1e64b7d4a45fb4394bf140f676b2ad",
+     "title": "Analyzing Machine Learning Models for Credit Scoring with Explainable AI and Optimizing Investment Decisions",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2209.09362"
+    },
+    {
+     "paper_id": "162921ea6351105b204b9200be958e166664cbbd",
+     "title": "Model-agnostic Counterfactual Explanations in Credit Scoring",
+     "year": 2022,
+     "doi": "10.1109/access.2022.3177783"
+    },
+    {
+     "paper_id": "c2177be611a143385c4f608e3381badae44c2644",
+     "title": "Employing Explainable AI to Optimize the Return Target Function of a Loan Portfolio",
+     "year": 2021,
+     "doi": "10.3389/frai.2021.693022"
+    },
+    {
+     "paper_id": "79c1f4cb11209755f5e88081ec4d7d69354f2f5a",
+     "title": "Enabling Machine Learning Algorithms for Credit Scoring - Explainable Artificial Intelligence (XAI) methods for clear understanding complex predictive models",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2104.06735"
+    },
+    {
+     "paper_id": "e521eb055cbfc3142db74f01b2504b116ec80c8a",
+     "title": "PSD2 Explainable AI Model for Credit Scoring",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2011.10367"
+    },
+    {
+     "paper_id": "07911b4fcc530a15437d0f9485bbab043c4b7abb",
+     "title": "Explainability and Fairness in Machine Learning: Improve Fair End-to-end Lending for Kiva",
+     "year": 2020,
+     "doi": "10.1109/ssci47803.2020.9308371"
+    },
+    {
+     "paper_id": "ab7430dae7f4a663f7356fa1aa2878dfec489407",
+     "title": "Interpretable Selective Learning in Credit Risk",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2209.10127"
+    },
+    {
+     "paper_id": "1c54796185d4923c53b72a17bfcc5227be904277",
+     "title": "Fair lending needs explainable models for responsible recommendation",
+     "year": 2018,
+     "doi": "10.48550/arxiv.1809.04684"
+    },
+    {
+     "paper_id": "c2bdb33d4a402f0d530c5847fe0fe9c81de6a99b",
+     "title": "Using Small Business Banking Data for Explainable Credit Risk Scoring",
+     "year": 2020,
+     "doi": "10.1609/aaai.v34i08.7055"
+    },
+    {
+     "paper_id": "24884a1c894ea987e83854d4696b254e852bcf02",
+     "title": "High Accuracy-priority Rule Extraction for Reconciling Accuracy and Interpretability in Credit Scoring",
+     "year": 2018,
+     "doi": "10.1007/s00354-018-0043-5"
+    },
+    {
+     "paper_id": "79c9aaf254a1bb7a8741554847f60457bda16da3",
+     "title": "Advanced Neural Network Approach, Its Explanation with LIME for Credit Scoring Application",
+     "year": 2019,
+     "doi": "10.1007/978-3-030-14802-7_35"
+    },
+    {
+     "paper_id": "aa76a8d4410ea278f047fcad708574360f6494cd",
+     "title": "Optimal Counterfactual Explanations for Scorecard modelling",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2104.08619"
+    },
+    {
+     "paper_id": "109fbe4cee816ba9e0ffcc08a36094ad92e4c2a5",
+     "title": "Explaining Deep Learning Models for Credit Scoring with SHAP: A Case Study Using Open Banking Data",
+     "year": 2023,
+     "doi": "10.3390/jrfm16040221"
+    },
+    {
+     "paper_id": "d5fbe0e3950378940c196aa527592dbba7b242d4",
+     "title": "Profit-sensitive machine learning classification with explanations in credit risk: The case of small businesses in peer-to-peer lending",
+     "year": 2024,
+     "doi": "10.1016/j.elerap.2024.101428"
+    },
+    {
+     "paper_id": "3f5b6c78d16970d9736aa199ad6840fd789507f4",
+     "title": "Developing Transparent Credit Risk Scorecards More Effectively: An Explainable Artificial Intelligence Approach",
+     "year": 2018,
+     "doi": null
+    },
+    {
+     "paper_id": "554c47db6c9a79380fc5167c39ad8590b7f175e2",
+     "title": "A novel framework for enhancing transparency in credit scoring: Leveraging Shapley values for interpretable credit scorecards",
+     "year": 2024,
+     "doi": "10.1371/journal.pone.0308718"
+    },
+    {
+     "paper_id": "24bb37f41d0502c2c7e1fcdcd57fd347170e99f9",
+     "title": "Explainable artificial intelligence for credit scoring in banking",
+     "year": 2022,
+     "doi": "10.21314/jor.2022.046"
+    },
+    {
+     "paper_id": "4f6f8fbb9430f519c4c9dc59121ef5950039e720",
+     "title": "Decision Trees as Interpretable Bank Credit Scoring Models",
+     "year": 2018,
+     "doi": "10.1007/978-3-319-99987-6_16"
+    },
+    {
+     "paper_id": "170300d60cfa41632f2b733ab741f86204e8defc",
+     "title": "Robust integration of blockchain and explainable federated learning for automated credit scoring",
+     "year": 2024,
+     "doi": "10.1016/j.comnet.2024.110303"
+    },
+    {
+     "paper_id": "0a93def0480294520678ecc174b8a85a43468563",
+     "title": "Credit Risk Prediction Using Explainable AI",
+     "year": 2024,
+     "doi": "10.32996/jbms.2024.6.2.6"
+    },
+    {
+     "paper_id": "c306b58270ac96db1399622938995129d79c37b9",
+     "title": "National student loans default risk prediction: A heterogeneous ensemble learning approach and the SHAP method",
+     "year": 2023,
+     "doi": "10.1016/j.caeai.2023.100166"
+    },
+    {
+     "paper_id": "57dce5a7088f84f4ffd936d9c251d7426762ecf3",
+     "title": "Explainable Automated Machine Learning for Credit Decisions: Enhancing Human Artificial Intelligence Collaboration in Financial Engineering",
+     "year": 2024,
+     "doi": "10.48550/arxiv.2402.03806"
+    },
+    {
+     "paper_id": "1ef71d2430d291d5da7e6a57f6d64311573aa7f5",
+     "title": "Cost of Explainability in AI: An Example with Credit Scoring Models",
+     "year": 2023,
+     "doi": "10.1007/978-3-031-44064-9_26"
+    },
+    {
+     "paper_id": "448f1d21d798315bddf8245ae30c04f7e8700e42",
+     "title": "Explainable Machine Learning Models of Consumer Credit Risk",
+     "year": 2023,
+     "doi": "10.2139/ssrn.4006840"
+    },
+    {
+     "paper_id": "06d9fb125156d049498c150f5450ec648369d2bf",
+     "title": "A Systematic Review of Machine Learning and Explainable Artificial Intelligence (XAI) in Credit Risk Modelling",
+     "year": 2022,
+     "doi": "10.1007/978-3-031-18461-1_39"
+    },
+    {
+     "paper_id": "d13da0373388360767a549780edb3823144e2305",
+     "title": "Beyond Accuracy in Artificial Intelligence Based Credit Scoring Systems: Explainability and Sustainability in Decision Support",
+     "year": 2023,
+     "doi": "10.2139/ssrn.4536400"
+    },
+    {
+     "paper_id": "7950d4e17dcf98b3db575d4525b5c616ba08fffa",
+     "title": "Enhancing transparency and fairness in automated credit decisions: an explainable novel hybrid machine learning approach",
+     "year": 2024,
+     "doi": "10.1038/s41598-024-75026-8"
+    },
+    {
+     "paper_id": "ae2791bc4e29aa149e20d3b3ac581adbe6e66b5f",
+     "title": "Effective Credit Risk Prediction Using Ensemble Classifiers With Model Explanation",
+     "year": 2024,
+     "doi": "10.1109/access.2024.3445308"
+    },
+    {
+     "paper_id": "ed430fbfcc3d7fc805f8fee553e3f8b6eacca525",
+     "title": "A Vertical Federated Learning Method for Interpretable Scorecard and Its Application in Credit Scoring",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2009.06218"
+    },
+    {
+     "paper_id": "f8fe1851a7920fde914d0e8fceeaf1fa69d32eb4",
+     "title": "Mathematical Modeling and Analysis of Credit Scoring Using the LIME Explainer: A Comprehensive Approach",
+     "year": 2023,
+     "doi": "10.3390/math11194055"
+    },
+    {
+     "paper_id": "f3cdf522a8ed90350bf6dce2848127af8dde1a8b",
+     "title": "Credit risk assessment of automobile loans using machine learning-based SHapley Additive exPlanations approach",
+     "year": 2025,
+     "doi": "10.1016/j.engappai.2025.110236"
+    },
+    {
+     "paper_id": "421a15c4e293cd9fbd732bf0ad9c71fa3528c7e2",
+     "title": "Interpretable credit model development via artificial neural networks",
+     "year": 2007,
+     "doi": "10.1002/isaf.v15:3/4"
+    },
+    {
+     "paper_id": "5f3d3950fb2af962ec4d080490a84a2b7683580a",
+     "title": "A Novel Weighted Loss TabTransformer Integrating Explainable AI for Imbalanced Credit Risk Datasets",
+     "year": 2025,
+     "doi": "10.1109/access.2025.3541878"
+    },
+    {
+     "paper_id": "1bfb62bf609f7eeb3f64ed33c48b1d5e8754d3e5",
+     "title": "A sparsity algorithm for finding optimal counterfactual explanations: Application to corporate credit rating",
+     "year": 2023,
+     "doi": "10.1016/j.ribaf.2022.101869"
+    },
+    {
+     "paper_id": "285e2ce52632db36799c02486d1fbf68c17511f4",
+     "title": "Towards Explainable Deep Learning for Credit Lending: A Case Study",
+     "year": 2018,
+     "doi": "10.48550/arxiv.1811.06471"
+    },
+    {
+     "paper_id": "b66992016ce3a113513d7c7529efd4e493c339a9",
+     "title": "Evaluating the stability of model explanations in instance-dependent cost-sensitive credit scoring",
+     "year": 2025,
+     "doi": "10.1016/j.ejor.2025.05.039"
+    },
+    {
+     "paper_id": "64f16c12f0ccb461ed84ee20a8468cc94ff09718",
+     "title": "A Partially Interpretable Adaptive Softmax Regression for Credit Scoring",
+     "year": 2021,
+     "doi": "10.3390/app11073227"
+    },
+    {
+     "paper_id": "d3edd175bc0c2d95eceb95fd4744471105e4dc34",
+     "title": "NOTE: non-parametric oversampling technique for explainable credit scoring",
+     "year": 2024,
+     "doi": "10.1038/s41598-024-78055-5"
+    },
+    {
+     "paper_id": "0537e5678557158a45df4d7b33449efb8916480e",
+     "title": "NATE: Non-pArameTric approach for Explainable credit scoring on imbalanced class",
+     "year": 2024,
+     "doi": "10.1371/journal.pone.0316454"
+    },
+    {
+     "paper_id": "7d380f27c3ddead9b04b7fb6afa3d63468fcd2cc",
+     "title": "An Explanation Framework for Interpretable Credit Scoring",
+     "year": 2021,
+     "doi": "10.5121/ijaia.2021.12102"
+    },
+    {
+     "paper_id": "01cf8d6decf7a76827637145e945f57225d868cf",
+     "title": "ENHANCING LOAN APPROVAL DECISION-MAKING: AN INTERPRETABLE MACHINE LEARNING APPROACH USING LIGHTGBM FOR DIGITAL ECONOMY DEVELOPMENT",
+     "year": 2024,
+     "doi": "10.24191/mjoc.v9i1.25691"
+    },
+    {
+     "paper_id": "0df473b3bb05bdb4c77e88e483a7ad65a0b8bc2e",
+     "title": "Machine Learning XAI for Early Loan Default Prediction",
+     "year": 2025,
+     "doi": "10.1007/s10614-025-10962-9"
+    },
+    {
+     "paper_id": "18296b1ee7bc4c70bd5d44503f705f1b535c712d",
+     "title": "Interpretable LLMs for Credit Risk: A Systematic Review and Taxonomy",
+     "year": 2025,
+     "doi": "10.48550/arxiv.2506.04290"
+    },
+    {
+     "paper_id": "38c937c9276db7bf2a956ed667dc565e40a9eafe",
+     "title": "SHAP Stability in Credit Risk Management: A Case Study in Credit Card Default Model",
+     "year": 2025,
+     "doi": "10.3390/risks13120238"
+    },
+    {
+     "paper_id": "5b5ae3b63d5f578460dbc4d0fa0130353dbb899c",
+     "title": "Improving credit risk assessment in P2P lending with explainable machine learning survival analysis",
+     "year": 2024,
+     "doi": "10.1007/s42521-024-00114-3"
+    },
+    {
+     "paper_id": "270104d34aa993a4f7a28561f50ea93ffcb725e8",
+     "title": "Interpretable Credit Default Prediction with Ensemble Learning and SHAP",
+     "year": 2025,
+     "doi": "10.1109/icahn67688.2025.00027"
+    },
+    {
+     "paper_id": "66845144725ddf7d1c5618cc56236ca145ccb667",
+     "title": "Bridging accuracy and interpretability: A rescaled cluster-then-predict approach for enhanced credit scoring",
+     "year": 2023,
+     "doi": "10.1016/j.irfa.2023.103005"
+    },
+    {
+     "paper_id": "a69e178560cc31d7c4fd47df6494b7dfb68b7ae3",
+     "title": "Application of explainable machine learning based on Catboost in credit scoring",
+     "year": 2021,
+     "doi": "10.1088/1742-6596/1955/1/012039"
+    },
+    {
+     "paper_id": "a53c8532b4f248ffc2f1654cefeeedc69e88e6bc",
+     "title": "LLM-Explanation-Enhanced Retail Credit Default Prediction with Gradient Boosting on the UCI Default of Credit Card Clients Dataset",
+     "year": 2024,
+     "doi": "10.69987/jacs.2024.40508"
+    },
+    {
+     "paper_id": "0d129784940de59fda0589fbecebd55ed79b1414",
+     "title": "Explaining Mortgage Defaults Using SHAP and LASSO",
+     "year": 2024,
+     "doi": "10.1007/s10614-024-10763-6"
+    },
+    {
+     "paper_id": "f57529de40e01837bf1de9a32805b4e43ba223e9",
+     "title": "Explainable AI for Credit Risk Assessment: A Data-Driven Approach to Transparent Lending Decisions",
+     "year": 2024,
+     "doi": "10.32996/jefas.2024.6.1.11"
+    },
+    {
+     "paper_id": "88d3294b0dec1edfa8be11640571d9ac71879e69",
+     "title": "Enhancing Credit Risk Prediction through an Ensemble of Explainable Model",
+     "year": 2025,
+     "doi": "10.1007/s11518-025-5663-y"
+    },
+    {
+     "paper_id": "90d34689132c91cda7d7f205192e4bb9a936b3a5",
+     "title": "Credit Risk Analysis using Explainable Artificial Intelligence",
+     "year": 2024,
+     "doi": "10.36548/jscp.2024.3.004"
+    },
+    {
+     "paper_id": "0e7a0156b553dbedcb4cba57040e37e425c148fa",
+     "title": "Explainable Domain Adaptation Learning Framework for Credit Scoring in Internet Finance Through Adversarial Transfer Learning and Ensemble Fusion Model",
+     "year": 2025,
+     "doi": "10.3390/math13071045"
+    },
+    {
+     "paper_id": "1c02baf1c8774e37c234d9aad1d1e4be2f42ebf4",
+     "title": "Interpretable Machine Learning Models for Credit Risk Assessment",
+     "year": 2024,
+     "doi": "10.23919/indiacom61295.2024.10498183"
+    },
+    {
+     "paper_id": "dc5c5c05d8ea837a1a2fe7b1e2ef2a80b2f02393",
+     "title": "Integrated Gradients is a Nonlinear Generalization of the Industry Standard Approach to Variable Attribution for Credit Risk Models",
+     "year": 2022,
+     "doi": "10.1109/bigdata55660.2022.10020687"
+    },
+    {
+     "paper_id": "01fda4748e93d925a618b40772af477815cbae11",
+     "title": "Explaining Adverse Actions in Credit Decisions Using Shapley Decomposition",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2204.12365"
+    },
+    {
+     "paper_id": "740483e2239f074bf9e5f8bfc9545d467ab80202",
+     "title": "Research on Personal Credit Risk Assessment Based on Combination Weight and Shap Interpretable Machine Learning",
+     "year": 2022,
+     "doi": "10.25236/ajcis.2022.051009"
+    },
+    {
+     "paper_id": "57ffc0b44e8c10a2c44f86a881dd08afd9de0667",
+     "title": "Explainable Fairness in Mortgage Lending",
+     "year": 2025,
+     "doi": "10.1007/978-3-032-08330-2_18"
+    },
+    {
+     "paper_id": "6237d25ddc4a6715ea229a9322691b8b43cc33f5",
+     "title": "An Interpretable Automated Machine Learning Credit Risk Model",
+     "year": 2020,
+     "doi": "10.1007/978-3-030-61834-6_2"
+    },
+    {
+     "paper_id": "9ba7a0eecec05cd9670bb5b9592d1d6f77d35f64",
+     "title": "AI-Driven Credit Scoring Models: Enhancing  Accuracy and Fairness with Explainable Machine Learning",
+     "year": 2024,
+     "doi": "10.55041/isjem02185"
+    },
+    {
+     "paper_id": "0f33649c2c545187f6be4bc36c1321c229924925",
+     "title": "Advancing credit scoring models: integrating explainable AI for fair and transparent financial decision-making",
+     "year": 2024,
+     "doi": "10.4108/eai.15-3-2024.2346182"
+    },
+    {
+     "paper_id": "40b11596a21429b740775396d11abff54fb21a42",
+     "title": "Explainable AI in Credit Risk Management",
+     "year": 2019,
+     "doi": "10.2139/ssrn.3506274"
+    },
+    {
+     "paper_id": "3e2440ef740dde07c0e57810740acb7a2d49943a",
+     "title": "Adaptive and Explainable Machine Learning Framework for Real-Time Credit Scoring and Financial Fraud Detection with Privacy-Preserving Intelligence",
+     "year": 2025,
+     "doi": "10.5220/0013858800004919"
+    },
+    {
+     "paper_id": "a75fc64893993802d08f7dc5a09cd548a8ddce7f",
+     "title": "Enhancing Credit Risk Decision Making in Supply Chain Finance with an Interpretable Random Forest Model Optimized by SVM",
+     "year": 2025,
+     "doi": "10.1109/cis69366.2025.11433861"
+    },
+    {
+     "paper_id": "badae5fbfc4bb7512f9983d0c7dfcf1c33d914fc",
+     "title": "Trustworthy Credit Scoring: Fairness and Explainability in Financial AI",
+     "year": 2025,
+     "doi": "10.1109/icinvents64613.2025.11401835"
+    },
+    {
+     "paper_id": "c291595bfba3ea16a298b122417ad1ff2d549eaf",
+     "title": "Interpretable Weighted Soft Decision Forest for Credit Scoring",
+     "year": 2020,
+     "doi": "10.1007/978-981-15-3588-8_11"
+    },
+    {
+     "paper_id": "09561c69bb225d919f3191fd3662a88308776c8d",
+     "title": "Accuracy of Explanations of Machine Learning Models for Credit Decision",
+     "year": 2022,
+     "doi": "10.2139/ssrn.4144780"
+    },
+    {
+     "paper_id": "aaece36344c9e7380c4a7ef5f1796f80c3312539",
+     "title": "Performance, Fairness, and Explainability in AI-Based Credit Scoring: A Systematic Literature Review",
+     "year": 2026,
+     "doi": "10.3390/jrfm19020104"
+    },
+    {
+     "paper_id": "ac88c05115f872e73b4dc3a2be4f3c60db9f10a1",
+     "title": "How much do we see? On the explainability of partial dependence plots for credit risk scoring",
+     "year": 2023,
+     "doi": "10.15611/aoe.2023.1.07"
+    },
+    {
+     "paper_id": "87c3871c9f84f57513d2f6225634c452625b37a1",
+     "title": "Counterfactual Explanations With Multiple Properties in Credit Scoring",
+     "year": 2024,
+     "doi": "10.1109/access.2024.3441037"
+    },
+    {
+     "paper_id": "b874a09be1d5f5154befa502d669cbc1159cf13b",
+     "title": "Fair and Explainable Credit-Scoring under Concept Drift: Adaptive Explanation Frameworks for Evolving Populations",
+     "year": 2025,
+     "doi": "10.48550/arxiv.2511.03807"
+    },
+    {
+     "paper_id": "6e6ade1e361d7b30a6c29030b8d74aa2b5feaba8",
+     "title": "Stability and Consistency of Explainable Deep Learning Methods in Credit Risk Assessment",
+     "year": 2026,
+     "doi": "10.1145/3845872.3845880"
+    },
+    {
+     "paper_id": "af387c129bea8f9803cbffa81d3a76808c45b30b",
+     "title": "Creation of User Friendly Datasets: Insights from a Case Study concerning Explanations of Loan Denials",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1906.04643"
+    },
+    {
+     "paper_id": "bc56a3d944d9c846d9717a20c0386cd5963c5851",
+     "title": "Evaluating Large Language Models as Post Hoc Explainability Interfaces for Credit Risk Models",
+     "year": 2026,
+     "doi": "10.1111/exsy.70351"
+    },
+    {
+     "paper_id": "ff46072453bc30fbebb01fc0a20241989a638af8",
+     "title": "Interpreting LLMs as Credit Risk Classifiers: Do Their Feature Explanations Align with Classical ML?",
+     "year": 2025,
+     "doi": "10.48550/arxiv.2510.25701"
+    },
+    {
+     "paper_id": "1f4ff4396aa9ce00accfd7022bf0b13f5f0e7945",
+     "title": "Credit Risk Scoring in the Age of AI: A Systematic Comparison of Traditional, ML, and DL Models Based on Accuracy, Stability, and Interpretability",
+     "year": 2026,
+     "doi": "10.3390/jrfm19070526"
+    },
+    {
+     "paper_id": "808eec9f7338d43f5b640c3614c0734c41e82287",
+     "title": "Explainability, fairness and the Simpson’s paradox in credit lending",
+     "year": 2025,
+     "doi": "10.1016/j.physa.2025.131030"
+    },
+    {
+     "paper_id": "0d1a4e2d6d7d51e85d5b4181d858ee332d2502dd",
+     "title": "Credit Scoring P2P Lending Fintech: Right to Explanation in AI-Based Credit",
+     "year": 2025,
+     "doi": "10.59188/eduvest.v5i11.52362"
+    },
+    {
+     "paper_id": "7fd631ff50e30bad1fb4457eb17fa6f4c3715621",
+     "title": "Accurate Ensembles, Fragile Narratives: Multi-Scale Stacking and a Fidelity Audit of LLM-Generated Explanations for Credit Risk",
+     "year": 2026,
+     "doi": "10.48550/arxiv.2608.08126"
+    },
+    {
+     "paper_id": "b478e9920f2c46c75ecfbcee62e4479af19b6d9f",
+     "title": "Adverse-Action-Ready Explainable AI for Credit Underwriting: Predictive Lift vs. Regulatory Specificity",
+     "year": 2025,
+     "doi": "10.70924/f83n6wqz/avqts4sx"
+    },
+    {
+     "paper_id": "f38b1ca944f2369faf7cc5e9791721a3d466a293",
+     "title": "A right to explanation for algorithmic credit decisions in the UK",
+     "year": 2025,
+     "doi": "10.1080/17579961.2025.2469352"
+    },
+    {
+     "paper_id": "10af86cc56cc86da80c3b131acaa1490d8c51d65",
+     "title": "Explainable and Fair Credit Risk Scoring with Counterfactual Explanations: A Reproducible Evaluation on the German Credit Dataset (HELOC-Motivated)",
+     "year": 2026,
+     "doi": "10.32664/j-intech.v14i02.2228"
+    },
+    {
+     "paper_id": "3d9b05753265140d7488a739a80d755a8e2da31f",
+     "title": "Explainable Credit Underwriting on FICO HELOC: A Framework for Counterfactual Recourse under Profit, Fairness, and Stability Constraints",
+     "year": 2026,
+     "doi": "10.69987/aimlr.2026.70107"
+    },
+    {
+     "paper_id": "e9d7b814b2a06e5ac49856362836e5a3e526d234",
+     "title": "The Right to Explanation of a Credit Score: A Holistic Approach under the GDPR, AI Act, and Directive (EU) 2023/2225 on Credit Agreements for Consumers",
+     "year": 2025,
+     "doi": "10.54648/gplr2025022"
+    },
+    {
+     "paper_id": "187dbb4b23f85a77d476708cbcef29d5f7ab4b29",
+     "title": "Explainable Artificial Intelligence in Credit Risk: A Systematic Evidence Map for Regulated Credit Decisions",
+     "year": 2026,
+     "doi": "10.3390/ijfs14110292"
+    },
+    {
+     "paper_id": "33977b6a3654142dc83e7bda9c87a280c39d4df8",
+     "title": "AI Act compliance in credit scoring: reconciling interpretability and accuracy via quadratic terms and Powershap",
+     "year": 2026,
+     "doi": "10.1080/13504851.2026.2710263"
+    },
+    {
+     "paper_id": "35149d00e31a67e9d3a44334900961e1024912e2",
+     "title": "When Simpler Wins: Interpretability, Performance, and Regulatory Fit in Machine Learning Credit Scoring",
+     "year": 2026,
+     "doi": "10.59075/jssa.v4i1.657"
+    },
+    {
+     "paper_id": "418e581a63a6cf0e9b05525c26ed48ee6f82fd8d",
+     "title": "Designing Policy-Compliant Counterfactual Explanations for Fair and Transparent Credit Risk Assessment",
+     "year": 2026,
+     "doi": "10.1109/icssit69151.2026.11656417"
+    },
+    {
+     "paper_id": "41c34c292c507e60763a07e042f9b0e18259201e",
+     "title": "Communicating Credit Risk with Large Language Models: Evaluation of Explanations from Standard and Alternative Data-Based Models",
+     "year": 2026,
+     "doi": "10.48550/arxiv.2608.17715"
+    },
+    {
+     "paper_id": "6dc7072b052e5aed4d86dc69f3bd60e3746f9a20",
+     "title": "Against Explainable Artificial Intelligence In Law: Why Justifiable Ai Matters. A Credit Scoring Example",
+     "year": 2026,
+     "doi": "10.31338/2544-3135.si.2025-110.7"
+    },
+    {
+     "paper_id": "b859cc3d4606085b89d9a3a161e25e650ebc630b",
+     "title": "CARGO: Credit Action Recourse via Regulation-Bounded, Graph-Constrained Ordered Planning",
+     "year": 2026,
+     "doi": "10.1145/3858063.3858720"
+    },
+    {
+     "paper_id": "ccb3dd61a77ae75b6e462d790346d7bf2282568a",
+     "title": "Do Fair Models Reason Fairly? Counterfactual Explanation Consistency for Procedural Fairness in Credit Decisions",
+     "year": 2026,
+     "doi": "10.48550/arxiv.2605.12701"
+    },
+    {
+     "paper_id": "d28bac50aeb3388ba0ea34864d40d92e17d788d6",
+     "title": "Unlocking the Black Box: A Five-Dimensional Framework for Evaluating Explainable AI in Credit Risk",
+     "year": 2025,
+     "doi": "10.1109/csaia65930.2025.11623800"
+    },
+    {
+     "paper_id": "ed41a33e67a743761be5b49623509fbaa2f37442",
+     "title": "Governing credit with digital twins: explainable AI, credit officer digital twins, and the EU AI act",
+     "year": 2026,
+     "doi": "10.53486/ser2026.46"
+    }
+   ]
+  },
+  "legal": {
+   "rationale": "EU/US legal requirements for explanations of automated credit/profiling decisions (GDPR Art. 22/15, AI Act high-risk and transparency, ECOA/adverse action) and legally motivated XAI. Excluded AI Act papers on unrelated sectors (medicine, deepfakes, journalism, copyright, generative AI).",
+   "papers": [
+    {
+     "paper_id": "4f309712e705210df5695240a5d5fb53ea1f8641",
+     "title": "Counterfactual Explanations without Opening the Black Box: Automated Decisions and the GDPR",
+     "year": 2017,
+     "doi": "10.48550/arxiv.1711.00399"
+    },
+    {
+     "paper_id": "b2681fbc27089797cedc1a454b0c1b94c6482abe",
+     "title": "Algorithmic Transparency via Quantitative Input Influence: Theory and Experiments with Learning Systems",
+     "year": 2016,
+     "doi": "10.1109/sp.2016.42"
+    },
+    {
+     "paper_id": "81d3ce427e0707b30ce80f6e07f9a8cab79dbb9b",
+     "title": "Why a Right to Explanation of Automated Decision-Making Does Not Exist in the General Data Protection Regulation",
+     "year": 2017,
+     "doi": "10.2139/ssrn.2903469"
+    },
+    {
+     "paper_id": "7fe7a59cb317d9c0b1f3bbbab5fc92fe3e261cf4",
+     "title": "CERTIFAI: Counterfactual Explanations for Robustness, Transparency, Interpretability, and Fairness of Artificial Intelligence models",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1905.07857"
+    },
+    {
+     "paper_id": "7db59437fc26b01979266fbe7f4b1992f787a627",
+     "title": "\"Meaningful Information\" and the Right to Explanation",
+     "year": 2017,
+     "doi": "10.1093/idpl/ipx022"
+    },
+    {
+     "paper_id": "868e35374cb9c0fc6e4cfb17f96835aefcf520cc",
+     "title": "OpenXAI: Towards a Transparent Evaluation of Model Explanations",
+     "year": 2022,
+     "doi": null
+    },
+    {
+     "paper_id": "ff4a7ed90cd3ba7a0f5ffc787b9f2e52731f8734",
+     "title": "A Right to Reasonable Inferences: Re-Thinking Data Protection Law in the Age of Big Data and AI",
+     "year": 2018,
+     "doi": "10.7916/cblr.v2019i2.3424"
+    },
+    {
+     "paper_id": "f913b4f53acb4b3c7a64e9d1be4bef005492ae4b",
+     "title": "Why a Right to Legibility of Automated Decision-Making Exists in the General Data Protection Regulation",
+     "year": 2017,
+     "doi": "10.1093/idpl/ipx019"
+    },
+    {
+     "paper_id": "67554d6f42cf5e02f7ffdf8a23ede5d6673af5cc",
+     "title": "Counterfactual Explanation Trees: Transparent and Consistent Actionable Recourse with Decision Trees",
+     "year": 2022,
+     "doi": null
+    },
+    {
+     "paper_id": "e4a6870741997ccbfad39837a9dfc2afe18a004c",
+     "title": "The role of explainable AI in the context of the AI Act",
+     "year": 2023,
+     "doi": "10.1145/3593013.3594069"
+    },
+    {
+     "paper_id": "b37dd5b08e13eac1b05c1b920762f3311636522e",
+     "title": "The European Commission’s Proposal for an Artificial Intelligence Act—A Critical Assessment by Members of the Robotics and AI Law Society (RAILS)",
+     "year": 2021,
+     "doi": "10.3390/j4040043"
+    },
+    {
+     "paper_id": "8262113617d90450567c605c0a7e4c729910a571",
+     "title": "Automated decision-making in the EU Member States: The right to explanation and other \"suitable safeguards\" in the national legislations",
+     "year": 2019,
+     "doi": "10.1016/j.clsr.2019.05.002"
+    },
+    {
+     "paper_id": "d280bee1f3dc85690e4ee80337a2f544a69e0dd9",
+     "title": "Conformity Assessments and Post-market Monitoring: A Guide to the Role of Auditing in the Proposed European AI Regulation",
+     "year": 2021,
+     "doi": "10.1007/s11023-021-09577-4"
+    },
+    {
+     "paper_id": "1fdd778b0f513ff86e53ead5f9260ea04214ab67",
+     "title": "How the EU Can Achieve Legally Trustworthy AI: A Response to the European Commission’s Proposal for an Artificial Intelligence Act",
+     "year": 2021,
+     "doi": "10.2139/ssrn.3899991"
+    },
+    {
+     "paper_id": "766820749f417fd26f75662d95a0cb6d7a4cfa58",
+     "title": "Regulatory learning: How to supervise machine learning models? An application to credit scoring",
+     "year": 2018,
+     "doi": "10.1016/j.jfds.2018.04.001"
+    },
+    {
+     "paper_id": "e2fe1dc364ff4f4e701acd911a396d7dd3fbefc9",
+     "title": "Risk management in the Artificial Intelligence Act",
+     "year": 2022,
+     "doi": "10.1017/err.2023.1"
+    },
+    {
+     "paper_id": "1f62814c55cec90c4377ebf92216b5f471e7def6",
+     "title": "Do algorithms rule the world? Algorithmic decision-making and data protection in the framework of the GDPR and beyond",
+     "year": 2019,
+     "doi": "10.1093/ijlit/eay017"
+    },
+    {
+     "paper_id": "717946bda1480841a191ac35a036e859cdb01f18",
+     "title": "Metrics, Explainability and the European AI Act Proposal",
+     "year": 2022,
+     "doi": "10.3390/j5010010"
+    },
+    {
+     "paper_id": "d6d6f02fcb495978e3103e5386ddd3ca39540b1f",
+     "title": "Algorithmic impact assessments under the GDPR: producing multi-layered explanations",
+     "year": 2020,
+     "doi": "10.2139/ssrn.3456224"
+    },
+    {
+     "paper_id": "7a0315c4eb298aca0c504a0972e41c19337b042d",
+     "title": "Acceptable risks in Europe's proposed AI Act: Reasonableness and other principles for deciding how much risk management is enough",
+     "year": 2023,
+     "doi": "10.2139/ssrn.4516917"
+    },
+    {
+     "paper_id": "4ca3b4c1db866142dd4685c82e93b5a650266266",
+     "title": "‘Human oversight’ in the EU artificial intelligence act: what, when and by whom?",
+     "year": 2023,
+     "doi": "10.1080/17579961.2023.2245683"
+    },
+    {
+     "paper_id": "9d8ebce3b20fe3416b76d865c7656297efabf2dd",
+     "title": "Transparency as design publicity: explaining and justifying inscrutable algorithms",
+     "year": 2019,
+     "doi": "10.1007/s10676-020-09564-w"
+    },
+    {
+     "paper_id": "5ef8734b792fbd4735b64156028aef27b6746637",
+     "title": "The Right Not to Be Subject to Automated Decisions Based on Profiling",
+     "year": 2017,
+     "doi": "10.1007/978-3-319-64955-9_4"
+    },
+    {
+     "paper_id": "61d0dea39fae41bd18e7426c493d24daf9639c73",
+     "title": "Unlocking the black box: analysing the EU artificial intelligence act’s framework for explainability in AI",
+     "year": 2024,
+     "doi": "10.1080/17579961.2024.2313795"
+    },
+    {
+     "paper_id": "b6adf578f98072751360c4dd02b54103c45ea57e",
+     "title": "Equal Credit Opportunity Act",
+     "year": 1979,
+     "doi": null
+    },
+    {
+     "paper_id": "7ec465187ed4f533050dc0b176f25a486fe88a21",
+     "title": "Reclaiming transparency: contesting the logics of secrecy within the AI Act",
+     "year": 2022,
+     "doi": "10.1017/elo.2022.47"
+    },
+    {
+     "paper_id": "7bdc4349af1b42104512983eaa083f9ba907994b",
+     "title": "Disagreement amongst counterfactual explanations: how transparency can be misleading",
+     "year": 2024,
+     "doi": "10.1007/s11750-024-00670-2"
+    },
+    {
+     "paper_id": "666a212682fd6ed73164600d9ffe030bd5e4a365",
+     "title": "Responsible A.I.-based Credit Scoring – A Legal Framework",
+     "year": 2020,
+     "doi": "10.54648/eulr2020022"
+    },
+    {
+     "paper_id": "7879303118c1c77b7f4754ef11ab76742d6a3a0c",
+     "title": "Credit Scoring and the Equal Credit Opportunity Act",
+     "year": 1978,
+     "doi": null
+    },
+    {
+     "paper_id": "8fb6debbd47a0eb5fdf4e1065b11dbd0ac925732",
+     "title": "To Be High-Risk, or Not To Be—Semantic Specifications and Implications of the AI Act’s High-Risk AI Applications and Harmonised Standards",
+     "year": 2023,
+     "doi": "10.1145/3593013.3594050"
+    },
+    {
+     "paper_id": "6452e236ae743544ff501a8203b6d36cfce5f39b",
+     "title": "Is That Your Final Decision? Multi-Stage Profiling, Selective Effects, and Article 22 of the GDPR",
+     "year": 2021,
+     "doi": "10.31235/osf.io/7mq6z"
+    },
+    {
+     "paper_id": "c8dd6a52a2451cb7d0fb92961525b298c6ba1755",
+     "title": "Bridging the Transparency Gap: What Can Explainable AI Learn from the AI Act?",
+     "year": 2023,
+     "doi": "10.3233/faia230367"
+    },
+    {
+     "paper_id": "3292daf27638b9ef80a160b7166eb87248a8ad9a",
+     "title": "Equalizing Credit Opportunity in Algorithms: Aligning Algorithmic Fairness Research with U.S. Fair Lending Regulation",
+     "year": 2022,
+     "doi": "10.1145/3514094.3534154"
+    },
+    {
+     "paper_id": "7ca0a5221d62b0416396837053d8efeee861cc90",
+     "title": "On the path to the future: mapping the notion of transparency in the EU regulatory framework for AI",
+     "year": 2022,
+     "doi": "10.1080/13600869.2022.2060471"
+    },
+    {
+     "paper_id": "ad2ee4722de5321393b9f925f8feeec7476fbcdd",
+     "title": "Safeguards for the right not to be subject to a decision based solely on automated processing (Article 22 GDPR)",
+     "year": 2018,
+     "doi": null
+    },
+    {
+     "paper_id": "7e6316a799257f81dce56585a69b8d429f66b4a8",
+     "title": "Algorithmic Credit Scoring in Vietnam: A Legal Proposal for Maximizing Benefits and Minimizing Risks",
+     "year": 2023,
+     "doi": "10.1017/als.2023.6"
+    },
+    {
+     "paper_id": "86e060423a76e6e6658d6c0cec44e0f5538bf2c5",
+     "title": "Implementing Anti-discrimination Policies in Statistical Profiling Models",
+     "year": 2011,
+     "doi": "10.1257/pol.3.3.206"
+    },
+    {
+     "paper_id": "2a8ec8aa60ee43104ce55575726aaba424ac9f5e",
+     "title": "Affinity Profiling and Discrimination by Association in Online Behavioural Advertising",
+     "year": 2019,
+     "doi": "10.2139/ssrn.3388639"
+    },
+    {
+     "paper_id": "3dffa386d9321bbf373d3c57a9e68718ae2c2bdf",
+     "title": "Impossible Explanations?: Beyond explainable AI in the GDPR from a COVID-19 use case scenario",
+     "year": 2021,
+     "doi": "10.1145/3442188.3445917"
+    },
+    {
+     "paper_id": "660f224e07de22e46f9fa64a3854c4c0196660c6",
+     "title": "How should AI decisions be explained? Requirements for Explanations from the Perspective of European Law",
+     "year": 2024,
+     "doi": "10.1609/aies.v7i1.31648"
+    },
+    {
+     "paper_id": "3b9f6a65e5080a13eab891e931be892c9123535a",
+     "title": "Explainable AI in financial technologies: Balancing innovation with regulatory compliance",
+     "year": 2024,
+     "doi": "10.30574/ijsra.2024.13.1.1870"
+    },
+    {
+     "paper_id": "b8ff9d29393071fded128f08c4081318a98acf68",
+     "title": "Monotonic Neural Additive Models: Pursuing Regulated Machine Learning Models for Credit Scoring",
+     "year": 2022,
+     "doi": "10.1145/3533271.3561691"
+    },
+    {
+     "paper_id": "9f15dedc562c70d12fad81233901a3771fe8e38b",
+     "title": "Data is power: Towards additional guidance on profiling and automated decision-making in the GDPR",
+     "year": 2018,
+     "doi": "10.21039/irpandp.v2i2.45"
+    },
+    {
+     "paper_id": "9712959da26d3c0ad90fe10b1cccf8729f099b85",
+     "title": "From Policy to Practice: Prototyping The EU AI Act’s Transparency Requirements",
+     "year": 2024,
+     "doi": "10.2139/ssrn.4714345"
+    },
+    {
+     "paper_id": "e7c72a5e4bdd2ae648438d79519d7727eb495984",
+     "title": "Bridging the Gap Between AI and Explainability in the GDPR: Towards Trustworthiness-by-Design in Automated Decision-Making",
+     "year": 2022,
+     "doi": "10.1109/mci.2021.3129960"
+    },
+    {
+     "paper_id": "ba03f7129e98fff68b84b82fd76f16a1f674912f",
+     "title": "Why the European AI Act transparency obligation is insufficient",
+     "year": 2023,
+     "doi": "10.1038/s42256-023-00672-y"
+    },
+    {
+     "paper_id": "24e6399fa5420c5a3c66056393e60cc84eb4a0ef",
+     "title": "Regulating Explainable AI in the European Union. An Overview of the Current Legal Framework(s)",
+     "year": 2021,
+     "doi": "10.2139/ssrn.3901732"
+    },
+    {
+     "paper_id": "931e9a5063a7dbc9668b4d9f74c74ebd218e1298",
+     "title": "The right to contest automated decisions under the\n General Data Protection Regulation\n : Beyond the so‐called “right to explanation”",
+     "year": 2021,
+     "doi": "10.1111/rego.12391"
+    },
+    {
+     "paper_id": "5c4d8de85225a9a003cb2e30f03e206c1bd8ecaa",
+     "title": "Article 22 Automated individual decision-making, including profiling",
+     "year": 2020,
+     "doi": "10.1093/oso/9780198826491.003.0055"
+    },
+    {
+     "paper_id": "602bd0bf888ff7b044ec42826cb4004c9ae0ce71",
+     "title": "Contesting Automated Decisions:",
+     "year": 2018,
+     "doi": "10.21552/edpl/2018/4/6"
+    },
+    {
+     "paper_id": "08b8ab33b15b4968abd1916c673bb4e82e6ccda7",
+     "title": "Accountability of Algorithms in the GDPR and beyond: A European Legal Framework on Automated Decision-Making",
+     "year": 2019,
+     "doi": "10.2139/ssrn.3391266"
+    },
+    {
+     "paper_id": "af4f48a1fd17954f148f95c5762ec1968780ee94",
+     "title": "Implications of Model Indeterminacy for Explanations of Automated Decisions",
+     "year": 2022,
+     "doi": "10.52202/068431-0567"
+    },
+    {
+     "paper_id": "2c2db12b3d5ef84be88c99be7806f8ce756890a0",
+     "title": "Artificial Intelligence Explainability Requirements of the AI Act and Metrics for Measuring Compliance",
+     "year": 2023,
+     "doi": null
+    },
+    {
+     "paper_id": "78d71f837ca3af5e1d2c3855e00efe2321845a9a",
+     "title": "Explainable AI: Can the AI Act and the GDPR go out for a date?",
+     "year": 2024,
+     "doi": "10.1109/ijcnn60899.2024.10649994"
+    },
+    {
+     "paper_id": "8e6dbac6f283bf02507679659d54c0cd672e310b",
+     "title": "Habemus a Right to an Explanation: so What? - A Framework on Transparency-Explainability Functionality and Tensions in the EU AI Act",
+     "year": 2024,
+     "doi": "10.1609/aies.v7i1.31700"
+    },
+    {
+     "paper_id": "9d0589d770ad2a4319e3b76c03bb75f24db897fc",
+     "title": "The right of access in automated decision-making: The scope of article 15(1)(h) GDPR in theory and practice",
+     "year": 2022,
+     "doi": "10.1016/j.clsr.2022.105727"
+    },
+    {
+     "paper_id": "cbeba8a3dc2a27f9136a9bfdd5d24bef8dc15de4",
+     "title": "Actionable Recourse for Automated Decisions: Examining the Effects of Counterfactual Explanation Type and Presentation on Lay User Understanding",
+     "year": 2024,
+     "doi": "10.1145/3630106.3658997"
+    },
+    {
+     "paper_id": "f4dbce66e63203a2e7c44c3a2ea9b03ee7635366",
+     "title": "The Right to an Explanation Under the GDPR and the AI Act",
+     "year": 2025,
+     "doi": "10.1007/978-981-96-2071-5_14"
+    },
+    {
+     "paper_id": "50d46965d9094acd5b1ec87ae6223d90e783889d",
+     "title": "Reasoned A(I)dministration: explanation requirements in EU law and the automation of public administration",
+     "year": null,
+     "doi": null
+    },
+    {
+     "paper_id": "e51b8f834c514efae1715df67b9e171452c14d0d",
+     "title": "A regulatory taxonomy of AI opacity in the EU: rethinking transparency, traceability, interpretability, and explainability",
+     "year": 2026,
+     "doi": "10.1007/s43681-025-00940-0"
+    },
+    {
+     "paper_id": "c22fee03bd8110b3e2ed29b93789bc780483c1d3",
+     "title": "The Role of Financial Regulators in the Governance of Algorithmic Credit Scoring",
+     "year": 2022,
+     "doi": "10.2139/ssrn.4057986"
+    },
+    {
+     "paper_id": "c4e5b36369682db6c58adf635ecb6e72547d5050",
+     "title": "Do We Still Need the Equal Credit Opportunity Act",
+     "year": 2012,
+     "doi": "10.2139/ssrn.2154865"
+    },
+    {
+     "paper_id": "26a0695cc36da676220c05d7172fa8548a1add54",
+     "title": "AI Act High-Risk Requirements Readiness: Industrial Perspectives and Case Company Insights",
+     "year": 2024,
+     "doi": "10.1007/978-3-031-78392-0_5"
+    },
+    {
+     "paper_id": "ca2d74ef572fe2c4be53e2d70034cccd9363ee98",
+     "title": "FASTER-CE: Fast, Sparse, Transparent, and Robust Counterfactual Explanations",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2210.06578"
+    },
+    {
+     "paper_id": "d5c227c5739eb58d2a97bee76630bf86240810df",
+     "title": "Automated Decision-Making in the EU Member States: The Right to Explanation and Other 'Suitable Safeguards' for Algorithmic Decisions in the EU National Legislations",
+     "year": 2018,
+     "doi": "10.2139/ssrn.3233611"
+    },
+    {
+     "paper_id": "d9197f911ecb15baa77ecc2914ba57ed8e33dc95",
+     "title": "AI Act high-risk AI compliance challenge and industry impact: A multiple case study",
+     "year": 2026,
+     "doi": "10.1016/j.infsof.2026.108067"
+    },
+    {
+     "paper_id": "132b1d8e9a51a67f3d8b0888d9ceb374c15152b9",
+     "title": "AI integration in financial services: a systematic review of trends and regulatory challenges",
+     "year": 2025,
+     "doi": "10.1057/s41599-025-04850-8"
+    },
+    {
+     "paper_id": "acfef62a1286a0fb6aefbbe660ddfa43425fab41",
+     "title": "Protection of persons in connection with profiling : development in EU law in view of the General Data Protection Regulation (GDPR) (Regulation (EU) 2016/679)",
+     "year": 2018,
+     "doi": null
+    },
+    {
+     "paper_id": "7de0e71ab450382f3f4f1ec84412ef9cf3ec515f",
+     "title": "Transparent AI Disclosure Obligations: Who, What, When, Where, Why, How",
+     "year": 2024,
+     "doi": "10.1145/3613905.3650750"
+    },
+    {
+     "paper_id": "ec6404dbc64909b7d950646e129827ee5ddbcf9b",
+     "title": "Addressing the regulatory gap: moving towards an EU AI audit ecosystem beyond the AI Act by including civil society",
+     "year": 2024,
+     "doi": "10.1007/s43681-024-00595-3"
+    },
+    {
+     "paper_id": "560d0f9350065d1656b8169c124426cf18246771",
+     "title": "Legal and Technical Feasibility of the GDPR’s Quest for Explanation of Algorithmic Decisions: of Black Boxes, White Boxes and Fata Morganas",
+     "year": 2020,
+     "doi": "10.1017/err.2020.10"
+    },
+    {
+     "paper_id": "001f8943d2ccd3fe1712938640e090077ac916d8",
+     "title": "Errare humanum est: Financial Literacy in European Consumer Credit Law",
+     "year": 2012,
+     "doi": "10.1007/s10603-012-9198-5"
+    },
+    {
+     "paper_id": "06c56c86d246095a87edafebac1d7693412b3fcc",
+     "title": "Transparency for AI systems: a value-based approach",
+     "year": 2024,
+     "doi": "10.1007/s10676-024-09770-w"
+    },
+    {
+     "paper_id": "6c7fd003ab997a0852bde52a4a1c610fa4c5fe0c",
+     "title": "AI Governance in the Context of the EU AI Act",
+     "year": 2025,
+     "doi": "10.1109/access.2025.3598023"
+    }
+   ]
+  },
+  "fairness_lending": {
+   "rationale": "Algorithmic fairness in credit scoring and the core empirical lending-discrimination evidence; excluded historical/health redlining studies and narrow econometric discrimination tests.",
+   "papers": [
+    {
+     "paper_id": "97a98065c1fec5c36104f586c93ca756caf5caaf",
+     "title": "Consumer-lending discrimination in the FinTech Era",
+     "year": 2019,
+     "doi": "10.1016/j.jfineco.2021.05.047"
+    },
+    {
+     "paper_id": "da0bfa14e348c39d6ae104de6c576ec709f2e115",
+     "title": "Fairness in Credit Scoring: Assessment, Implementation and Profit Implications",
+     "year": 2021,
+     "doi": "10.1016/j.ejor.2021.06.023"
+    },
+    {
+     "paper_id": "97c2d2e5d599631573cb627afd8050a24db33df5",
+     "title": "Sample selection bias in credit scoring models",
+     "year": 2003,
+     "doi": "10.1057/palgrave.jors.2601578"
+    },
+    {
+     "paper_id": "4750e8d0ed1f0f2df8961fbd29feb0eeccdef656",
+     "title": "Algorithmic Fairness in Mortgage Lending: from Absolute Conditions to Relational Trade-offs",
+     "year": 2020,
+     "doi": "10.1007/s11023-020-09529-4"
+    },
+    {
+     "paper_id": "5e4ccb5b8702b555b89844e8fea1642975eefab2",
+     "title": "The Fairness of Credit Scoring Models",
+     "year": 2021,
+     "doi": "10.2139/ssrn.3785882"
+    },
+    {
+     "paper_id": "ab145b93223fff868ce04b750b93bd23f56bd38c",
+     "title": "The impact of sample bias on consumer credit scoring performance and profitability",
+     "year": 2005,
+     "doi": "10.1057/palgrave.jors.2601920"
+    },
+    {
+     "paper_id": "a68a6fc99945f16387649a82bef3bf24bb9d86b1",
+     "title": "Does Credit Scoring Produce a Disparate Impact",
+     "year": 2010,
+     "doi": "10.1111/j.1540-6229.2012.00348.x"
+    },
+    {
+     "paper_id": "46381f26547270d7d14bfc0e9165b7216fa4a81a",
+     "title": "Evidence on Discrimination in Mortgage Lending",
+     "year": 1998,
+     "doi": "10.1257/jep.12.2.41"
+    },
+    {
+     "paper_id": "f3db7f210c54c4852cc2b20f06d9fb0c07380b3a",
+     "title": "Measuring Bias in Consumer Lending",
+     "year": 2018,
+     "doi": "10.3386/w24953"
+    },
+    {
+     "paper_id": "7b5e56d741d9ad848f54650b3ada2d987d00b7be",
+     "title": "Discriminatory Effects of Credit Scoring on Communities of Color",
+     "year": 2013,
+     "doi": null
+    },
+    {
+     "paper_id": "8cb26203d7257d3912d3e6ace2a0954884cd5549",
+     "title": "How Much Does Racial Bias Affect Mortgage Lending? Evidence from Human and Algorithmic Credit Decisions",
+     "year": 2022,
+     "doi": "10.2139/ssrn.3887663"
+    },
+    {
+     "paper_id": "26ec33a1f6ca1c2a9937930d9021dc0ec3842f09",
+     "title": "Assessing Fair Lending Risks Using Race/Ethnicity Proxies",
+     "year": 2018,
+     "doi": "10.1287/mnsc.2016.2579"
+    },
+    {
+     "paper_id": "0b89038168d88e631bea03d1ae4c0b7d234ff811",
+     "title": "A United States Fair Lending Perspective on Machine Learning",
+     "year": 2021,
+     "doi": "10.3389/frai.2021.695301"
+    },
+    {
+     "paper_id": "28e9842b7f4c8f3007a700662127d6b4c2941ff1",
+     "title": "The Color of Credit: Mortgage Discrimination, Research Methodology, and Fair-Lending Enforcement",
+     "year": 2003,
+     "doi": "10.1080/00213624.2003.11506619"
+    },
+    {
+     "paper_id": "50a1931525ce211044e9d222575b63da4c1325fd",
+     "title": "Algorithmic fairness in credit scoring",
+     "year": 2021,
+     "doi": "10.1093/oxrep/grab020"
+    },
+    {
+     "paper_id": "962c625f06e020ad1484323512c40675f9e9211f",
+     "title": "Operationalizing the Search for Less Discriminatory Alternatives in Fair Lending",
+     "year": 2024,
+     "doi": "10.1145/3630106.3658912"
+    },
+    {
+     "paper_id": "7c89fce8b40068c27c5ada66cf26f9a1f7e6627e",
+     "title": "Crowd, Lending, Machine, and Bias",
+     "year": 2020,
+     "doi": "10.2139/ssrn.3206027"
+    },
+    {
+     "paper_id": "c8d54bd4d741b2d3c1bd95ee55cce9a12cc50446",
+     "title": "Scorecards as Devices for Consumer Credit: The Case of Fair, Isaac & Company Incorporated",
+     "year": 2007,
+     "doi": "10.1111/j.1467-954x.2007.00740.x"
+    },
+    {
+     "paper_id": "1c1fb3655ff62f8953c370c37a5a8c03b238b2d9",
+     "title": "What Constitutes Evidence of Discrimination in Lending",
+     "year": 1995,
+     "doi": "10.1111/j.1540-6261.1995.tb04803.x"
+    },
+    {
+     "paper_id": "659a219fc3bafdbadc3b43cb08c4405d1a5db01e",
+     "title": "Societal bias reinforcement through machine learning: a credit scoring perspective",
+     "year": 2020,
+     "doi": "10.1007/s43681-020-00026-z"
+    },
+    {
+     "paper_id": "422add8e6164827f6c8f654a431332669be310db",
+     "title": "Time to Assess Bias in Machine Learning Models for Credit Decisions",
+     "year": 2022,
+     "doi": "10.3390/jrfm15040165"
+    },
+    {
+     "paper_id": "8e6931d4644ccea4dd4b7959a30a2807aa6218ef",
+     "title": "The Facts of Lending Discrimination Cannot Be Argued Away by Examining Default Rates",
+     "year": 1993,
+     "doi": "10.1080/10511482.1993.9521127"
+    },
+    {
+     "paper_id": "0a780933ec33d2d49a5c5c9fdb6ca97e2992804f",
+     "title": "AI and housing discrimination: the case of mortgage applications",
+     "year": 2022,
+     "doi": "10.1007/s43681-022-00234-9"
+    },
+    {
+     "paper_id": "909d0cd704d670bd019924d5869b0f5122faee3c",
+     "title": "The Fair Lending Laws and Their Enforcement",
+     "year": 1995,
+     "doi": null
+    },
+    {
+     "paper_id": "61e778cbdf67d5e682519535916fe109b8533c81",
+     "title": "False Dreams of Algorithmic Fairness: The Case of Credit Pricing",
+     "year": 2020,
+     "doi": "10.2139/ssrn.3571266"
+    },
+    {
+     "paper_id": "ad073bd7d6a88c4f54da581ef175e03e198312f0",
+     "title": "Towards Fair AI: Mitigating Bias in Credit Decisions—A Systematic Literature Review",
+     "year": 2025,
+     "doi": "10.3390/jrfm18050228"
+    },
+    {
+     "paper_id": "997d1e4c21fb62150f9b6379cdfe12521f0a318c",
+     "title": "Empowering Many, Biasing a Few: Generalist Credit Scoring through Large Language Models",
+     "year": 2023,
+     "doi": "10.48550/arxiv.2310.00566"
+    },
+    {
+     "paper_id": "add87f5166ae7e59d030987e97802a35b3ebc3f3",
+     "title": "Algorithmic Decision Making Methods for Fair Credit Scoring",
+     "year": 2022,
+     "doi": "10.1109/access.2023.3286018"
+    },
+    {
+     "paper_id": "483b7fcfa5a42acffe6d36c9ad2bcb9967cc6a20",
+     "title": "Evaluating the fairness of credit scoring models: A literature review on mortgage accessibility for under-reserved populations",
+     "year": 2024,
+     "doi": "10.30574/gscarr.2024.18.3.0104"
+    },
+    {
+     "paper_id": "511f59026f59f7268bdeaf56844b21c6ce8e0943",
+     "title": "The Fair and Accurate Credit Transactions Act of 2003",
+     "year": 2005,
+     "doi": "10.3905/jsf.2005.500373"
+    },
+    {
+     "paper_id": "3ee055e61b77283d521f3687583f3030d34560ab",
+     "title": "Countering Racial Discrimination in Algorithmic Lending: A Case for Model-Agnostic Interpretation Methods",
+     "year": 2023,
+     "doi": "10.2139/ssrn.4399520"
+    },
+    {
+     "paper_id": "ef4eaa31d0f0997609e76f54adcfd0427d00f36b",
+     "title": "Lending by Algorithm: Fair or Flawed? An Information-Theoretic View of Credit Decision Pipelines",
+     "year": 2025,
+     "doi": "10.1007/s42979-025-04222-8"
+    },
+    {
+     "paper_id": "6a4cde3fde260b816a9a783eaf81eb5792f518dc",
+     "title": "Black Loans Matter: Distributionally Robust Fairness for Fighting Subgroup Discrimination",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2012.01193"
+    },
+    {
+     "paper_id": "e4174832e92fb39e861caa76c273948206268b1f",
+     "title": "Evaluating AI fairness in credit scoring with the BRIO tool",
+     "year": 2024,
+     "doi": "10.48550/arxiv.2406.03292"
+    },
+    {
+     "paper_id": "83c1e81aabd10a8ecb95d23a36eb1f632f302201",
+     "title": "Borrowing While Black: Applying Fair Lending Laws to Risk-Based Mortgage Pricing",
+     "year": 2009,
+     "doi": null
+    },
+    {
+     "paper_id": "8a6677df1eed330631074eb7b4b58826814c0435",
+     "title": "How fair is machine learning in credit lending?",
+     "year": 2024,
+     "doi": "10.1002/qre.3579"
+    },
+    {
+     "paper_id": "b217b9c1be994c81b063ffe7892bab3535888e49",
+     "title": "Algorithmic Fairness in Consumer Credit Underwriting: Towards a 'Harm-Based' Framework for AI Fair Lending",
+     "year": 2023,
+     "doi": "10.2139/ssrn.4320444"
+    },
+    {
+     "paper_id": "20955fb452c7a50d9934058aadc2f667c2d372c0",
+     "title": "Discriminatory Lending: Evidence from Bankers in the Lab",
+     "year": 2023,
+     "doi": "10.2139/ssrn.3786684"
+    }
+   ]
+  },
+  "xai_methods": {
+   "rationale": "Most-cited (within library) methods and evaluation work for SHAP/LIME/counterfactuals/recourse on tabular models, incl. robustness, manipulation, stability and user studies; excluded image/graph/time-series/medical-specific methods.",
+   "papers": [
+    {
+     "paper_id": "c2413fa296543159b32d16350d9e29f7db528790",
+     "title": "Explaining machine learning classifiers through diverse counterfactual explanations",
+     "year": 2019,
+     "doi": "10.1145/3351095.3372850"
+    },
+    {
+     "paper_id": "86841a74f0fd99ba369f635715ecae3007f22611",
+     "title": "Actionable Recourse in Linear Classification",
+     "year": 2018,
+     "doi": "10.1145/3287560.3287566"
+    },
+    {
+     "paper_id": "f187ce8f89c243724aabd4bd29591c8c580ef851",
+     "title": "FACE: Feasible and Actionable Counterfactual Explanations",
+     "year": 2019,
+     "doi": "10.1145/3375627.3375850"
+    },
+    {
+     "paper_id": "324d098c5294c69735ae1670707b2f21b605b8e5",
+     "title": "Model-Agnostic Counterfactual Explanations for Consequential Decisions",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1905.11190"
+    },
+    {
+     "paper_id": "f77acbc2beef4ea85b333798621c14a6e3422502",
+     "title": "Interpretable Counterfactual Explanations Guided by Prototypes",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1907.02584"
+    },
+    {
+     "paper_id": "6068d39e92aef1bb0e1291e9931894c35692a85e",
+     "title": "Counterfactual Explanations for Machine Learning: A Review",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2010.10596"
+    },
+    {
+     "paper_id": "0367827a9162f981ee02c4b3130f58085fba93f1",
+     "title": "Algorithmic Recourse: from Counterfactual Explanations to Interventions",
+     "year": 2020,
+     "doi": "10.1145/3442188.3445899"
+    },
+    {
+     "paper_id": "653864b10564ab4712c07a3d4043a1d794b13c46",
+     "title": "Fooling LIME and SHAP: Adversarial Attacks on Post hoc Explanation Methods",
+     "year": 2019,
+     "doi": "10.1145/3375627.3375830"
+    },
+    {
+     "paper_id": "0cfd1f4a43824b88909a44c04b5edb251c0886a6",
+     "title": "Efficient Search for Diverse Coherent Explanations",
+     "year": 2019,
+     "doi": "10.1145/3287560.3287569"
+    },
+    {
+     "paper_id": "22088210963a367ac66297ed4c945a9bfdf50afd",
+     "title": "Counterfactual explanations and how to find them: literature review and benchmarking",
+     "year": 2022,
+     "doi": "10.1007/s10618-022-00831-6"
+    },
+    {
+     "paper_id": "148209fa0c9279bb40322794833aa075769de95b",
+     "title": "Preserving Causal Constraints in Counterfactual Explanations for Machine Learning Classifiers",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1912.03277"
+    },
+    {
+     "paper_id": "f0815b9f32907affdcad532a56838a792394d3df",
+     "title": "Multi-Objective Counterfactual Explanations",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2004.11165"
+    },
+    {
+     "paper_id": "6d1ce61143dfa6670b0c9453972667f6b423178d",
+     "title": "The hidden assumptions behind counterfactual explanations and principal reasons",
+     "year": 2019,
+     "doi": "10.1145/3351095.3372830"
+    },
+    {
+     "paper_id": "77c48f33c1fd633210dae784f3d311f69b47ed82",
+     "title": "Learning Model-Agnostic Counterfactual Explanations for Tabular Data",
+     "year": 2019,
+     "doi": "10.1145/3366423.3380087"
+    },
+    {
+     "paper_id": "861aaf3e9c8af9e23f1990d20815f7602d664619",
+     "title": "Consistent Individualized Feature Attribution for Tree Ensembles",
+     "year": 2018,
+     "doi": "10.48550/arxiv.1802.03888"
+    },
+    {
+     "paper_id": "4f5e178d2cecc2c10fcb82ddd9c20a16d210bdbc",
+     "title": "The many Shapley values for model explanation",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1908.08474"
+    },
+    {
+     "paper_id": "934927ef3b94f379ed933cddb8e38b38c5a3dc71",
+     "title": "Algorithmic recourse under imperfect causal knowledge: a probabilistic approach",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2006.06831"
+    },
+    {
+     "paper_id": "043f084e379a44608c470059c2aa174a323e9774",
+     "title": "Counterfactual Fairness",
+     "year": 2017,
+     "doi": "10.48550/arxiv.1703.06856"
+    },
+    {
+     "paper_id": "eae0e71e03755b1a60fd5d378928d1a1f080e4dd",
+     "title": "Towards Realistic Individual Recourse and Actionable Explanations in Black-Box Decision Making Systems",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1907.09615"
+    },
+    {
+     "paper_id": "29db3697ba36197a10ddad5a0a14dff43a42efce",
+     "title": "A survey of algorithmic recourse: definitions, formulations, solutions, and prospects",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2010.04050"
+    },
+    {
+     "paper_id": "01356797005cc02c414e358dcc2b417b9b81cceb",
+     "title": "Explaining individual predictions when features are dependent: More accurate approximations to Shapley values",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1903.10464"
+    },
+    {
+     "paper_id": "e016ee7bfc73cb5b8a92f6c517389be837c035eb",
+     "title": "A Survey of Contrastive and Counterfactual Explanation Generation Methods for Explainable Artificial Intelligence",
+     "year": 2021,
+     "doi": "10.1109/access.2021.3051315"
+    },
+    {
+     "paper_id": "56f531eb3a8eaa03a6dbcf74a6c12c80b2e90f45",
+     "title": "A Survey of Algorithmic Recourse: Contrastive Explanations and Consequential Recommendations",
+     "year": 2022,
+     "doi": "10.1145/3527848"
+    },
+    {
+     "paper_id": "552124b171eb5606a3388f4acc2fe026f8689c66",
+     "title": "Good Counterfactuals and Where to Find Them: A Case-Based Technique for Generating Counterfactuals for Explainable AI (XAI)",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2005.13997"
+    },
+    {
+     "paper_id": "cfc879af857200504ca0eefba0a2d14f998412be",
+     "title": "Towards Robust and Reliable Algorithmic Recourse",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2102.13620"
+    },
+    {
+     "paper_id": "359e6c070ef9f991f8dc3ffbd49beaf15c7339b8",
+     "title": "DACE: Distribution-Aware Counterfactual Explanation by Mixed-Integer Linear Optimization",
+     "year": 2020,
+     "doi": "10.24963/ijcai.2020/395"
+    },
+    {
+     "paper_id": "fdd025e077a36166b10120b448d0c4e4009824a9",
+     "title": "Model-Agnostic Interpretability of Machine Learning",
+     "year": 2016,
+     "doi": "10.48550/arxiv.1606.05386"
+    },
+    {
+     "paper_id": "364f02eff4f10ea602d86fd8c98c8694b76f46fd",
+     "title": "Problems with Shapley-value-based explanations as feature importance measures",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2002.11097"
+    },
+    {
+     "paper_id": "820122d91766a651be09d50cab1dcce8227a5474",
+     "title": "Factual and Counterfactual Explanations for Black Box Decision Making",
+     "year": 2019,
+     "doi": "10.1109/mis.2019.2957223"
+    },
+    {
+     "paper_id": "6eaf8bfd156c1e482fe2b6d6a2b5c1d50c2c102f",
+     "title": "CERTIFAI: A Common Framework to Provide Explanations and Analyse the Fairness and Robustness of Black-box Models",
+     "year": 2019,
+     "doi": "10.1145/3375627.3375812"
+    },
+    {
+     "paper_id": "4490ffac416692ab827c5a30e5f3a4b4fd6be949",
+     "title": "Explainable machine learning in deployment",
+     "year": 2019,
+     "doi": "10.1145/3351095.3375624"
+    },
+    {
+     "paper_id": "7b700dbbdc38b714916a93065c1d11ea16728e7c",
+     "title": "CARLA: A Python Library to Benchmark Algorithmic Recourse and Counterfactual Explanation Algorithms",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2108.00783"
+    },
+    {
+     "paper_id": "be659a7747137ef85239d849f84c5a25dcb77639",
+     "title": "Counterfactual Explanations Can Be Manipulated",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2106.02666"
+    },
+    {
+     "paper_id": "4627d3fd86423fe911ee40b8eb35b1e389ab41fd",
+     "title": "The philosophical basis of algorithmic recourse",
+     "year": 2020,
+     "doi": "10.1145/3351095.3372876"
+    },
+    {
+     "paper_id": "029a1c21accc0cbf36536cad02a12630b1c6e131",
+     "title": "On Counterfactual Explanations under Predictive Multiplicity",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2006.13132"
+    },
+    {
+     "paper_id": "f9145d932ae9e454d9a45ae23fdb0ec0171e4ef4",
+     "title": "Counterfactual Explanations and Algorithmic Recourses for Machine Learning: A Review",
+     "year": 2020,
+     "doi": "10.1145/3677119"
+    },
+    {
+     "paper_id": "9a88c950ecc0275ce517f35c79280e223c24ff4c",
+     "title": "The Dangers of Post-hoc Interpretability: Unjustified Counterfactual Explanations",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1907.09294"
+    },
+    {
+     "paper_id": "c875aba3d3e301bc6c367f801123a9468dd012d7",
+     "title": "If Only We Had Better Counterfactual Explanations: Five Key Deficits to Rectify in the Evaluation of Counterfactual XAI Techniques",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2103.01035"
+    },
+    {
+     "paper_id": "8b7e972d645d691159141cc8cd8bee3248307b84",
+     "title": "Asymmetric Shapley values: incorporating causal knowledge into model-agnostic explainability",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1910.06358"
+    },
+    {
+     "paper_id": "2a4b609a7e0df199332222c05caf4c58d2f4cb6c",
+     "title": "Beyond Individualized Recourse: Interpretable and Interactive Summaries of Actionable Recourses",
+     "year": 2020,
+     "doi": null
+    },
+    {
+     "paper_id": "0dd11d2bab52c617087b118f64848cb5302eadc3",
+     "title": "Measurable Counterfactual Local Explanations for Any Classifier",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1908.03020"
+    },
+    {
+     "paper_id": "34783ad136c0105a78dbb3546100b8864d1b38ca",
+     "title": "Model Agnostic Supervised Local Explanations",
+     "year": 2018,
+     "doi": null
+    },
+    {
+     "paper_id": "06645d735b59b14479ae1d0392136bbf44227d0f",
+     "title": "DARPA's Explainable Artificial Intelligence (XAI) Program",
+     "year": 2019,
+     "doi": "10.1609/aimag.v40i2.2850"
+    },
+    {
+     "paper_id": "c3871d9f7039a118a14a3a115d52f3326efa6992",
+     "title": "Explaining by Removing: A Unified Framework for Model Explanation",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2011.14878"
+    },
+    {
+     "paper_id": "3dd57363da3201f920c7e0b17a29e59ef44da724",
+     "title": "Improving KernelSHAP: Practical Shapley Value Estimation via Linear Regression",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2012.01536"
+    },
+    {
+     "paper_id": "c483beec0afae8d08f011182460095049025b8d1",
+     "title": "Opportunities and Challenges in Explainable Artificial Intelligence (XAI): A Survey",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2006.11371"
+    },
+    {
+     "paper_id": "6b0a1a69ba65618a104b421cd434be08cca9a8eb",
+     "title": "On the Fairness of Causal Algorithmic Recourse",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2010.06529"
+    },
+    {
+     "paper_id": "7f96129c3ace698b0d6395fb55e2660a71cc43a2",
+     "title": "GeCo: Quality Counterfactual Explanations in Real Time",
+     "year": 2021,
+     "doi": "10.14778/3461535.3461555"
+    },
+    {
+     "paper_id": "7caaafd5a3ee033c98e792c7ea5b699d005753d5",
+     "title": "From Anecdotal Evidence to Quantitative Evaluation Methods: A Systematic Review on Evaluating Explainable AI",
+     "year": 2022,
+     "doi": "10.1145/3583558"
+    },
+    {
+     "paper_id": "e5c703aba8af983c36fedf08c32a6978eadd91b9",
+     "title": "DLIME: A Deterministic Local Interpretable Model-Agnostic Explanations Approach for Computer-Aided Diagnosis Systems",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1906.10263"
+    },
+    {
+     "paper_id": "8ef37a9fd21b09568c6dfd7da4368b022a76cb1e",
+     "title": "NICE: an algorithm for nearest instance counterfactual explanations",
+     "year": 2021,
+     "doi": "10.1007/s10618-023-00930-y"
+    },
+    {
+     "paper_id": "c3c973d1073e14fd8712db042ef4b3dca7b05c0b",
+     "title": "On the Adversarial Robustness of Causal Algorithmic Recourse",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2112.11313"
+    },
+    {
+     "paper_id": "b4dd607393e8c29b4e1a6d0f1d063aa2c59889c2",
+     "title": "Counterfactual Explanations of Machine Learning Predictions: Opportunities and Challenges for AI Safety",
+     "year": 2019,
+     "doi": null
+    },
+    {
+     "paper_id": "16eb4e90f7d43b6c484cdac8b1bbb3774faee960",
+     "title": "Evaluating Robustness of Counterfactual Explanations",
+     "year": 2021,
+     "doi": "10.1109/ssci50451.2021.9660058"
+    },
+    {
+     "paper_id": "2ca16040c5aad12c2063deebd0c896836b94bed0",
+     "title": "Evaluating and Aggregating Feature-based Model Explanations",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2005.00631"
+    },
+    {
+     "paper_id": "1b205083ff65ba95910cf42e08301963a0c2034e",
+     "title": "Explaining the Explainer: A First Theoretical Analysis of LIME",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2001.03447"
+    },
+    {
+     "paper_id": "097a125fea441e2973cee1a95b77cc8582a4ed8c",
+     "title": "Reliable Post hoc Explanations: Modeling Uncertainty in Explainability",
+     "year": 2020,
+     "doi": null
+    },
+    {
+     "paper_id": "9627efce9888bbf78538e6d259f49081e91f391a",
+     "title": "Robust Counterfactual Explanations for Tree-Based Ensembles",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2207.02739"
+    },
+    {
+     "paper_id": "80a7c64b97ab3e2456f204c3926d581465eeebc9",
+     "title": "The Explanation Game: Explaining Machine Learning Models Using Shapley Values",
+     "year": 2020,
+     "doi": "10.1007/978-3-030-57321-8_2"
+    },
+    {
+     "paper_id": "8a05066926ae026ede669acf663b4d8d3de02e8b",
+     "title": "Explainable AI in Fintech Risk Management",
+     "year": 2020,
+     "doi": "10.3389/frai.2020.00026"
+    },
+    {
+     "paper_id": "779ebcff9b5c91b4e52bb5a35113b610b707367c",
+     "title": "ALIME: Autoencoder Based Approach for Local Interpretability",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1909.02437"
+    },
+    {
+     "paper_id": "4a12ed8afeef0ef238daa5f9cde643eb7e75c144",
+     "title": "Explaining Data-Driven Decisions made by AI Systems: The Counterfactual Approach",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2001.07417"
+    },
+    {
+     "paper_id": "b1fe45eda204847f5f4c0b3b8eafaecaf184859c",
+     "title": "Consistent Counterfactuals for Deep Models",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2110.03109"
+    },
+    {
+     "paper_id": "0b3157723e413074b51b78d4e0e7d90bb073199c",
+     "title": "Convex Density Constraints for Computing Plausible Counterfactual Explanations",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2002.04862"
+    },
+    {
+     "paper_id": "4d6496931f9eed4b68faeef9b2a4d04a4f5a775b",
+     "title": "Machine Learning Explainability in Finance: An Application to Default Risk Analysis",
+     "year": 2019,
+     "doi": "10.2139/ssrn.3435104"
+    },
+    {
+     "paper_id": "64bd436eb8f2bf28c041f6bf4d673f47680e84aa",
+     "title": "ViCE: visual counterfactual explanations for machine learning models",
+     "year": 2020,
+     "doi": "10.1145/3377325.3377536"
+    },
+    {
+     "paper_id": "aea8658a9c9dfc54d9163705971f875b6409c212",
+     "title": "On the computation of counterfactual explanations - A survey",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1911.07749"
+    },
+    {
+     "paper_id": "15b1e79aa5901a69259ca37cb8c81eeaab3ad44e",
+     "title": "A Survey on the Robustness of Feature Importance and Counterfactual Explanations",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2111.00358"
+    },
+    {
+     "paper_id": "0088edc8676c9be2ab468ab6838ab668845f32ba",
+     "title": "Shapley Flow: A Graph-based Approach to Interpreting Model Predictions",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2010.14592"
+    },
+    {
+     "paper_id": "337b96b55034e6ead100d26e547c942489ff2e93",
+     "title": "FOCUS: Flexible Optimizable Counterfactual Explanations for Tree Ensembles",
+     "year": 2019,
+     "doi": "10.1609/aaai.v36i5.20468"
+    },
+    {
+     "paper_id": "4b9f49bd9e9ed04b9e0458e5c4c34c9d9339fbf5",
+     "title": "Statistical stability indices for LIME: Obtaining reliable explanations for machine learning models",
+     "year": 2020,
+     "doi": "10.1080/01605682.2020.1865846"
+    },
+    {
+     "paper_id": "09a33ec2f03c3e083e26edd0a8c1f8a7def6ca1d",
+     "title": "Towards Unifying Feature Attribution and Counterfactual Explanations: Different Means to the Same End",
+     "year": 2020,
+     "doi": "10.1145/3461702.3462597"
+    },
+    {
+     "paper_id": "da1c43aa31c99b459a28443c216ea91713136e33",
+     "title": "A comparison of instance-level counterfactual explanation algorithms for behavioral and textual data: SEDC, LIME-C and SHAP-C",
+     "year": 2019,
+     "doi": "10.1007/s11634-020-00418-3"
+    },
+    {
+     "paper_id": "caa7aa54e908ecb2ce4bc94a4e153a7545a642a2",
+     "title": "Optimal Counterfactual Explanations in Tree Ensembles",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2106.06631"
+    },
+    {
+     "paper_id": "01cf4bb091d87db38b0726f86c78c9d9721e934a",
+     "title": "Robust Counterfactual Explanations for Neural Networks With Probabilistic Guarantees",
+     "year": 2023,
+     "doi": "10.48550/arxiv.2305.11997"
+    },
+    {
+     "paper_id": "517f446ab3ff339459cab39cf12691d925d75a36",
+     "title": "Probabilistically Robust Recourse: Navigating the Trade-offs between Costs and Robustness in Algorithmic Recourse",
+     "year": 2022,
+     "doi": null
+    },
+    {
+     "paper_id": "5a2132f73954d34093bc6525091294f92596fafd",
+     "title": "Generating Interpretable Counterfactual Explanations By Implicit Minimisation of Epistemic and Aleatoric Uncertainties",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2103.08951"
+    },
+    {
+     "paper_id": "9fe69cf5c104b2205cdb7908df8cdb389256b4b5",
+     "title": "TabNet: Attentive Interpretable Tabular Learning",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1908.07442"
+    },
+    {
+     "paper_id": "30e776268268e84becd2863b0632247da61238b9",
+     "title": "Quantus: An Explainable AI Toolkit for Responsible Evaluation of Neural Network Explanations",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2202.06861"
+    },
+    {
+     "paper_id": "1efe9c3efd044e0d3d5ee7e7cab970273d2b6cfa",
+     "title": "One Explanation Does Not Fit All",
+     "year": 2020,
+     "doi": "10.1007/s13218-020-00637-y"
+    },
+    {
+     "paper_id": "44b1fa2869065e62626afc7a8d8c12ba54625742",
+     "title": "S-LIME: Stabilized-LIME for Model Explanation",
+     "year": 2021,
+     "doi": "10.1145/3447548.3467274"
+    },
+    {
+     "paper_id": "4c35e7cb5731c6f281e98b524d4e922c9fb88b3b",
+     "title": "Shapley explainability on the data manifold",
+     "year": 2020,
+     "doi": null
+    },
+    {
+     "paper_id": "7e1e123e8b4463a4d4ad7b377bb96f0a058aff7f",
+     "title": "Post-Hoc Explanations Fail to Achieve their Purpose in Adversarial Contexts",
+     "year": 2022,
+     "doi": "10.1145/3531146.3533153"
+    },
+    {
+     "paper_id": "855ead416697e84a586631b63b8c2a86a2bcb780",
+     "title": "DECE: Decision Explorer with Counterfactual Explanations for Machine Learning Models",
+     "year": 2020,
+     "doi": "10.1109/tvcg.2020.3030342"
+    },
+    {
+     "paper_id": "468d0b4bfcbdf0d9c14f49efda196945b3e28cef",
+     "title": "\"Why Should You Trust My Explanation?\" Understanding Uncertainty in LIME Explanations",
+     "year": 2019,
+     "doi": null
+    },
+    {
+     "paper_id": "5fd221aa10d0b0582c1cf1f186a0052d855472e6",
+     "title": "Exploring Counterfactual Explanations Through the Lens of Adversarial Examples: A Theoretical and Empirical Analysis",
+     "year": 2021,
+     "doi": null
+    },
+    {
+     "paper_id": "27e88f8a9cb78be72ea885bcb0b0dc07b8877d24",
+     "title": "Issues with post-hoc counterfactual explanations: a discussion",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1906.04774"
+    },
+    {
+     "paper_id": "da91612a59373fbc71604996512d7f78e06f1b7a",
+     "title": "Scaling Guarantees for Nearest Counterfactual Explanations",
+     "year": 2020,
+     "doi": "10.1145/3461702.3462514"
+    },
+    {
+     "paper_id": "c935ad16b132f526b289e16e84d73c5821bfc100",
+     "title": "Algorithms to estimate Shapley value feature attributions",
+     "year": 2022,
+     "doi": "10.1038/s42256-023-00657-x"
+    },
+    {
+     "paper_id": "cffd8f947ba03644f62baea31c64c8920b06288e",
+     "title": "Evaluating Explainable AI: Which Algorithmic Explanations Help Users Predict Model Behavior?",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2005.01831"
+    },
+    {
+     "paper_id": "35e16e6d997cbc1b80f0301caa1aec98126d253d",
+     "title": "On the robustness of sparse counterfactual explanations to adverse perturbations",
+     "year": 2022,
+     "doi": "10.1016/j.artint.2022.103840"
+    },
+    {
+     "paper_id": "3ee94d9f73a8ba6b291e254cdb0df18acce58056",
+     "title": "A Framework and Benchmarking Study for Counterfactual Generating Methods on Tabular Data",
+     "year": 2021,
+     "doi": "10.3390/app11167274"
+    },
+    {
+     "paper_id": "a18134d31fabd68bf3a487b56ff33acc4fe8454a",
+     "title": "Can I Still Trust You?: Understanding the Impact of Distribution Shifts on Algorithmic Recourses",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2012.11788"
+    },
+    {
+     "paper_id": "ff24027b87fae8af61434905090abf1798e12aa7",
+     "title": "The Intriguing Relation Between Counterfactual Explanations and Adversarial Examples",
+     "year": 2020,
+     "doi": "10.1007/s11023-021-09580-9"
+    },
+    {
+     "paper_id": "2002c93bac0355ec40278e246f0a757f68a2afc4",
+     "title": "Decisions, Counterfactual Explanations and Strategic Behavior",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2002.04333"
+    },
+    {
+     "paper_id": "620eb8a7ad2016319348ba37ab73224bc4feb87e",
+     "title": "The Robustness of Counterfactual Explanations Over Time",
+     "year": 2022,
+     "doi": "10.1109/access.2022.3196917"
+    },
+    {
+     "paper_id": "13bcee171baaa9ea589a7cfbb3124c3146a8e7dc",
+     "title": "Algorithmic Recourse in the Wild: Understanding the Impact of Data and Model Shifts",
+     "year": 2020,
+     "doi": null
+    },
+    {
+     "paper_id": "262e060ddfa7db0563b083d31552b2855e2daa1e",
+     "title": "Counterfactual Plans under Distributional Ambiguity",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2201.12487"
+    },
+    {
+     "paper_id": "7db2afdc5eb5db46cc64185d0a51ed079b0976e8",
+     "title": "Right for the Right Reasons: Training Differentiable Models by Constraining their Explanations",
+     "year": 2017,
+     "doi": "10.24963/ijcai.2017/371"
+    },
+    {
+     "paper_id": "f97faace925372bdfa7d81d3f490722149a862f7",
+     "title": "Beyond Trivial Counterfactual Explanations with Diverse Valuable Explanations",
+     "year": 2021,
+     "doi": "10.1109/iccv48922.2021.00109"
+    },
+    {
+     "paper_id": "0bafbc8fa8080e17de5e47bd3391aa82fe73924e",
+     "title": "Counterfactual Shapley Additive Explanations",
+     "year": 2021,
+     "doi": "10.1145/3531146.3533168"
+    },
+    {
+     "paper_id": "4cdbce47bba2866fc854127e0aa387f876465404",
+     "title": "A Few Good Counterfactuals: Generating Interpretable, Plausible and Diverse Counterfactual Explanations",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2101.09056"
+    },
+    {
+     "paper_id": "ff2f098e2ad415841836e985ee6dfa2fbad7e0c7",
+     "title": "Counterfactual Explanations for Arbitrary Regression Models",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2106.15212"
+    },
+    {
+     "paper_id": "6573fa74af238d1e3538c026997e31b9f67f19f7",
+     "title": "Shapley values for feature selection: The good, the bad, and the axioms",
+     "year": 2021,
+     "doi": "10.1109/access.2021.3119110"
+    },
+    {
+     "paper_id": "f807dbac4635dd5b34b151a2263542250923d40a",
+     "title": "BayLIME: Bayesian Local Interpretable Model-Agnostic Explanations",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2012.03058"
+    },
+    {
+     "paper_id": "7ee250d1a8505c4bb96b4898a9407e1f6ec01ec8",
+     "title": "Which Explanation Should I Choose? A Function Approximation Perspective to Characterizing Post hoc Explanations",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2206.01254"
+    },
+    {
+     "paper_id": "071100400f16968d16fabb347278d8451216b6ff",
+     "title": "Towards the Unification and Robustness of Perturbation and Gradient Based Explanations",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2102.10618"
+    },
+    {
+     "paper_id": "a7e57f485f2dfe7d1a599cf976b2a7caaa424f2f",
+     "title": "Formalising the Robustness of Counterfactual Explanations for Neural Networks",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2208.14878"
+    },
+    {
+     "paper_id": "97ae8630a8a7925692374ef4d61304b8e058bb37",
+     "title": "Capturing Users' Reality: A Novel Approach to Generate Coherent Counterfactual Explanations",
+     "year": 2021,
+     "doi": "10.24251/hicss.2021.155"
+    },
+    {
+     "paper_id": "55ad60edf95db25bc76001f38ffcb3131c7dded0",
+     "title": "Explainable artificial intelligence (XAI) in finance: a systematic literature review",
+     "year": 2024,
+     "doi": "10.1007/s10462-024-10854-8"
+    },
+    {
+     "paper_id": "96d1b48417113b41a67557c50e3e5405c3c86a55",
+     "title": "Benchmarking Attribution Methods with Relative Feature Importance",
+     "year": 2019,
+     "doi": null
+    },
+    {
+     "paper_id": "29b026cc2c9a9c6679838112149be55514eea714",
+     "title": "Shapley-based explainability on the data manifold",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2006.01272"
+    },
+    {
+     "paper_id": "c79ba865574cb9635dbca135cec99ee56125778c",
+     "title": "Are Explanations Helpful? A Comparative Study of the Effects of Explanations in AI-Assisted Decision-Making",
+     "year": 2021,
+     "doi": "10.1145/3397481.3450650"
+    },
+    {
+     "paper_id": "d45ed4ed1b03568c67cff5b4f021b94e023ead29",
+     "title": "Perturbation-Based Explanations of Prediction Models",
+     "year": 2018,
+     "doi": "10.1007/978-3-319-90403-0_9"
+    },
+    {
+     "paper_id": "1d3539a8d94bd3ab78993d7cc584efc06ed0e460",
+     "title": "Synthetic Benchmarks for Scientific Research in Explainable Machine Learning",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2106.12543"
+    },
+    {
+     "paper_id": "3672af8ea4d6bf7896f5af189f91af510b17874e",
+     "title": "Looking Deeper into Tabular LIME",
+     "year": 2020,
+     "doi": null
+    },
+    {
+     "paper_id": "71723f07a8e10db8ea72ad38c11c8922026338d9",
+     "title": "Amortized Generation of Sequential Algorithmic Recourses for Black-Box Models",
+     "year": 2021,
+     "doi": "10.1609/aaai.v36i8.20828"
+    },
+    {
+     "paper_id": "457e3f9df50883f2c94af0332f0e8672ce729ac9",
+     "title": "Explaining Black-Box Algorithms Using Probabilistic Contrastive Counterfactuals",
+     "year": 2021,
+     "doi": "10.1145/3448016.3458455"
+    },
+    {
+     "paper_id": "95d4cdaec450c0e26e45f13e231c075c1809ac7c",
+     "title": "You Shouldn't Trust Me: Learning Models Which Conceal Unfairness From Multiple Explanation Methods",
+     "year": 2020,
+     "doi": "10.17863/cam.48825"
+    },
+    {
+     "paper_id": "17f9480c4b0495334a4f3b0d6332c3e7f58b76ae",
+     "title": "From Shapley Values to Generalized Additive Models and back",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2209.04012"
+    },
+    {
+     "paper_id": "0ab86748d7c5b40653c9630f85d424b8f3723a17",
+     "title": "Fairness via Explanation Quality: Evaluating Disparities in the Quality of Post hoc Explanations",
+     "year": 2022,
+     "doi": "10.1145/3514094.3534159"
+    },
+    {
+     "paper_id": "983f1e19ba55aa97bd20086ca7ad5cf4e436a37a",
+     "title": "Model extraction from counterfactual explanations",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2009.01884"
+    },
+    {
+     "paper_id": "04de54ef65f3d2afae053d2401cd2ee10aed437b",
+     "title": "Do Not Trust Additive Explanations",
+     "year": 2019,
+     "doi": null
+    },
+    {
+     "paper_id": "899e489944063f0313ef01b33a8d4ce6ca386321",
+     "title": "Shapley Explanation Networks",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2104.02297"
+    },
+    {
+     "paper_id": "2cbf3abd9e2a2300c773cf31844657c2eb6658fa",
+     "title": "Generating collective counterfactual explanations in score-based classification via mathematical optimization",
+     "year": 2023,
+     "doi": "10.1016/j.eswa.2023.121954"
+    },
+    {
+     "paper_id": "0723e942e2b59978982b8bd18544b2186765070e",
+     "title": "Conditional Generative Models for Counterfactual Explanations",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2101.10123"
+    },
+    {
+     "paper_id": "5317086c8682334144ce8c001b2e7da544f0d93a",
+     "title": "CARE: coherent actionable recourse based on sound counterfactual explanations",
+     "year": 2021,
+     "doi": "10.1007/s41060-022-00365-6"
+    },
+    {
+     "paper_id": "5d5cc74e8c323b2f113532c8018a88508ca51514",
+     "title": "Mathematical optimization modelling for group counterfactual explanations",
+     "year": 2024,
+     "doi": "10.1016/j.ejor.2024.01.002"
+    },
+    {
+     "paper_id": "ee5775e16b00c2a150119c0cb6a4de8c29b30cd3",
+     "title": "Deterministic Local Interpretable Model-Agnostic Explanations for Stable Explainability",
+     "year": 2021,
+     "doi": "10.3390/make3030027"
+    },
+    {
+     "paper_id": "798ea191aad9401462b405fde1a6cefb4fe53fd5",
+     "title": "Explaining Explanations: Axiomatic Feature Interactions for Deep Networks",
+     "year": 2020,
+     "doi": "10.48550/arxiv.2002.04138"
+    },
+    {
+     "paper_id": "dafa08d67263c4a61abbaae53af7ef9371e7021d",
+     "title": "On generating trustworthy counterfactual explanations",
+     "year": 2024,
+     "doi": "10.1016/j.ins.2023.119898"
+    },
+    {
+     "paper_id": "062b02ebe869dbe04033b7d10ff870f62f0eb994",
+     "title": "To trust or not to trust an explanation: using LEAF to evaluate local linear XAI methods",
+     "year": 2021,
+     "doi": "10.7287/peerj-cs.479v0.2/reviews/1"
+    },
+    {
+     "paper_id": "b7a607f3ae3baf44b14ffa3a1dfe86a3e0a1b7e6",
+     "title": "Counterfactual Explanations for Oblique Decision Trees: Exact, Efficient Algorithms",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2103.01096"
+    },
+    {
+     "paper_id": "375d844d14585e08ef9a116ddbfd0d58f10909af",
+     "title": "Model-Based Counterfactual Synthesizer for Interpretation",
+     "year": 2021,
+     "doi": "10.1145/3447548.3467333"
+    },
+    {
+     "paper_id": "21c45e9ee91b05a6685ab333197e28b9f2bcd493",
+     "title": "Finding Regions of Counterfactual Explanations via Robust Optimization",
+     "year": 2023,
+     "doi": "10.48550/arxiv.2301.11113"
+    },
+    {
+     "paper_id": "1a4057f0be03d5036880ae1b547139379073709d",
+     "title": "Keep Your Friends Close and Your Counterfactuals Closer: Improved Learning From Closest Rather Than Plausible Counterfactual Explanations in an Abstract Setting",
+     "year": 2022,
+     "doi": "10.1145/3531146.3534630"
+    },
+    {
+     "paper_id": "8a25fffc0a23c1f9b23aa3dc9209e96a15c0fd5b",
+     "title": "Counterfactual Explanations and Model Multiplicity: a Relational Verification View",
+     "year": 2023,
+     "doi": "10.24963/kr.2023/78"
+    },
+    {
+     "paper_id": "345dce064a98e4aef84a04971aa2183fdb23aff8",
+     "title": "A Causal Perspective on Meaningful and Robust Algorithmic Recourse",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2107.07853"
+    },
+    {
+     "paper_id": "2866e1ec89fa8952e5368c49fe957e614772d5f6",
+     "title": "Explaining a series of models by propagating Shapley values",
+     "year": 2021,
+     "doi": "10.1038/s41467-022-31384-3"
+    },
+    {
+     "paper_id": "a1c5af2a531c64f1c06e806d7986cd878ec3c33a",
+     "title": "How can I choose an explainer?: An Application-grounded Evaluation of Post-hoc Explanations",
+     "year": 2021,
+     "doi": "10.1145/3442188.3445941"
+    },
+    {
+     "paper_id": "58fb656fd4d7a6938438d8a2a0e667b55aea1d92",
+     "title": "Shapley Residuals: Quantifying the limits of the Shapley value for explanations",
+     "year": 2021,
+     "doi": null
+    },
+    {
+     "paper_id": "2a6fa9437db0bfe5081fcae8b56018d1dff5ea3a",
+     "title": "Robust Counterfactual Explanations in Machine Learning: A Survey",
+     "year": 2024,
+     "doi": "10.48550/arxiv.2402.01928"
+    },
+    {
+     "paper_id": "796fa88cb515f5a126a70a2286e90ae4e2c71016",
+     "title": "bLIMEy: Surrogate Prediction Explanations Beyond LIME",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1910.13016"
+    },
+    {
+     "paper_id": "a4b63425b1e583b4388030a5b29976b20fdca137",
+     "title": "GLOBE-CE: A Translation-Based Approach for Global Counterfactual Explanations",
+     "year": 2023,
+     "doi": "10.48550/arxiv.2305.17021"
+    },
+    {
+     "paper_id": "94499735571f96dba6881485f47f2375d758851b",
+     "title": "DisCERN: Discovering Counterfactual Explanations using Relevance Features from Neighbourhoods",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2109.05800"
+    },
+    {
+     "paper_id": "9ca3c837494365110fc06482d4f1898732257004",
+     "title": "Actionable Interpretability through Optimizable Counterfactual Explanations for Tree Ensembles",
+     "year": 2019,
+     "doi": "10.48550/arxiv.1911.12199"
+    },
+    {
+     "paper_id": "1cfa37ad4e678229c23181468b46184102a30278",
+     "title": "A Perspective on Explainable Artificial Intelligence Methods: SHAP and LIME",
+     "year": 2023,
+     "doi": "10.1002/aisy.202400304"
+    },
+    {
+     "paper_id": "282364bc1966c515b55fd1c151302dbfe62071c0",
+     "title": "From explanations to feature selection: assessing SHAP values as feature selection mechanism",
+     "year": 2020,
+     "doi": "10.1109/sibgrapi51738.2020.00053"
+    },
+    {
+     "paper_id": "f4f6bf7c3d708102359e86730df15e514e201854",
+     "title": "Explainable AI Methods - A Brief Overview",
+     "year": 2020,
+     "doi": "10.1007/978-3-031-04083-2_2"
+    },
+    {
+     "paper_id": "f32f26d3d634ff651e8b5266fbce80414f895eff",
+     "title": "Financial Risk Management and Explainable, Trustworthy, Responsible AI",
+     "year": 2022,
+     "doi": "10.3389/frai.2022.779799"
+    },
+    {
+     "paper_id": "47c380459a9311c0686c2e17ef05313821133cd7",
+     "title": "Faith-Shap: The Faithful Shapley Interaction Index",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2203.00870"
+    },
+    {
+     "paper_id": "711f3b86397ebc7d4bf2e21b2702c8c669bef9fd",
+     "title": "How people reason with counterfactual and causal explanations for Artificial Intelligence decisions in familiar and unfamiliar domains",
+     "year": 2023,
+     "doi": "10.3758/s13421-023-01407-5"
+    },
+    {
+     "paper_id": "79070a9afbbe5ea759895eb05b7856d2e367c7d7",
+     "title": "Features of Explainability: How users understand counterfactual and causal explanations for categorical and continuous features in XAI",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2204.10152"
+    },
+    {
+     "paper_id": "e17d5e87eac867e08a780f31a2bbe89348e84547",
+     "title": "On the Trade-Off between Actionable Explanations and the Right to be Forgotten",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2208.14137"
+    },
+    {
+     "paper_id": "5b60cfa5ada16c22566e1eea48b166a861391afd",
+     "title": "Towards Human-Centered Explainable AI: A Survey of User Studies for Model Explanations",
+     "year": 2022,
+     "doi": "10.1109/tpami.2023.3331846"
+    },
+    {
+     "paper_id": "7f01bf4f457c176cc46642f9bb1bf187efbcd713",
+     "title": "A Taxonomy for Human Subject Evaluation of Black-Box Explanations in XAI",
+     "year": 2020,
+     "doi": null
+    },
+    {
+     "paper_id": "5c0134b380ad45099dca4137c6c6a1475c86de95",
+     "title": "OmniXAI: A Library for Explainable AI",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2206.01612"
+    },
+    {
+     "paper_id": "25e21e64c5768e04efbf14985a873b0ec66a5377",
+     "title": "On Locality of Local Explanation Models",
+     "year": 2021,
+     "doi": "10.48550/arxiv.2106.14648"
+    },
+    {
+     "paper_id": "9084ff8578c445d4add36f141622c1a33b3f0e94",
+     "title": "On the Privacy Risks of Algorithmic Recourse",
+     "year": 2022,
+     "doi": "10.48550/arxiv.2211.05427"
+    },
+    {
+     "paper_id": "250fe8426944c376eae66beefdbc9a589fe45b6f",
+     "title": "The Privacy Issue of Counterfactual Explanations: Explanation Linkage Attacks",
+     "year": 2022,
+     "doi": "10.1145/3608482"
+    }
+   ]
+  },
+  "credit_ml": {
+   "rationale": "Top-60 most-cited-in-library credit scoring model papers: benchmarks, reviews, standard references (baseline models and datasets for the experiments).",
+   "papers": [
+    {
+     "paper_id": "712fa8239d5705290225221fcadedece50bf46d7",
+     "title": "Benchmarking state-of-the-art classification algorithms for credit scoring: An update of research",
+     "year": 2015,
+     "doi": "10.1016/j.ejor.2015.05.030"
+    },
+    {
+     "paper_id": "fa585ac49b37a801ccd1b2e49118518414c810e2",
+     "title": "Statistical Classification Methods in Consumer Credit Scoring: a Review",
+     "year": 1997,
+     "doi": "10.1111/j.1467-985x.1997.00078.x"
+    },
+    {
+     "paper_id": "7fc5bf2e6d63aeb6d10159d411752b5b67e573a5",
+     "title": "Neural network credit scoring models",
+     "year": 2000,
+     "doi": "10.1016/s0305-0548(99)00149-5"
+    },
+    {
+     "paper_id": "ae10c9dec98ebd8a851845258bc373ad3f0a2a46",
+     "title": "Credit Scoring and Its Applications",
+     "year": 2002,
+     "doi": "10.1137/1.9780898718317"
+    },
+    {
+     "paper_id": "d64a0840bea331caf9b1a61611b8eb8d15ec4f9f",
+     "title": "Consumer Credit Risk Models Via Machine-Learning Algorithms",
+     "year": 2010,
+     "doi": "10.2139/ssrn.1568864"
+    },
+    {
+     "paper_id": "76cc39ed4b40ac4220e998c0ae164925673f6185",
+     "title": "An experimental comparison of classification algorithms for imbalanced credit scoring data sets",
+     "year": 2012,
+     "doi": "10.1016/j.eswa.2011.09.033"
+    },
+    {
+     "paper_id": "0fe197123a65aff0ec8e91e27a943f31b4be1d50",
+     "title": "Statistical and machine learning models in credit scoring: A systematic literature survey",
+     "year": 2020,
+     "doi": "10.1016/j.asoc.2020.106263"
+    },
+    {
+     "paper_id": "edc48a1fe7083464401a1592a486e32abc550980",
+     "title": "Credit Risk Scorecards: Developing and Implementing Intelligent Credit Scoring",
+     "year": 2005,
+     "doi": null
+    },
+    {
+     "paper_id": "174422f763ff53cf5e9feeb5f42b0c29eb17ed84",
+     "title": "A survey of credit and behavioural scoring: forecasting financial risk of lending to consumers",
+     "year": 2000,
+     "doi": "10.1016/s0169-2070(00)00034-0"
+    },
+    {
+     "paper_id": "43480aabdc24d2bf8d9e4178bcc391e2bcc7d1bb",
+     "title": "A boosted decision tree approach using Bayesian hyper-parameter optimization for credit scoring",
+     "year": 2017,
+     "doi": "10.1016/j.eswa.2017.02.017"
+    },
+    {
+     "paper_id": "e759fe8bdc24462c9f40b1829a0fbdd84bcc8e03",
+     "title": "Benchmarking state-of-the-art classification algorithms for credit scoring",
+     "year": 2003,
+     "doi": "10.1057/palgrave.jors.2601545"
+    },
+    {
+     "paper_id": "f385d5de55ca26ca2e95bc5f246e81b58a667e43",
+     "title": "Machine learning for credit scoring: Improving logistic regression with non-linear decision-tree effects",
+     "year": 2021,
+     "doi": "10.1016/j.ejor.2021.06.053"
+    },
+    {
+     "paper_id": "70d417e49d7c4f7b0dd1d7fe7f14da0e4100eb8b",
+     "title": "Credit Scoring, Statistical Techniques and Evaluation Criteria: A Review of the Literature",
+     "year": 2011,
+     "doi": "10.1002/isaf.325"
+    },
+    {
+     "paper_id": "bfdffcba71314a949d44fb5cfe0ca325301188bd",
+     "title": "Risk assessment in social lending via random forests",
+     "year": 2015,
+     "doi": "10.1016/j.eswa.2015.02.001"
+    },
+    {
+     "paper_id": "3d6a8c3bc432e87327faa8122127312fb3660239",
+     "title": "A comparison of neural networks and linear scoring models in the credit union environment",
+     "year": 1996,
+     "doi": "10.1016/0377-2217(95)00246-4"
+    },
+    {
+     "paper_id": "b8a99196da6912a43ad0b9d63a081f232bfe6f54",
+     "title": "Recent developments in consumer credit risk assessment",
+     "year": 2007,
+     "doi": "10.1016/j.ejor.2006.09.100"
+    },
+    {
+     "paper_id": "43afb027b6364af6a12edaea1c90ef7d4db0e66d",
+     "title": "Classification methods applied to credit scoring: A systematic review and overall comparison",
+     "year": 2016,
+     "doi": "10.1016/j.sorms.2016.10.001"
+    },
+    {
+     "paper_id": "edc3a34e3f5582ef34876599465e8589d1db0c27",
+     "title": "Credit Risk Analysis using Machine and Deep learning models",
+     "year": 2018,
+     "doi": "10.3390/risks6020038"
+    },
+    {
+     "paper_id": "45539f44424577819d351611cd89e4c0f6c1fbad",
+     "title": "A two-stage hybrid credit scoring model using artificial neural networks and multivariate adaptive regression splines",
+     "year": 2005,
+     "doi": "10.1016/j.eswa.2004.12.031"
+    },
+    {
+     "paper_id": "73e25066a49472e3b5e545b6a0ea4bb1b66118be",
+     "title": "Support vector machines for credit scoring and discovery of significant features",
+     "year": 2009,
+     "doi": "10.1016/j.eswa.2008.01.005"
+    },
+    {
+     "paper_id": "d17e77d39add626e5a4a0e02a98296e275627619",
+     "title": "A comparative assessment of ensemble learning for credit scoring",
+     "year": 2011,
+     "doi": "10.1016/j.eswa.2010.06.048"
+    },
+    {
+     "paper_id": "07e25370b7609a4ee8953847b753fc8fcae4e9e5",
+     "title": "A novel ensemble method for credit scoring: Adaption of different imbalance ratios",
+     "year": 2018,
+     "doi": "10.1016/j.eswa.2018.01.012"
+    },
+    {
+     "paper_id": "c0fc4b71b845aa38eefd00803e3091c96b7ad5bf",
+     "title": "A benchmark of machine learning approaches for credit score prediction",
+     "year": 2021,
+     "doi": "10.1016/j.eswa.2020.113986"
+    },
+    {
+     "paper_id": "1b151ff2c3a76fe70b4ea687e0fe8e3d8556842c",
+     "title": "The Credit Scoring Toolkit: Theory and Practice for Retail Credit Risk Management and Decision Automation",
+     "year": 2007,
+     "doi": null
+    },
+    {
+     "paper_id": "7cbd94bcea105774172bc1b7094775aaed9ac790",
+     "title": "The value of big data for credit scoring: Enhancing financial inclusion using mobile phone data and social network analytics",
+     "year": 2019,
+     "doi": "10.1016/j.asoc.2018.10.004"
+    },
+    {
+     "paper_id": "b6915553e337bce29379a24262f16cc62b0ab0ee",
+     "title": "The use of profit scoring as an alternative to credit scoring systems in peer-to-peer (P2P) lending",
+     "year": 2016,
+     "doi": "10.1016/j.dss.2016.06.014"
+    },
+    {
+     "paper_id": "41891ef2f76c671cfee57af65ccbcac01e9f1bbe",
+     "title": "A novel heterogeneous ensemble credit scoring model based on bstacking approach",
+     "year": 2018,
+     "doi": "10.1016/j.eswa.2017.10.022"
+    },
+    {
+     "paper_id": "a90cc0535fc5f9a46a07707c30c9f6339e3ce702",
+     "title": "Credit scoring using the hybrid neural discriminant technique",
+     "year": 2002,
+     "doi": "10.1016/s0957-4174(02)00044-1"
+    },
+    {
+     "paper_id": "479ab04f1586ea337ff8fba9e6102260d7726ea7",
+     "title": "Building credit scoring models using genetic programming",
+     "year": 2005,
+     "doi": "10.1016/j.eswa.2005.01.003"
+    },
+    {
+     "paper_id": "6830f672c1765867a914155d5eb7df140fe7de16",
+     "title": "CREDIT SCORING IN THE ERA OF BIG DATA",
+     "year": 2017,
+     "doi": null
+    },
+    {
+     "paper_id": "e035effeadf65cc545343d2f453828826fc6264d",
+     "title": "Development and application of consumer credit scoring models using profit-based classification measures",
+     "year": 2014,
+     "doi": "10.1016/j.ejor.2014.04.001"
+    },
+    {
+     "paper_id": "67149d63d38f2e4dbb4fd4dc2a9fbbff580fda8b",
+     "title": "Determinants of Default in P2P Lending",
+     "year": 2015,
+     "doi": "10.1371/journal.pone.0139427"
+    },
+    {
+     "paper_id": "52cdc5dadc61139a9dd12f4404c6173f18a879b4",
+     "title": "Credit scoring using the clustered support vector machine",
+     "year": 2015,
+     "doi": "10.1016/j.eswa.2014.08.029"
+    },
+    {
+     "paper_id": "6bf9d5de4ebf51609c0ef2ba78421ec2dd134a7e",
+     "title": "A k-nearest-neighbour classifier for assessing consumer credit risk",
+     "year": 1996,
+     "doi": "10.2307/2348414"
+    },
+    {
+     "paper_id": "10dedb59fdbe635aa12c850f83e4bb8aa9c3f9eb",
+     "title": "Using neural network ensembles for bankruptcy prediction and credit scoring",
+     "year": 2008,
+     "doi": "10.1016/j.eswa.2007.05.019"
+    },
+    {
+     "paper_id": "2cce3461b677fa5573826ddc1cc11e12f4eb0b4d",
+     "title": "Machine learning techniques for credit risk evaluation: a systematic literature review",
+     "year": 2020,
+     "doi": "10.1007/s42786-020-00020-3"
+    },
+    {
+     "paper_id": "66a621be2fae26647d4d9d160705a577e8f0305b",
+     "title": "Study on a prediction of P2P network loan default based on the machine learning LightGBM and XGboost algorithms according to different high dimensional data cleaning",
+     "year": 2018,
+     "doi": "10.1016/j.elerap.2018.08.002"
+    },
+    {
+     "paper_id": "280a7b707ca17f37f2ae9a1f1c71fd7aa53123d1",
+     "title": "Two credit scoring models based on dual strategy ensemble trees",
+     "year": 2012,
+     "doi": "10.1016/j.knosys.2011.06.020"
+    },
+    {
+     "paper_id": "e7bd9232fc56f63fc68a01a07dd0d1c88043a526",
+     "title": "Investigation and improvement of multi-layer perception neural networks for credit scoring",
+     "year": 2015,
+     "doi": "10.1016/j.eswa.2014.12.006"
+    },
+    {
+     "paper_id": "1e9a3e247a5c89c6ce912f4d4a253c12dfaa5dd8",
+     "title": "Classifiers consensus system approach for credit scoring",
+     "year": 2016,
+     "doi": "10.1016/j.knosys.2016.04.013"
+    },
+    {
+     "paper_id": "be1a2682feeb3796800df0b236c8bc8ef251bb2a",
+     "title": "Enhancing credit scoring with alternative data",
+     "year": 2021,
+     "doi": "10.1016/j.eswa.2020.113766"
+    },
+    {
+     "paper_id": "8828817928443375d0e76b99d2b466fa70baff21",
+     "title": "On the Rise of FinTechs – Credit Scoring using Digital Footprints",
+     "year": 2020,
+     "doi": "10.2139/ssrn.3163781"
+    },
+    {
+     "paper_id": "21daba9f82560b17448d1eda83d5f7f6d15c96cb",
+     "title": "Cost-sensitive boosted tree for loan evaluation in peer-to-peer lending",
+     "year": 2017,
+     "doi": "10.1016/j.elerap.2017.06.004"
+    },
+    {
+     "paper_id": "922ccc24ec30cb41873f896a7c754af9f3d7ba27",
+     "title": "A new hybrid ensemble credit scoring model based on classifiers consensus system approach",
+     "year": 2016,
+     "doi": "10.1016/j.eswa.2016.07.017"
+    },
+    {
+     "paper_id": "d51c099b2ef1b8fa131825b582ef23c6c50acc17",
+     "title": "An experimental comparison of ensemble of classifiers for bankruptcy prediction and credit scoring",
+     "year": 2009,
+     "doi": "10.1016/j.eswa.2008.01.018"
+    },
+    {
+     "paper_id": "d756c5bd748444ab2db03a2ebebffe9552266465",
+     "title": "Deep learning for credit scoring: Do or don't?",
+     "year": 2021,
+     "doi": "10.1016/j.ejor.2021.03.006"
+    },
+    {
+     "paper_id": "26127f1a4ca660917aaf57fa66aa040a3528371c",
+     "title": "An empirical comparison of conventional techniques, neural networks and the three stage hybrid Adaptive Neuro Fuzzy Inference System (ANFIS) model for credit scoring analysis: The case of Turkish credit card data",
+     "year": 2012,
+     "doi": "10.1016/j.ejor.2012.04.009"
+    },
+    {
+     "paper_id": "3b25ca4b9d39b2f5b355003aaeafc51d01873038",
+     "title": "Machine learning-driven credit risk: a systemic review",
+     "year": 2022,
+     "doi": "10.1007/s00521-022-07472-2"
+    },
+    {
+     "paper_id": "32ff2fba49066a963d3f132e19de40e47d86a30a",
+     "title": "Integration of unsupervised and supervised machine learning algorithms for credit risk assessment",
+     "year": 2019,
+     "doi": "10.1016/j.eswa.2019.02.033"
+    },
+    {
+     "paper_id": "5b27eed7c8c51d7deb6b4056f08c1a67d8acefc3",
+     "title": "What's the point of credit scoring?",
+     "year": 1997,
+     "doi": null
+    },
+    {
+     "paper_id": "e59e6666033fbeddb066bdb3616c8b77d0894cd0",
+     "title": "Subagging for credit scoring models",
+     "year": 2010,
+     "doi": "10.1016/j.ejor.2009.03.008"
+    },
+    {
+     "paper_id": "c2fe5959971be9cd7527296e45a01af9af059795",
+     "title": "An Empirical Comparison of Machine-Learning Methods on Bank Client Credit Assessments",
+     "year": 2019,
+     "doi": "10.3390/su11030699"
+    },
+    {
+     "paper_id": "07c66d6e95a715fb520546d51e8708a44d0f5ecc",
+     "title": "Neural networks for credit risk evaluation: Investigation of different neural models and learning schemes",
+     "year": 2010,
+     "doi": "10.1016/j.eswa.2010.02.101"
+    },
+    {
+     "paper_id": "b14d482c5f86f50ed0bdea1341e1670fc3b85903",
+     "title": "Comprehensible credit scoring models using rule extraction from support vector machines",
+     "year": 2007,
+     "doi": "10.1016/j.ejor.2006.04.051"
+    },
+    {
+     "paper_id": "cdb896789119578ffe1e8fe767efcea557ebf6a5",
+     "title": "Risk and Risk Management in the Credit Card Industry",
+     "year": 2016,
+     "doi": "10.1016/j.jbankfin.2016.07.015"
+    },
+    {
+     "paper_id": "5388a1b81141b852b8ab4ce8c368152778205b3f",
+     "title": "A new deep learning ensemble credit risk evaluation model with an improved synthetic minority oversampling technique",
+     "year": 2020,
+     "doi": "10.1016/j.asoc.2020.106852"
+    },
+    {
+     "paper_id": "f1030bf22644c645691709e4cb3710077627d909",
+     "title": "Hybrid mining approach in the design of credit scoring models",
+     "year": 2005,
+     "doi": "10.1016/j.eswa.2004.12.022"
+    },
+    {
+     "paper_id": "034ba564035fa96457dca3dbd6f674e42b7832ec",
+     "title": "A deep learning approach for credit scoring using credit default swaps",
+     "year": 2017,
+     "doi": "10.1016/j.engappai.2016.12.002"
+    },
+    {
+     "paper_id": "5a815cd3b243be113de31849ab5c1496fc66160c",
+     "title": "A credit scoring model for personal loans",
+     "year": 1989,
+     "doi": "10.1016/0167-6687(89)90044-9"
+    },
+    {
+     "paper_id": "c014ee350d74bfbf9afce768b38986fd36de1795",
+     "title": "A study on predicting loan default based on the random forest algorithm",
+     "year": 2019,
+     "doi": "10.1016/j.procs.2019.12.017"
+    }
+   ]
+  }
+ }
+}
