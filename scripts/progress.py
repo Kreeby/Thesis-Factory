@@ -73,6 +73,19 @@ def main() -> int:
         ]
         tail_left = len(broad_only - screened - planned)
 
+    no_abstract = {p for p in broad_only & screened if verdicts[p] == "INSUFFICIENT_EVIDENCE"}
+    title_only = dict(db.execute(
+        "SELECT paper_id, status FROM screenings WHERE topic = ? AND model LIKE '%:title-only'",
+        (config["screening_topic"],),
+    ).fetchall())
+    if title_only:
+        screening.append({"name": "Title-only screen (no abstract)", "done": len(no_abstract & set(title_only)), "total": len(no_abstract)})
+        # A title-only NOT_RELEVANT drops the paper, as in included_papers().
+        broad_verdicts = [
+            "NOT_RELEVANT" if title_only.get(p) == "NOT_RELEVANT" else verdicts[p]
+            for p in broad_only & screened
+        ]
+
     print(json.dumps({
         "stages": [
             {"name": "Embeddings (SPECTER2)", "done": count("SELECT COUNT(*) FROM embeddings"), "total": papers},
