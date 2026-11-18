@@ -54,7 +54,7 @@ def main() -> int:
         hits.setdefault(paper_id, set()).add(query)
     broad_only = {p for p, qs in hits.items() if needs_screening(qs, broad)}
     verdicts = dict(db.execute(
-        "SELECT paper_id, status FROM screenings WHERE topic = ?",
+        "SELECT paper_id, status FROM screenings WHERE topic = ? AND model NOT LIKE '%:title-only'",
         (config["screening_topic"],),
     ).fetchall())
     screened = set(verdicts)
