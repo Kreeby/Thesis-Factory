@@ -59,6 +59,7 @@ def rescue_candidates(
         topic: str,
         model: str,
         min_citations: int,
+        never_rescue: set[str] = frozenset(),
 ) -> list[str]:
     """Rejected or unscreened broad-only papers cited by >= min_citations included papers.
 
@@ -71,6 +72,7 @@ def rescue_candidates(
     included, unscreened = included_papers(store, broad_queries=broad_queries, topic=topic, model=model)
     screenings = store.screenings(topic, model)
     candidates = unscreened | {p for p, status in screenings.items() if status == "NOT_RELEVANT"}
+    candidates -= never_rescue
     cited: dict[str, int] = {}
 
     for citing, cited_id in store.citations():
@@ -96,9 +98,13 @@ def policy_included(
     rescued = set()
 
     if "rescue_min_citations" in config:
+        # Snowballed papers are cited by included papers by construction; the screen decides them.
+        snowball = config.get("snowball_query")
+        never_rescue = {p for p, queries in store.paper_queries().items() if snowball in queries}
         rescued = set(rescue_candidates(
             store, broad_queries=broad, topic=config["screening_topic"],
             model=model, min_citations=config["rescue_min_citations"],
+            never_rescue=never_rescue,
         ))
 
     included, unscreened = included_papers(

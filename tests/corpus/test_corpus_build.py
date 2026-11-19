@@ -3,6 +3,7 @@ from thesis_factory.corpus.build import (
     collect_query,
     enrich_embeddings,
     enrich_references,
+    snowball_backward,
 )
 from thesis_factory.corpus.store import CorpusStore
 
@@ -169,3 +170,29 @@ def test_no_abstract_paper_dropped_only_by_title_only_not_relevant(tmp_path) -> 
     included, _ = included_papers(store, broad_queries={"shap"}, topic="t", model="m")
 
     assert included == {"bare_maybe", "bare_todo"}
+
+
+def test_backward_snowball_adds_cited_outsiders_for_screening_not_rescue(tmp_path) -> None:
+    from thesis_factory.corpus.screening import policy_included
+
+    store = _store(tmp_path)
+    store.upsert_papers([_paper("a"), _paper("b")], query="credit")
+    store.upsert_papers([_paper("rejected")], query="shap")
+    store.put_screening("rejected", topic="t", model="m", status="NOT_RELEVANT", rationale="r")
+    store.put_references("a", ["out1", "out2", "gone"])
+    store.put_references("b", ["out1", "gone"])
+    store.put_references("rejected", ["out2"])
+    client = _FakeClient(batch_items={"out1": _paper("out1")})
+
+    added = snowball_backward(client, store, included={"a", "b"}, min_citations=2, query="snowball", progress=lambda _: None)
+
+    # out2 has one included citer; "gone" is unknown to S2.
+    assert added == 1
+    assert client.batch_calls[0][0] == ("gone", "out1")
+    config = {
+        "broad_queries": ["shap", "snowball"], "screening_topic": "t",
+        "rescue_min_citations": 2, "snowball_query": "snowball",
+    }
+    included, unscreened, rescued = policy_included(store, config, model="m")
+    assert unscreened == {"out1"}
+    assert rescued == set()

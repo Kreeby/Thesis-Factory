@@ -26,6 +26,7 @@ def main() -> int:
     parser.add_argument("--top-fraction", type=float, default=0.4)
     parser.add_argument("--audit", type=int, default=300, help="random tail papers screened to measure the cut")
     parser.add_argument("--title-only", action="store_true", help="screen no-abstract papers by title (recall-first)")
+    parser.add_argument("--only-query", help="screen only papers hit by this query tag, e.g. snowball:backward")
     args = parser.parse_args()
 
     config = json.loads(args.queries.read_text(encoding="utf-8"))
@@ -57,6 +58,9 @@ def main() -> int:
                 if screened.get(paper["paper_id"]) == "INSUFFICIENT_EVIDENCE"
                 and paper["paper_id"] not in done_ids
             ]
+
+        if args.only_query:
+            pending = [p for p in pending if args.only_query in hits.get(p["paper_id"], set())]
 
         if args.priority_plan and not args.title_only:
             # Reuse a saved plan on restart so the order and audit sample stay fixed.

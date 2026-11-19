@@ -2,6 +2,7 @@ from collections.abc import Callable
 
 from thesis_factory.corpus.store import CorpusStore
 from thesis_factory.integrations.semantic_scholar.client import (
+    PAPER_FIELDS,
     SemanticScholarClient,
 )
 
@@ -111,3 +112,32 @@ def enrich_references(
         progress(f"references {start + len(chunk)}/{len(ids)}")
 
     return len(ids)
+
+
+def snowball_backward(
+        client: SemanticScholarClient,
+        store: CorpusStore,
+        *,
+        included: set[str],
+        min_citations: int,
+        query: str,
+        progress: Progress = print,
+) -> int:
+    """Add out-of-corpus papers cited by >= min_citations included papers, tagged ``query``.
+
+    The tag is listed in the config's broad_queries, so these papers go through
+    local screening like any other broad-only hit.
+    """
+
+    known = {paper["paper_id"] for paper in store.papers()}
+    cited: dict[str, int] = {}
+
+    for citing, cited_id in store.citations():
+        if citing in included and cited_id not in known:
+            cited[cited_id] = cited.get(cited_id, 0) + 1
+
+    ids = sorted(p for p, n in cited.items() if n >= min_citations)
+    items = client.batch(ids, fields=PAPER_FIELDS)
+    added = store.upsert_papers((item for item in items if item), query=query)
+    progress(f"snowball: {added} of {len(ids)} cited papers added as {query!r}")
+    return added

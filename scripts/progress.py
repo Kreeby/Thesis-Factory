@@ -88,6 +88,14 @@ def main() -> int:
             for p in broad_only & screened
         ]
 
+    snowball = {p for p, qs in hits.items() if config.get("snowball_query") in qs}
+    if snowball:
+        done = snowball & screened
+        screening.append({"name": "Screening: backward snowball", "done": len(done), "total": len(snowball)})
+        snow_no_abstract = {p for p in done if verdicts[p] == "INSUFFICIENT_EVIDENCE"}
+        if snow_no_abstract:
+            screening.append({"name": "Snowball title-only screen", "done": len(snow_no_abstract & set(title_only)), "total": len(snow_no_abstract)})
+
     fetched = None
     if READING.exists():
         reading = json.loads(READING.read_text(encoding="utf-8"))
