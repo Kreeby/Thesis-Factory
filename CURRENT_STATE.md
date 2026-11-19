@@ -1,10 +1,23 @@
 # Current Project State
 
-Last updated: 2026-11-16
+Last updated: 2026-11-19
+
+## Session handoff (2026-11-19) — start here
+
+**VERIFIED (local run, branch `phase2/corpus-and-screening`, PR #19 open, not merged):** `./scripts/uv run pytest` → **240 passed**. Nothing is running on the Mac except the full-text fetch, which is idle waiting for the daily OpenAlex allowance reset; the owner is about to reboot, which stops it.
+
+* Library: 26,811 included papers (core-query papers + screened broad-only + 224 citation-rescued); 6,002 broad-only tail papers deliberately unscreened. Screening (abstract and title-only) is complete.
+* Reading list v1: 447 papers. Full text (2026-11-19): **192 fetched**, 82 have no GROBID text in OpenAlex, 16 have no DOI; the rest are pending.
+* Restart the fetch after a reboot (resumable, free tier only, needs `OPENALEX_API_KEY` in `.env`):
+  `caffeinate -i ./scripts/uv run python scripts/track.py --name "Full text fetch (OpenAlex, free tier)" -- ./scripts/uv run python scripts/fetch_fulltext.py --max-downloads 95 --days 5`
+  Transient 5xx/network errors now skip the paper and retry it an hour later instead of crashing (fixed 2026-11-19).
+* Deep reading (L3 cards) is **not started**. Owner decision (2026-11-18): run it on the Windows RTX 3060 PC, not on the Mac. Setup there: Ollama + `qwen3:8b`, a clone of this branch, a copy of `.thesis-corpus/` (at least `fulltext/`). First a trial: `scripts/read_papers.py --limit 5`, then check verification rate, failed chunks and seconds per paper, and spot-check claims before the full run.
+* Waiting on the owner: review/merge PR #19; Windows setup; Semantic Scholar API key (needed for fast citation snowballing); later, approval of the study design.
+* Local data safety: backups in `.thesis-corpus/backups/` (corpus SQLite before/after priority screening, integrity-checked).
 
 ## Current state (2026-11-16) — authoritative summary
 
-**VERIFIED (repository, local run):** PR #16 and PR #17 are merged into `main` (head `1065fd8` before this branch). On this branch `./scripts/uv run pytest` reports **225 passed** (219 before this change). Everything below the line "Historical checkpoint" is a historical record; where it says PR #16 is "under review / unmerged", that is superseded.
+**VERIFIED (repository, local run):** PR #16 and PR #17 are merged into `main` (head `1065fd8` before this branch). On the earlier branch `./scripts/uv run pytest` reported **225 passed** (219 before that change); now 240, see the handoff above. Everything below the line "Historical checkpoint" is a historical record; where it says PR #16 is "under review / unmerged", that is superseded.
 
 **Direction decided by the project owner (2026-11-16):**
 
@@ -32,7 +45,7 @@ Last updated: 2026-11-16
 * Priority screening result (2026-11-18): completed with 0 errors. Top 4,201 → 552 RELEVANT, 28 UNCERTAIN. Tail audit 3/300 RELEVANT by qwen; manual reading suggests 2 of the 3 are false positives (medical). Estimated qwen-positive papers left in the 6,002 unscreened tail: ~63 (Wilson 95% CI 21–183). Estimated recall of the cut over the remaining papers: 0.90 (0.76–0.96). Over all broad-only papers: ~0.96. Library now 28,999 included papers, with 6,002 tail papers reported as unscreened.
 * Screening gap and fix (2026-11-18): qwen rejected foundational general-XAI and recourse work (DARPA XAI, algorithmic recourse surveys, "Are Explanations Helpful?"). A re-screen with a widened prompt was measured on a 50-case silver stratum (Claude and Codex: κ 0.68, keep/drop agreement 44/50) and **rejected**: it kept only 8/23 keep-worthy papers. **Adopted rule:** a broad-only paper rejected or left unscreened is kept when ≥2 included papers cite it (`policy_included`). Measured: 23/23 keep-worthy kept at 23/50 precision. This rescues 225 papers.
 * No-abstract papers (3,271 broad-only) are screened by title only (`--title-only`, recall-first prompt). On 300 abstract-screened papers it kept 147/150 of the abstract-positive ones and dropped 112/150 of the abstract-negative ones. The 3 losses were bank-fraud papers. Verdicts are stored under the model key `<model>:title-only`. Finished on 2026-11-18: 3,271 screened, 0 errors (2,412 NOT_RELEVANT dropped, 326 RELEVANT, 530 UNCERTAIN, 3 INSUFFICIENT_EVIDENCE kept). Library after title-only drops: 26,811 included (224 citation-rescued); 6,002 broad-only tail papers remain unscreened by design. Field map rebuilt: 25,278 papers with embeddings, 24 clusters. About 4 clusters (~2,700 papers: clinical, cognitive bias, perception, general social science) are off-topic noise from loose S2 matches on core queries, which are kept by policy; the reading pool ranks them out.
-* Field map of included papers: 27,613 papers, 24 clusters, `map_corpus.py --included`. Residual noise comes from the no-abstract papers (now being screened) and from loose S2 matches on the core query "fairness/bias + lending" (~480 medical titles). The reading pool handles the latter by ranking.
+* Field map of included papers (before title-only drops): 27,613 papers, 24 clusters, `map_corpus.py --included`; rebuilt after them (see the title-only line above). Residual noise comes from loose S2 matches on the core query "fairness/bias + lending" (~480 medical titles). The reading pool handles the latter by ranking.
 * Deep-reading list v1: `config/reading/credit_xai_reading_list_v1.json`, 447 papers in 5 facets: XAI-in-credit 115, XAI methods/evaluation 160, legal 74, credit ML 60, fairness in lending 38. The candidate pool comes from `scripts/reading_pool.py`: title-pattern facets ranked by citations from other included papers. The orchestrator selected from titles, years, venues and counts, with a rationale per facet. This is a discovery decision, not evidence.
 * Full text: `scripts/fetch_fulltext.py` downloads OpenAlex GROBID TEI. A DOI lookup is free; a download costs USD 0.01 of the **free** USD 1/day allowance, and the account has no prepaid balance, so nothing can be charged. The fetcher stops before the allowance runs out and resumes across daily resets for at most 7 days. Artifacts are stored by SHA-256 in `.thesis-corpus/fulltext/`.
 * Deep reading (L3, code done, evaluation pending): `src/thesis_factory/reading/cards.py` and `scripts/read_papers.py`. qwen3:8b (num_ctx 8192, ~6k-char paragraph chunks) proposes typed claims (research question, dataset, model, XAI method, metric, finding, limitation, legal claim), each with a verbatim quote. Software keeps only exact substrings of the cited paragraph and addresses them as an EvidenceAddress. Rejections are counted. Cards carry no appraisal; critique is a separate interpretive step. Parsed GROBID papers average ~40k characters, about 8 chunks each.
