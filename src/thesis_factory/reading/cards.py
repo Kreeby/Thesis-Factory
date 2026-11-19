@@ -26,6 +26,7 @@ class ClaimKind(StrEnum):
     FINDING = "FINDING"
     LIMITATION = "LIMITATION"
     LEGAL_CLAIM = "LEGAL_CLAIM"
+    OPEN_QUESTION = "OPEN_QUESTION"
 
 
 class ClaimProposal(BaseModel):
@@ -53,7 +54,8 @@ SYSTEM = (
     "proposed), EVALUATION_METRIC (how models or explanations are evaluated), "
     "FINDING (a result the authors report, with numbers if stated), LIMITATION "
     "(a limitation the authors state), LEGAL_CLAIM (a statement about law or "
-    "regulation). "
+    "regulation), OPEN_QUESTION (a problem the authors say is unsolved, untested "
+    "or left for future work). "
     "For each claim give a one-sentence statement and a verbatim quote that "
     "supports it, copied exactly from one paragraph, plus that paragraph's number. "
     "The quote must be a contiguous substring of that single paragraph: do not "
