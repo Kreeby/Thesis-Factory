@@ -39,6 +39,20 @@ def main() -> int:
     return 0
 
 
+def get(client: httpx.Client, url: str, params: dict) -> httpx.Response | None:
+    """GET, or None on a transient server/network failure; the paper stays pending for the next pass."""
+
+    try:
+        response = client.get(url, params=params)
+    except httpx.TransportError as error:
+        print(f"network error, skipping for now: {type(error).__name__}", flush=True)
+        return None
+    if response.status_code >= 500:
+        print(f"server error {response.status_code}, skipping for now", flush=True)
+        return None
+    return response
+
+
 def run_once(args) -> int | None:
     """One pass; returns seconds until allowance reset if stopped by the cap, else None."""
 
@@ -52,6 +66,7 @@ def run_once(args) -> int | None:
     reading = json.loads(args.reading_list.read_text(encoding="utf-8"))
     papers = [p for facet in reading["facets"].values() for p in facet["papers"]]
     downloads = 0
+    skipped = 0
     reset_in = None
 
     def save() -> None:
@@ -72,10 +87,11 @@ def run_once(args) -> int | None:
                 continue
 
             if "work_id" not in entry:
-                response = client.get(
-                    f"{API}/works/doi:{paper['doi']}",
-                    params={"select": "id,has_content,content_urls,open_access", "api_key": key},
-                )
+                response = get(client, f"{API}/works/doi:{paper['doi']}",
+                               {"select": "id,has_content,content_urls,open_access", "api_key": key})
+                if response is None:
+                    skipped += 1
+                    continue
                 if response.status_code == 404:
                     index[pid] = {"status": "no_grobid", "reason": "doi not in OpenAlex"}
                     save()
@@ -98,7 +114,10 @@ def run_once(args) -> int | None:
                 reset_in = reset_in or 3600
                 break
 
-            response = client.get(entry["grobid_url"], params={"api_key": key})
+            response = get(client, entry["grobid_url"], {"api_key": key})
+            if response is None:
+                skipped += 1
+                continue
             remaining = float(response.headers.get("x-ratelimit-remaining-usd", "0"))
             reset_in = int(response.headers.get("x-ratelimit-reset", "3600"))
             if response.status_code == 429:
@@ -129,7 +148,7 @@ def run_once(args) -> int | None:
                 break
             time.sleep(0.5)
         else:
-            reset_in = None
+            reset_in = 3600 if skipped else None  # retry transient failures in an hour
 
     statuses = {}
     for entry in index.values():
