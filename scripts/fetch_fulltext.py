@@ -22,7 +22,7 @@ API = "https://api.openalex.org"
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--reading-list", type=Path, default=Path("config/reading/credit_xai_reading_list_v1.json"))
+    parser.add_argument("--reading-list", type=Path, default=Path("config/reading/credit_xai_reading_list_v2.json"))
     parser.add_argument("--out", type=Path, default=Path(".thesis-corpus/fulltext"))
     parser.add_argument("--max-downloads", type=int, default=90)
     parser.add_argument("--reserve-usd", type=float, default=0.05)

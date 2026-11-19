@@ -1,5 +1,6 @@
 """Graded deep-reading priority for every paper: transparent percentiles, no LLM."""
 
+import re
 from collections.abc import Mapping
 
 import numpy as np
@@ -55,3 +56,47 @@ def priority_scores(
         }
         for i, p in enumerate(ids)
     }
+
+
+SURVEY = re.compile(r"\b(survey|review|overview|meta-analysis|taxonomy|state of the art)\b", re.I)
+
+
+def select_round1(
+        scored: Mapping[str, Mapping],
+        *,
+        central: int,
+        surveys: int,
+        frontier: int,
+        frontier_from: int,
+) -> dict[str, list[tuple[str, str]]]:
+    """Field-map reading list before any research question exists: per facet, (paper_id, stratum).
+
+    Per facet: survey, the top-scoring reviews (each compresses many papers), and frontier,
+    papers since ``frontier_from`` ranked by relevance + momentum, where open problems are
+    stated. Then central: the ``central`` top-scoring papers overall, so a crowded facet does
+    not lose landmark papers to a fixed quota. Screen status is ignored on purpose: the local
+    screen drops foundational general work.
+    """
+
+    by_score = sorted(scored, key=lambda p: (-scored[p]["score"], p))
+    strata = [
+        ("survey", surveys, [p for p in by_score if SURVEY.search(scored[p]["title"])]),
+        ("frontier", frontier, sorted(
+            (p for p in scored if (scored[p]["year"] or 0) >= frontier_from),
+            key=lambda p: (-(scored[p]["relevance"] + scored[p]["momentum"]), p),
+        )),
+    ]
+    taken: set[str] = set()
+    picked: dict[str, list[tuple[str, str]]] = {}
+
+    for facet in sorted({s["facet"] for s in scored.values()}):
+        picked[facet] = []
+        for stratum, quota, ranked in strata:
+            chosen = [p for p in ranked if scored[p]["facet"] == facet and p not in taken][:quota]
+            picked[facet] += [(p, stratum) for p in chosen]
+            taken.update(chosen)
+
+    for p in [p for p in by_score if p not in taken][:central]:
+        picked[scored[p]["facet"]].append((p, "central"))
+
+    return picked

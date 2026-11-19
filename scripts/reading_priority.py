@@ -10,13 +10,14 @@ import json
 import re
 import sys
 from collections import Counter
+from datetime import date
 from pathlib import Path
 
 import numpy as np
 
 from reading_pool import FACETS
 from thesis_factory.corpus.build import SPECTER_V2
-from thesis_factory.corpus.priority import WEIGHTS, priority_scores
+from thesis_factory.corpus.priority import WEIGHTS, priority_scores, select_round1
 from thesis_factory.corpus.screening import policy_included
 from thesis_factory.corpus.store import CorpusStore
 
@@ -29,6 +30,9 @@ def main() -> int:
     parser.add_argument("--reading-list", type=Path, default=Path("config/reading/credit_xai_reading_list_v1.json"))
     parser.add_argument("--year", type=int, default=2026)
     parser.add_argument("--out", type=Path, default=Path(".thesis-corpus/reading_priority.json"))
+    parser.add_argument("--round1-out", type=Path, help="also write a round-1 (field map) reading list here")
+    parser.add_argument("--quotas", default="15,35,200", help="surveys and frontier per facet, central overall")
+    parser.add_argument("--frontier-from", type=int, default=2024)
     args = parser.parse_args()
 
     config = json.loads(args.queries.read_text(encoding="utf-8"))
@@ -79,6 +83,41 @@ def main() -> int:
     top = rows[:500]
     print("top 500: status", Counter(s["status"] for _, s in top), "years", sorted(Counter(
         (s["year"] or 0) // 5 * 5 for _, s in top).items()))
+    if args.round1_out:
+        surveys, frontier, central = (int(n) for n in args.quotas.split(","))
+        picked = select_round1(
+            out["papers"], central=central, surveys=surveys, frontier=frontier, frontier_from=args.frontier_from,
+        )
+        reading_list = {
+            "version": 2,
+            "created": date.today().isoformat(),
+            "method": (
+                "Round 1 (field map, before any research question): per facet, top-scoring surveys and "
+                f"frontier papers since {args.frontier_from} by relevance + momentum; then top-scoring central papers overall, "
+                f"from scripts/reading_priority.py ({out['method']}). Screen status ignored, recorded per paper. "
+                "Deterministic; a reading list is a discovery decision, not evidence."
+            ),
+            "facets": {
+                facet: {
+                    "rationale": f"per facet surveys {surveys}, frontier {frontier}; central {central} overall",
+                    "papers": [
+                        {
+                            "paper_id": p, "title": papers[p]["title"], "year": papers[p]["year"],
+                            "doi": papers[p]["doi"], "stratum": stratum,
+                            "score": out["papers"][p]["score"], "screen": out["papers"][p]["status"],
+                        }
+                        for p, stratum in items
+                    ],
+                }
+                for facet, items in picked.items()
+            },
+        }
+        args.round1_out.write_text(json.dumps(reading_list, indent=1, ensure_ascii=False), encoding="utf-8")
+        chosen = {p for items in picked.values() for p, _ in items}
+        print(f"round 1 list: {len(chosen)} papers, {len(chosen & listed)} also in v1;",
+              "strata", Counter(st for items in picked.values() for _, st in items),
+              "screen", Counter(out["papers"][p]["status"] for p in chosen))
+
     print("top dropped papers:")
     for p, s in [r for r in rows if r[1]["status"] == "dropped"][:15]:
         print(f"  {s['score']:5} rel {s['relevance']:5} {s['year']} {s['title'][:90]}")

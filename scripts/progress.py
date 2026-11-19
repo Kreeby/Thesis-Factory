@@ -14,7 +14,7 @@ CONFIG = Path("config/corpus/credit_xai.json")
 TASKS = Path(".thesis-runs/tasks")
 PLAN = Path(".thesis-corpus/screening_priority_plan.json")
 FULLTEXT = Path(".thesis-corpus/fulltext/index.json")
-READING = Path("config/reading/credit_xai_reading_list_v1.json")
+READING = Path("config/reading/credit_xai_reading_list_v2.json")
 RESCUED = Path(".thesis-corpus/rescued.json")  # written by map_corpus.py --included
 
 
