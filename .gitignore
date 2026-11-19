@@ -27,3 +27,5 @@ venv/
 
 # Untracked source research exports (kept in private checkpoint store)
 /proposal_*.json
+# Local reusable paper corpus (large, rebuildable)
+.thesis-corpus/

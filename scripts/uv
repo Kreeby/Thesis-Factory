@@ -1,3 +1,5 @@
 #!/bin/sh
 export UV_PROJECT_ENVIRONMENT=venv
+# Local secrets (gitignored) are loaded for `uv run` when present.
+[ -f .env ] && export UV_ENV_FILE=.env
 exec uv "$@"
