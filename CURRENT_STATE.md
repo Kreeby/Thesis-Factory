@@ -2,16 +2,19 @@
 
 Last updated: 2026-11-22
 
-## Windows deep-reading session — read this first (2026-11-22)
+## Moved to Windows — read this first (2026-11-22)
 
-* **The full texts are incomplete and still being downloaded on the Mac.** `.thesis-corpus/` is gitignored, so texts never come through `git pull`; they are copied by hand from the Mac (`~/Projects/Thesis-Factory/.thesis-corpus/fulltext/`, `*.tei.xml` named by SHA-256 plus `index.json`). On 2026-11-22 the Mac had **289 fetched** of 450 (reading list v2); 140 have no GROBID text and 28 have no DOI. The rest arrive at about 95 per day. The Windows copy was made earlier (~194 texts).
-* `scripts/read_papers.py` reads **every `fetched` entry in its own `fulltext/index.json`**, not the reading list, and skips papers that already have a card. To continue after a new copy: overwrite `fulltext/` with the Mac's folder (the Windows side never writes there), then rerun the same command. Only new papers get read.
-* The code must include commit `2307c1c` (`OPEN_QUESTION` claims); check with `git log`. Cards made with older code lack open questions; delete them and read those papers again.
-* Cards (`.thesis-corpus/cards/*.json`) are produced on Windows and must be copied back to the Mac for appraisal and gap analysis.
+**Owner decision (2026-11-22): all work continues on the Windows RTX 3060 PC. Nothing runs on the Mac any more**; the full-text fetch there was stopped on 2026-11-22.
+
+* **Data is not in git** (`.thesis-corpus/` is gitignored). Copy it from the Mac (`~/Projects/Thesis-Factory/.thesis-corpus/`) to Windows **once**, after the Mac was stopped: `corpus.sqlite` (608 MB), `fulltext/` (36 MB), `reading_priority.json`, `rescued.json`, `rescue_candidates.json`, `screening_priority_plan.json`, `field_map*`. Skip `backups/` (1.6 GB, safety copies only). **Do not overwrite `cards/` on Windows**: that folder exists only there.
+* State of the Mac copy at the stop: reading list v2 (450 papers), **289 fetched**, 140 have no GROBID text, 28 have no DOI, 1 unchecked, the rest pending. Copying this `fulltext/` (with its `index.json`) over the earlier Windows copy (~194 texts) is safe: Windows never writes there.
+* **Resume the full-text fetch on Windows** (free tier only; needs `OPENALEX_API_KEY` in `.env`; resumable; the allowance for 2026-11-22 was already used on the Mac): `.\scripts\uv run python scripts/fetch_fulltext.py --max-downloads 95 --days 6`. There is no `caffeinate` on Windows: disable sleep while it runs. `scripts/uv` and `scripts/track.py` are NOT VERIFIED on Windows; if they fail, run `uv run ...` directly.
+* `scripts/read_papers.py` reads **every `fetched` entry in its own `fulltext/index.json`**, not the reading list, and skips papers that already have a card. After new texts arrive, rerun the same command; only new papers are read.
+* The code must include commit `2307c1c` (`OPEN_QUESTION` claims). Cards made with older code lack open questions; delete them and read those papers again.
 
 ## Session handoff (2026-11-19, updated 2026-11-22)
 
-**VERIFIED (local run, branch `phase2/corpus-and-screening`, PR #19 open, not merged):** `./scripts/uv run pytest` → **243 passed**. Running on the Mac: the full-text fetch for reading list v2. A fix on 2026-11-22 (`8bc6230`) makes the wait for the allowance reset follow the wall clock; before it, the Mac sleeping on battery stretched a 7.7 h wait to 3 days.
+**VERIFIED (local run, branch `phase2/corpus-and-screening`, PR #19 open, not merged):** `./scripts/uv run pytest` → **243 passed**. The Mac is stopped (see above). A fix on 2026-11-22 (`8bc6230`) makes the wait for the allowance reset follow the wall clock; before it, the Mac sleeping on battery stretched a 7.7 h wait to 3 days.
 
 * **Backward snowballing (2026-11-19):** the citation graph is complete (references for all 50,641 original papers, 467,703 edges), so no S2 key was needed. Papers outside the corpus cited by ≥5 included papers (2,538; S2 knew 2,537) were added under the tag `snowball:backward`, which is a broad query, so they were screened by qwen3 (abstract, then title-only; 0 errors) and are **never citation-rescued** (all of them are cited by construction). `scripts/build_corpus.py --snowball`, `scripts/screen_corpus.py --only-query`. Library: **27,681 included** (+870), including Rudin 2019, Doshi-Velez & Kim, Hardt et al. 2016 and Goodman & Flaxman, none of which was in the corpus before. 6,002 broad-only tail papers remain deliberately unscreened. Backup before the change: `.thesis-corpus/backups/corpus-before-snowball-20261119.sqlite` (integrity ok).
 * **Graded reading priority (2026-11-19):** `scripts/reading_priority.py` scores all 51,418 papers that have SPECTER2 vectors (included, dropped and unscreened) as percentiles: relevance (max cosine to the five facet centroids) 0.5, influence (citations from included papers) 0.25, momentum (the same per year since publication) 0.25. The weights are hand-set (`shortcut:` in `corpus/priority.py`). Output: `.thesis-corpus/reading_priority.json`. Discovery artifact, not evidence.
