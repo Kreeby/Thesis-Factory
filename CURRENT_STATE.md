@@ -8,8 +8,15 @@ Last updated: 2026-11-22
 * **Owner decision (2026-11-22): deep reading runs on the Windows RTX 3060 PC.** Setup VERIFIED there: Ollama 0.40.17 + `qwen3:8b` (fully on GPU, 6.6 GB VRAM), uv 0.13.9, `./scripts/uv run pytest` → 243 passed on Windows, relevance eval 6/7 (same as the Mac).
 * Windows fix: `runtime/stage.py` called the POSIX-only `os.killpg` on a stage timeout and crashed; on Windows it now kills the process tree with `taskkill /T`. VERIFIED BY TEST (`test_logged_wrapper_timeout` failed on Windows before, passes after).
 * **Owner decision (2026-11-22): the Project Proposal DOCX is unavailable; do not use it as an input.** No binding objectives from it are assumed.
-* **Blocker for deep reading on Windows:** `.thesis-corpus/fulltext/` (TEI files + `index.json`) exists only on the Mac (gitignored). It must be copied to this PC, and `.env` with `OPENALEX_API_KEY` is absent here (needed only to continue the full-text fetch).
-* Next: copy full texts → trial `scripts/read_papers.py --limit 5` (verification rate, spot-check, minutes per paper) → full run.
+* Full texts copied from the Mac to this PC on 2026-11-22: `index.json` has 458 entries — 289 `fetched` (all files present, 285 distinct TEI files), 140 `no_grobid`, 28 `no_doi`, 1 pending. VERIFIED by local check.
+* Commit `8bc6230` (fetcher waits for the allowance reset by wall clock) was pushed to `phase2/corpus-and-screening` after PR #19 was merged; it is cherry-picked here so it reaches `main`.
+* `scripts/read_papers.py` reads every `fetched` entry in its own `fulltext/index.json` (not the reading list) and skips papers that already have a card. Cards go to `.thesis-corpus/cards/`; the code includes `OPEN_QUESTION` claims (`2307c1c`).
+* **Owner decision (2026-11-22): the full-text fetch moved from the Mac to this PC.** Running here since 2026-11-22 under `track.py` (log `.thesis-runs/logs/fetch.log`, `--max-downloads 95 --days 6`); the Mac fetch must stay stopped (two fetchers would each keep their own `index.json` and share one daily allowance). First pass: 1 download, then waiting for the allowance reset.
+* Windows run notes (VERIFIED): `track.py` cannot exec the `./scripts/uv` shell wrapper or a relative `venv/Scripts/python.exe`; pass the absolute venv `python.exe` as the child command. uv refused `.env` with CRLF and a value that was a single space (the whole file was ignored); whitespace normalized.
+* Fix: `scripts/progress.py` probed liveness with `os.kill(pid, 0)`, which on Windows **terminates** the process; it now uses `tasklist` there. VERIFIED by running it next to two tracked tasks (both still running).
+* **Trial deep reading (5 papers, qwen3:8b on RTX 3060, 2026-11-22):** 53–175 s per paper (8 min 45 s total, ~105 s mean); 271 of 321 proposed claims verified as exact quotes (84%), 0 failed chunks. Spot check of the claim layer: 7/271 statements were the prompt's question echoed back → now rejected by software (`statement is a question`, regression test added). `OPEN_QUESTION` kind is noisy: in a sample of 5, 2 were contributions or literature-gap sentences, not author-stated future work. Statements and kinds are model interpretation; only the quote is verified. **Gap analysis must re-check each `OPEN_QUESTION` against its quote.**
+* **Full deep reading started 2026-11-22** on all 290 `fetched` texts (trial cards deleted and redone with the fixed code); log `.thesis-runs/logs/deep-reading-qwen3-windows.log`; estimated ~8–9 h from the trial rate. New texts from the fetcher are read by rerunning the same command.
+* Live panes (pipeline + PC health) and a status line entry are a local Claude Code mod outside the repository (`thesis-live`).
 
 ## Session handoff (2026-11-19)
 
@@ -23,7 +30,7 @@ Last updated: 2026-11-22
   `caffeinate -i ./scripts/uv run python scripts/track.py --name "Full text fetch v2 (OpenAlex, free tier)" -- ./scripts/uv run python scripts/fetch_fulltext.py --max-downloads 95 --days 6`
 * Deep reading (L3 cards) is **not started**. Owner decision (2026-11-18): run it on the Windows RTX 3060 PC. On 2026-11-19 the orchestrator recommended the Mac instead (estimate from public benchmarks, not measured: Mac ~1 day vs Windows ~10 h for ~300 papers, ±2×; the Mac needs no setup). **Superseded 2026-11-22: Windows.** Planned addition before reading: an "open question / future work" claim type in the cards (the main source of candidate gaps). A trial `scripts/read_papers.py --limit 5` comes before the full run.
 * **Research question: not chosen** (`PROJECT.md`). Agreed path: deep reading → open questions anchored in verified quotes → recurrence counts → an attempt to refute each gap (corpus + web) → Codex as second reviewer → 2–3 candidates → the owner (ideally with the supervisor) chooses → only then datasets/models/metrics. The Project Proposal DOCX submitted in autumn is not on disk; owner says it is unavailable (2026-11-22); not an input.
-* Waiting on the owner (as of 2026-11-22): copy of `.thesis-corpus/fulltext` to the Windows PC; later, study-design approval.
+* Waiting on the owner (as of 2026-11-22): confirm the Mac fetch is stopped; later, study-design approval.
 
 ## Current state (2026-11-16) — authoritative summary
 

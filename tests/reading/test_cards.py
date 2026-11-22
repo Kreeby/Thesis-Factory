@@ -51,6 +51,16 @@ def test_only_exact_quotes_survive_and_get_addresses() -> None:
     assert {r["reason"] for r in card["rejected"]} == {"quote not an exact substring", "paragraph outside chunk"}
 
 
+def test_echoed_prompt_question_is_rejected() -> None:
+    # Regression: qwen3 sometimes returns the prompt's question as the statement (7/271 in the Windows trial).
+    claims = [{"kind": "OPEN_QUESTION", "statement": "What open questions do the authors suggest? ",
+               "paragraph": 2, "quote": "Explanations were unstable"}]
+    card = build_card(FakeReasoner([{"claims": claims}]), _document(), paper_id="p", artifact_sha256=SHA)
+
+    assert card["stats"]["verified"] == 0
+    assert card["rejected"][0]["reason"] == "statement is a question"
+
+
 def test_failed_chunk_is_counted_not_fatal() -> None:
     card = build_card(FakeReasoner([RuntimeError("truncated"), {"claims": []}]), _document(), paper_id="p",
                       artifact_sha256=SHA, max_chars=70)
