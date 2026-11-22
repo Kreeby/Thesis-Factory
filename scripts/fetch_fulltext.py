@@ -35,7 +35,10 @@ def main() -> int:
             return 0
         if day + 1 < args.days:
             print(f"waiting {reset_in // 60} min for the free allowance to reset", flush=True)
-            time.sleep(reset_in + 120)
+            # Wall-clock deadline: a single long sleep does not advance while the Mac sleeps.
+            deadline = time.time() + reset_in + 120
+            while (remaining := deadline - time.time()) > 0:
+                time.sleep(min(remaining, 300))
     return 0
 
 
