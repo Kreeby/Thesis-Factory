@@ -1,8 +1,17 @@
 # Current Project State
 
-Last updated: 2026-11-19
+Last updated: 2026-11-22
 
-## Session handoff (2026-11-19) — start here
+## Update (2026-11-22) — start here
+
+* PR #19 merged into `main` (owner instruction, CI green).
+* **Owner decision (2026-11-22): deep reading runs on the Windows RTX 3060 PC.** Setup VERIFIED there: Ollama 0.40.17 + `qwen3:8b` (fully on GPU, 6.6 GB VRAM), uv 0.13.9, `./scripts/uv run pytest` → 243 passed on Windows, relevance eval 6/7 (same as the Mac).
+* Windows fix: `runtime/stage.py` called the POSIX-only `os.killpg` on a stage timeout and crashed; on Windows it now kills the process tree with `taskkill /T`. VERIFIED BY TEST (`test_logged_wrapper_timeout` failed on Windows before, passes after).
+* **Owner decision (2026-11-22): the Project Proposal DOCX is unavailable; do not use it as an input.** No binding objectives from it are assumed.
+* **Blocker for deep reading on Windows:** `.thesis-corpus/fulltext/` (TEI files + `index.json`) exists only on the Mac (gitignored). It must be copied to this PC, and `.env` with `OPENALEX_API_KEY` is absent here (needed only to continue the full-text fetch).
+* Next: copy full texts → trial `scripts/read_papers.py --limit 5` (verification rate, spot-check, minutes per paper) → full run.
+
+## Session handoff (2026-11-19)
 
 **VERIFIED (local run, branch `phase2/corpus-and-screening`, PR #19 open, not merged):** `./scripts/uv run pytest` → **243 passed**. Running on the Mac: the full-text fetch for reading list v2 (idle until the daily OpenAlex allowance resets).
 
@@ -12,9 +21,9 @@ Last updated: 2026-11-19
 * **Reading list v1 showed recency bias:** 44 of 447 papers are from 2025–26, although 23% of the included papers are. Owner question (2026-11-19): how can we know what to read before a research question exists? Answer adopted by the orchestrator: two rounds. **Round 1 = field map** (no research question yet): `config/reading/credit_xai_reading_list_v2.json`, 450 papers, built deterministically by `reading_priority.py --round1-out`: per facet the top 15 surveys and 35 frontier papers (2024+, ranked by relevance + momentum), then the top 200 by overall score (minimum score 96.6). 148 papers overlap with v1. **Round 2 (after candidate gaps exist):** re-score every paper against each candidate gap and read those papers, including ones the screen dropped; an agent then searches for an existing answer to try to refute each gap.
 * Full text: the fetcher and the progress pane now use v2. 194 fetched, 82 have no GROBID text, 16 have no DOI. About 300 v2 papers are pending, roughly 4 days within the free allowance. Restart after a reboot (resumable, free tier only, needs `OPENALEX_API_KEY` in `.env`):
   `caffeinate -i ./scripts/uv run python scripts/track.py --name "Full text fetch v2 (OpenAlex, free tier)" -- ./scripts/uv run python scripts/fetch_fulltext.py --max-downloads 95 --days 6`
-* Deep reading (L3 cards) is **not started**. Owner decision (2026-11-18): run it on the Windows RTX 3060 PC. On 2026-11-19 the orchestrator recommended the Mac instead (estimate from public benchmarks, not measured: Mac ~1 day vs Windows ~10 h for ~300 papers, ±2×; the Mac needs no setup). **The owner has not yet decided.** Planned addition before reading: an "open question / future work" claim type in the cards (the main source of candidate gaps). A trial `scripts/read_papers.py --limit 5` comes before the full run.
-* **Research question: not chosen** (`PROJECT.md`). Agreed path: deep reading → open questions anchored in verified quotes → recurrence counts → an attempt to refute each gap (corpus + web) → Codex as second reviewer → 2–3 candidates → the owner (ideally with the supervisor) chooses → only then datasets/models/metrics. The Project Proposal DOCX submitted in autumn is not on disk; it is needed to check for binding objectives (asked 2026-11-19).
-* Waiting on the owner: Mac vs Windows for deep reading; the proposal DOCX; merge of PR #19 (CI green: tests + Current State Gate); later, study-design approval.
+* Deep reading (L3 cards) is **not started**. Owner decision (2026-11-18): run it on the Windows RTX 3060 PC. On 2026-11-19 the orchestrator recommended the Mac instead (estimate from public benchmarks, not measured: Mac ~1 day vs Windows ~10 h for ~300 papers, ±2×; the Mac needs no setup). **Superseded 2026-11-22: Windows.** Planned addition before reading: an "open question / future work" claim type in the cards (the main source of candidate gaps). A trial `scripts/read_papers.py --limit 5` comes before the full run.
+* **Research question: not chosen** (`PROJECT.md`). Agreed path: deep reading → open questions anchored in verified quotes → recurrence counts → an attempt to refute each gap (corpus + web) → Codex as second reviewer → 2–3 candidates → the owner (ideally with the supervisor) chooses → only then datasets/models/metrics. The Project Proposal DOCX submitted in autumn is not on disk; owner says it is unavailable (2026-11-22); not an input.
+* Waiting on the owner (as of 2026-11-22): copy of `.thesis-corpus/fulltext` to the Windows PC; later, study-design approval.
 
 ## Current state (2026-11-16) — authoritative summary
 
