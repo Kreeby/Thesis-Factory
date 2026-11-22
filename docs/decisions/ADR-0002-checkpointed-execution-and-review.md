@@ -1,6 +1,6 @@
 # ADR-0002: Local Run Journal, Research Checkpoints, and Intermediate PR Reviews
 
-Status: PROPOSED
+Status: ACCEPTED (owner approved PR #18, 2026-11-16)
 Date: 2026-10-09
 
 ## Context

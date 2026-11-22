@@ -1,6 +1,6 @@
 # ADR-0003: Local Models Inside Code, Claude Code as Orchestrating Agent
 
-Status: PROPOSED
+Status: ACCEPTED (owner approved PR #18, 2026-11-16)
 Date: 2026-11-16
 Supersedes (when accepted): ADR-0001 in the part "accessed through the Anthropic API"
 

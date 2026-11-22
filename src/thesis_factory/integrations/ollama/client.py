@@ -16,6 +16,7 @@ class OllamaStructuredReasoner:
             model: str,
             base_url: str = "http://localhost:11434",
             timeout_seconds: float = 300.0,
+            num_ctx: int | None = None,
             http_client: httpx.Client | None = None,
     ) -> None:
         normalized_model = model.strip()
@@ -26,6 +27,9 @@ class OllamaStructuredReasoner:
             )
 
         self._model = normalized_model
+        # Ollama silently drops the start of prompts longer than the context window.
+        self._num_ctx = num_ctx
+        self._options = {"temperature": 0, **({"num_ctx": num_ctx} if num_ctx else {})}
         self._client = http_client or httpx.Client(
             base_url=base_url,
             timeout=timeout_seconds,
@@ -49,7 +53,7 @@ class OllamaStructuredReasoner:
                 "format": output_model.model_json_schema(),
                 "stream": False,
                 "think": False,
-                "options": {"temperature": 0},
+                "options": self._options,
             },
         )
         response.raise_for_status()
@@ -59,6 +63,11 @@ class OllamaStructuredReasoner:
         if payload.get("done_reason") == "length":
             raise RuntimeError(
                 "Ollama output was truncated at the token limit"
+            )
+
+        if self._num_ctx and payload.get("prompt_eval_count", 0) >= self._num_ctx - 16:
+            raise RuntimeError(
+                "Ollama prompt filled the context window and was likely truncated"
             )
 
         return output_model.model_validate_json(
