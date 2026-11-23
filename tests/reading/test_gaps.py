@@ -1,8 +1,8 @@
 from thesis_factory.reading.gaps import build_clusters, cluster_vectors, collect_open_questions
 
 
-def _card(paper_id, *quotes, kind="OPEN_QUESTION"):
-    address = {"artifact_sha256": "x", "normalization_version": "v", "paragraph_ordinal": 0, "start_char": 0, "end_char": 1}
+def _card(paper_id, *quotes, kind="OPEN_QUESTION", sha=None):
+    address = {"artifact_sha256": sha or f"sha-{paper_id}", "normalization_version": "v", "paragraph_ordinal": 0, "start_char": 0, "end_char": 1}
     return {
         "paper_id": paper_id, "title": f"title {paper_id}",
         "claims": [{"kind": kind, "statement": q, "quote": q, "address": address} for q in quotes],
@@ -30,6 +30,14 @@ def test_recurrence_counts_distinct_papers_not_claims():
     assert set(top["paper_titles"]) == {"p1", "p2"}
     assert set(clusters[1]["paper_titles"]) == {"p3", "p4"}
     assert len(clusters) == 2
+
+
+def test_duplicate_records_of_one_text_count_once():
+    # regression: the same paper under two paper_ids inflated recurrence (seen in the corpus)
+    cards = [_card("p1", "q a", sha="same"), _card("p1-dup", "q a", sha="same"), _card("p2", "q b")]
+    clusters = build_clusters(collect_open_questions(cards), [0, 0, 0])
+    assert clusters[0]["papers"] == 2
+    assert clusters[0]["paper_ids"] == 3
 
 
 def test_single_vector_gets_one_label():

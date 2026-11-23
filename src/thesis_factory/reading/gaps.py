@@ -49,7 +49,12 @@ def build_clusters(items: list[dict[str, Any]], labels: list[int]) -> list[dict[
     clusters = []
     for members in groups.values():
         papers = {m["paper_id"]: m["title"] for m in members}
-        clusters.append({"papers": len(papers), "claims": len(members), "paper_titles": papers, "members": members})
+        # one text can sit under several paper_ids (duplicate corpus records); count distinct texts
+        texts = {m["address"]["artifact_sha256"] for m in members}
+        clusters.append({
+            "papers": len(texts), "claims": len(members), "paper_ids": len(papers),
+            "paper_titles": papers, "members": members,
+        })
     clusters.sort(key=lambda c: (-c["papers"], -c["claims"], c["members"][0]["quote"]))
     for number, cluster in enumerate(clusters, start=1):
         cluster["id"] = f"Q{number:04d}"
