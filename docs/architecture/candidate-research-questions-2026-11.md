@@ -1,7 +1,52 @@
 # Candidate research questions (2026-11-23)
 
-Status: **PROPOSED — for the owner's decision (ideally with the supervisor). Not approved.**
+Status: **Direction chosen by the owner on 2026-11-23 (see "Owner decision" below). The final
+research-question wording is NOT yet fixed; round-2 refutation is still pending. Supervisor: not consulted (UNKNOWN).**
 Topic (approved, unchanged): *A Legally Grounded Empirical Evaluation of Explainable AI for Consumer Credit Scoring.*
+
+## Owner decision (2026-11-23)
+
+**DECIDED by the owner** (chat, 2026-11-23; owner's words, Russian, verbatim):
+
+* Instruction: «сделай комбинацию (то что главами г2 и г3)» — i.e. Q1 as the core, Q2 and Q3 as chapters.
+* Q1 is the basis: «г1 (то что я тебе отправил и то что ты мне походу это одно и то же) должен быть звеном скажем основой вопроса» — the owner treats their own description (below) and Q1 as the same thing, and Q1 is the foundation of the research question.
+* Essence: «Суть - сравнить модели оценки кредитного риска и методы объяснения их решений: насколько они точны, понятны и обоснованны.»
+* Practical result: «Практический результат - прототип, который оценивает кредитный риск человека и объясняет, какие факторы повлияли на оценку и что можно улучшить.»
+
+**How the orchestrator maps it (PROPOSED by the orchestrator in chat; the owner asked to record it — «запиши все это» — not final wording):**
+
+| Owner's term | Operational meaning in this thesis | Measured by |
+|---|---|---|
+| models accurate (точны) | predictive quality of credit-risk models | AUC, calibration (e.g. ECE/Brier), several datasets, statistical tests |
+| explanations accurate | explanations faithful to the model and stable | faithfulness metrics; synthetic data with known structure; stability across retraining (Q2) |
+| understandable (понятны) | **only proxies** (number of factors, rule length) unless a user study is run | complexity metrics; user study OPEN (see below) |
+| justified (обоснованны) | **defined as**: meets measurable proxies of C-203/22 / AI Act Art. 86 + counterfactual validity | the criterion→test table under Q1 |
+| prototype: factors that influenced the score | feature attributions / reason codes | — (demonstrator, not an experiment) |
+| prototype: what can be improved | actionable counterfactuals respecting immutable features | counterfactual validity, proximity, actionability |
+
+Structure: Q1 = core experiment; Q2 (stability) and Q3 (leakage vs trade secrets) = chapters / additional
+criteria; the prototype is built from the best model + explanation configuration found by the experiment.
+
+**Constraints the orchestrator stated and the owner did not dispute (record, not decisions):**
+
+* "What can be improved" is a change that would alter **the model's** decision, not advice that lowers
+  real-world risk. VERIFIED quote (Karimi et al. 2020, S2 abstract): "it is impossible to guarantee recourse
+  without access to the true structural equations". The prototype must word it that way.
+* Comparing models + SHAP alone is a crowded area (corpus pass 2026-11-23 surfaced many 2025–26 credit
+  papers, often German Credit only; exact number not counted). Novelty must come from the legal evaluation
+  criteria, rigour (several datasets, tests) and Q2/Q3 — not from the prototype.
+* The prototype uses public datasets only, no real applicants' data.
+
+**OPEN (not decided; do not treat as settled in later sessions):**
+
+1. Final wording of the research question(s) and hypotheses.
+2. User study for "understandable": yes/no (needs time and probably ethics approval; university policy UNKNOWN).
+3. Datasets and their licences (candidates only: German Credit, Taiwan default, HELOC, HMDA — none checked).
+4. Which models and explanation methods exactly (candidates only: logistic regression/scorecard, tree ensembles; SHAP, LIME, counterfactual generators).
+5. Whether the AI Act research exemption covers the prototype — NOT checked.
+6. Full C-203/22 judgment text — NOT read (only the CURIA press release).
+7. Round-2 refutation for the combined question — NOT done; Q3's legal link not searched on the web.
+8. Supervisor's view — UNKNOWN.
 Input: stage 3 gap review, refutation and Codex second review (`CURRENT_STATE.md`, Update 2026-11-23;
 data in `.thesis-corpus/gaps/review.json`, gitignored).
 
@@ -82,7 +127,9 @@ and measuring it on credit models. Whether this link already exists after Feb 20
 Q1 is the core of the approved topic. Q2 and Q3 can be its extensions (stability and leakage as two
 further criteria), which keeps scope controllable if Q1 is chosen.
 
-## Decision needed (owner)
+## Next steps (after the owner decision of 2026-11-23)
 
-1. Choose Q1, Q2, Q3 or a combination (e.g. Q1 with a Q3 chapter).
-2. Then: round-2 refutation for the chosen question; read the full C-203/22 judgment; dataset selection.
+1. Round-2 refutation for the combined question (Q1 core + Q2 + Q3), including a web search for the Q3 legal link.
+2. Read the full C-203/22 judgment; fix the criterion→test table only after that.
+3. Draft the research question(s) and hypotheses for the owner's approval.
+4. Dataset selection with licence check (owner approval).
