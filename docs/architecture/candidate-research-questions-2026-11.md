@@ -56,7 +56,9 @@ are the part not found in prior work.
   without access to the true structural equations". The prototype must word it that way.
 * The prototype is not a contribution by itself: an XGBoost + SHAP + DiCE counterfactual framework on
   HELOC already exists (SciTePress 2026, see round 2).
-* Public datasets only; no real applicants' data.
+* Public datasets only; no real applicants' data. **Corrected 2026-11-23:** the licensed public datasets
+  contain de-identified records of real people; the precise rule is "licensed, public, de-identified data
+  only; the prototype shows generated profiles screened against source rows" (`datasets-2026-11.md`).
 
 ## Legal anchors (VERIFIED; full judgment texts read 2026-11-23)
 

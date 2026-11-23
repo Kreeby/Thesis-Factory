@@ -77,8 +77,10 @@ Built from the best model + explanation configuration found in RQ1–RQ3. Accept
 scores one applicant from a public dataset; shows the main factors (attributions or reason codes);
 shows counterfactual changes worded as **changes that would alter the model's decision**, not advice
 (VERIFIED basis: "it is impossible to guarantee recourse without access to the true structural equations",
-Karimi et al. 2020); respects immutable features; fully reproducible from the repository; no real
-applicants' data. Not novel by itself (SciTePress 2026 built XGBoost + SHAP + DiCE on HELOC).
+Karimi et al. 2020); respects immutable features; fully reproducible from the repository; shows generated
+demonstration profiles screened not to match any source row (corrected 2026-11-23 from "no real applicants'
+data": the licensed public datasets do contain de-identified real records — see `datasets-2026-11.md`).
+Not novel by itself (SciTePress 2026 built XGBoost + SHAP + DiCE on HELOC).
 
 ## Data (candidates only — none selected, no licence checked)
 
