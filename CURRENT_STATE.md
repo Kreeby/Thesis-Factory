@@ -1,8 +1,17 @@
 # Current Project State
 
-Last updated: 2026-11-22
+Last updated: 2026-11-23
 
-## Update (2026-11-22) — start here
+## Update (2026-11-23) — start here
+
+* **Deep reading complete on all 386 `fetched` texts** (qwen3:8b, Windows RTX 3060). 42,147 proposed claims → **32,711 verified as exact quotes (78%)**, 9,436 rejected, 1 failed chunk of ~3,000. ~17 h of model time, mean 161 s/paper. Verified claims by kind: FINDING 8,360 · XAI_METHOD 4,638 · MODEL 4,569 · LEGAL_CLAIM 3,480 · LIMITATION 2,935 · **OPEN_QUESTION 2,616** · DATASET 2,553 · EVALUATION_METRIC 1,957 · RESEARCH_QUESTION 1,603. VERIFIED by local count over `.thesis-corpus/cards/`. Only the quote is verified; statement and kind are model interpretation.
+* **Root cause of the 2026-11-22 PC freeze (VERIFIED):** llama-server's host-RAM prompt cache (`--cache-ram`, llama.cpp default 8192 MiB) grew ~330 MB per model call; Ollama's own log showed `cache state: 9 prompts, 3098 MiB (limits: 8192 MiB)`, and Ollama does not count it in `ollama ps`. Fix per ollama/ollama#17351: `LLAMA_ARG_CACHE_RAM=0` in the server environment. **On Windows the tray app does not pass it through** (limit stayed 8192 after restart); `ollama serve` started directly with the variable logs "prompt cache is disabled". With it, llama-server stayed at ~1 GB over a full paper (was +330 MB/call). Also from the log: Ollama disables mmap for llama-server on Windows CUDA, so ~5.5 GB is committed at load (not resident).
+* **Windows run procedure for local-model jobs:** stop the Ollama tray app, start `ollama serve` with `LLAMA_ARG_CACHE_RAM=0`; run a guard that stops the job and unloads the model if available RAM < 2.5 GB, the GPU is ≥ 85 °C for 30 s (driver: target 83 °C, max operating 93 °C, slowdown 95 °C) or thermal slowdown is active. The guard is a local script, not in the repository. Under load: GPU 97%, 65 °C, 167/170 W.
+* Fetcher restarted after the reboot (it died with it); outside `./scripts/uv`, `.env` must be loaded into the environment by hand (`OPENALEX_API_KEY`). Index: 386 fetched, 164 `no_grobid`, 29 `no_doi`; ~64 reading-list-v2 papers still unchecked, waiting for the daily allowance.
+* Owner view (2026-11-23): ~400 papers is enough for one MSc thesis; no new full-text sources (CORE, S2ORC) for now. Planned check instead: rank the missing (`no_grobid`/`no_doi`) papers by citations from the read set and obtain only the important ones individually.
+* **Next: stage 3, gap analysis** (owner go-ahead 2026-11-23): group `OPEN_QUESTION` claims, count recurrence by distinct papers, check each against its quote, then attempt refutation.
+
+## Update (2026-11-22)
 
 * PR #19 merged into `main` (owner instruction, CI green).
 * **Owner decision (2026-11-22): deep reading runs on the Windows RTX 3060 PC.** Setup VERIFIED there: Ollama 0.40.17 + `qwen3:8b` (fully on GPU, 6.6 GB VRAM), uv 0.13.9, `./scripts/uv run pytest` → 243 passed on Windows, relevance eval 6/7 (same as the Mac).
