@@ -1,135 +1,177 @@
-# Candidate research questions (2026-11-23)
+# Research direction and candidate research questions (2026-11-23)
 
-Status: **Direction chosen by the owner on 2026-11-23 (see "Owner decision" below). The final
-research-question wording is NOT yet fixed; round-2 refutation is still pending. Supervisor: not consulted (UNKNOWN).**
+Status: **Direction chosen by the owner on 2026-11-23 (see "Owner decision"). Final research-question
+wording and hypotheses are NOT fixed. Round-2 refutation done (bounded; see its section). Supervisor:
+not consulted (UNKNOWN).**
 Topic (approved, unchanged): *A Legally Grounded Empirical Evaluation of Explainable AI for Consumer Credit Scoring.*
+Inputs: stage 3 gap review, refutation and Codex second review (`CURRENT_STATE.md`, Update 2026-11-23;
+data in `.thesis-corpus/gaps/review.json`, gitignored). Saved primary texts: `.thesis-corpus/gaps/sources/`.
+Epistemic labels follow `PROJECT.md` §5.3. "Not found" always means "not found in the stated bounded
+search", never "does not exist".
 
 ## Owner decision (2026-11-23)
 
 **DECIDED by the owner** (chat, 2026-11-23; owner's words, Russian, verbatim):
 
-* Instruction: «сделай комбинацию (то что главами г2 и г3)» — i.e. Q1 as the core, Q2 and Q3 as chapters.
-* Q1 is the basis: «г1 (то что я тебе отправил и то что ты мне походу это одно и то же) должен быть звеном скажем основой вопроса» — the owner treats their own description (below) and Q1 as the same thing, and Q1 is the foundation of the research question.
+* Instruction: «сделай комбинацию (то что главами г2 и г3)» — Q1 as the core, Q2 and Q3 as chapters.
+* «г1 (то что я тебе отправил и то что ты мне походу это одно и то же) должен быть звеном скажем основой вопроса» — Q1 is the foundation of the research question.
 * Essence: «Суть - сравнить модели оценки кредитного риска и методы объяснения их решений: насколько они точны, понятны и обоснованны.»
 * Practical result: «Практический результат - прототип, который оценивает кредитный риск человека и объясняет, какие факторы повлияли на оценку и что можно улучшить.»
+* Asked the orchestrator to record everything precisely and to work from facts and the collected material.
 
-**How the orchestrator maps it (PROPOSED by the orchestrator in chat; the owner asked to record it — «запиши все это» — not final wording):**
+### Owner's description vs the orchestrator's Q1 — NOT identical (orchestrator's correction, 2026-11-23)
 
-| Owner's term | Operational meaning in this thesis | Measured by |
+The owner said the two "seem to be the same". The orchestrator had first agreed too readily; the accurate
+comparison is:
+
+| Aspect | Owner's description | Orchestrator's Q1 as first proposed |
+|---|---|---|
+| Comparing credit-risk **models** on accuracy | central | secondary (an interpretable model only as a baseline) |
+| Comparing **explanation methods** | yes | yes (shared) |
+| "justified" (обоснованны) | stated, not defined | defined by the orchestrator via the C-203/22 / Art. 86 standard — an interpretation |
+| "understandable" (понятны) | a stated goal | only complexity proxies |
+| Prototype | the practical result | absent (owner's addition) |
+| Legal criteria | not mentioned | the core |
+| Q2, Q3 | absent | orchestrator's proposals; now chapters by owner instruction |
+
+**Working frame (PROPOSED by the orchestrator, recorded at the owner's request, not final wording):**
+the owner's description is the frame (models × explanation methods × {accurate, understandable,
+justified} + prototype); "justified" is operationalised with the legal criteria below. Reason (DERIVED
+from the round-2 results): the frame without the legal criteria is a crowded area; the legal criteria
+are the part not found in prior work.
+
+| Owner's term | Operational meaning | Measured by |
 |---|---|---|
 | models accurate (точны) | predictive quality of credit-risk models | AUC, calibration (e.g. ECE/Brier), several datasets, statistical tests |
-| explanations accurate | explanations faithful to the model and stable | faithfulness metrics; synthetic data with known structure; stability across retraining (Q2) |
-| understandable (понятны) | **only proxies** (number of factors, rule length) unless a user study is run | complexity metrics; user study OPEN (see below) |
-| justified (обоснованны) | **defined as**: meets measurable proxies of C-203/22 / AI Act Art. 86 + counterfactual validity | the criterion→test table under Q1 |
-| prototype: factors that influenced the score | feature attributions / reason codes | — (demonstrator, not an experiment) |
-| prototype: what can be improved | actionable counterfactuals respecting immutable features | counterfactual validity, proximity, actionability |
+| explanations accurate | faithful to the model, stable | faithfulness metrics; synthetic data with known structure; stability (Q2 chapter) |
+| understandable (понятны) | **proxies only** (number of factors, rule length) unless a user study is run | complexity metrics; user study OPEN |
+| justified (обоснованны) | meets measurable proxies of the C-203/22 / Art. 86 standard (table below) + counterfactual validity | criterion→test table |
+| prototype: factors that influenced the score | attributions / reason codes | demonstrator, not an experiment |
+| prototype: what can be improved | actionable counterfactuals respecting immutable features | validity, proximity, actionability |
 
-Structure: Q1 = core experiment; Q2 (stability) and Q3 (leakage vs trade secrets) = chapters / additional
-criteria; the prototype is built from the best model + explanation configuration found by the experiment.
+**Constraints stated by the orchestrator, not disputed by the owner (record, not decisions):**
 
-**Constraints the orchestrator stated and the owner did not dispute (record, not decisions):**
-
-* "What can be improved" is a change that would alter **the model's** decision, not advice that lowers
-  real-world risk. VERIFIED quote (Karimi et al. 2020, S2 abstract): "it is impossible to guarantee recourse
+* "What can be improved" = a change that would alter **the model's** decision, not advice that lowers
+  real-world risk. VERIFIED (Karimi et al. 2020, S2 abstract): "it is impossible to guarantee recourse
   without access to the true structural equations". The prototype must word it that way.
-* Comparing models + SHAP alone is a crowded area (corpus pass 2026-11-23 surfaced many 2025–26 credit
-  papers, often German Credit only; exact number not counted). Novelty must come from the legal evaluation
-  criteria, rigour (several datasets, tests) and Q2/Q3 — not from the prototype.
-* The prototype uses public datasets only, no real applicants' data.
+* The prototype is not a contribution by itself: an XGBoost + SHAP + DiCE counterfactual framework on
+  HELOC already exists (SciTePress 2026, see round 2).
+* Public datasets only; no real applicants' data.
 
-**OPEN (not decided; do not treat as settled in later sessions):**
+## Legal anchors (VERIFIED; full judgment texts read 2026-11-23)
 
-1. Final wording of the research question(s) and hypotheses.
-2. User study for "understandable": yes/no (needs time and probably ethics approval; university policy UNKNOWN).
-3. Datasets and their licences (candidates only: German Credit, Taiwan default, HELOC, HMDA — none checked).
-4. Which models and explanation methods exactly (candidates only: logistic regression/scorecard, tree ensembles; SHAP, LIME, counterfactual generators).
-5. Whether the AI Act research exemption covers the prototype — NOT checked.
-6. Full C-203/22 judgment text — NOT read (only the CURIA press release).
-7. Round-2 refutation for the combined question — NOT done; Q3's legal link not searched on the web.
-8. Supervisor's view — UNKNOWN.
-Input: stage 3 gap review, refutation and Codex second review (`CURRENT_STATE.md`, Update 2026-11-23;
-data in `.thesis-corpus/gaps/review.json`, gitignored).
-
-Epistemic labels follow `PROJECT.md` §5.3. Everything under "Why open" is a bounded search result,
-not proof of a gap. A round-2 refutation (re-score corpus papers against the chosen question, then
-targeted search) is required before adoption.
-
-## Legal anchors (VERIFIED, primary texts saved in `.thesis-corpus/gaps/sources/`)
-
-* CJEU C-203/22 *Dun & Bradstreet Austria*, 27 Feb 2025 (CURIA press release No 22/25): the controller
-  "must describe the procedure and principles actually applied in such a way that the data subject can
-  understand which of his or her personal data have been used, and how they have been used"; "it could in
-  particular be appropriate to inform the data subject of the extent to which a variation in the personal
-  data taken into account would have led to a different result"; "the mere communication of an algorithm
-  does not constitute a sufficiently concise and intelligible explanation"; allegedly protected trade
-  secrets go to the supervisory authority or court, which balances.
-* CJEU C-634/21 *SCHUFA*, 7 Dec 2023: a score is an automated decision under GDPR Art. 22 when lenders
-  give it a determining role.
-* Regulation (EU) 2024/1689: credit scoring of natural persons is high-risk (Annex III 5(b)); Art. 86
+* **CJEU C-203/22 *Dun & Bradstreet Austria*, judgment of 27 Feb 2025** (CURIA full text, saved as
+  `curia-judgment-C-203-22.txt`).
+  * **Ruling, point 1 (binding interpretation):** the data subject may require the controller to explain,
+    "by means of relevant information and in a concise, transparent, intelligible and easily accessible
+    form, the procedure and principles actually applied" in using their personal data by automated means
+    to obtain a specific result, "such as a credit profile".
+  * **Para 61 (reasoning):** the information "must describe the procedure and principles actually applied
+    in such a way that the data subject can understand which of his or her personal data have been used
+    in what way in the automated decision-making at issue"; complexity does not relieve the controller of
+    the duty.
+  * **Para 59:** the requirements "cannot be satisfied either by the mere communication of a complex
+    mathematical formula, such as an algorithm, or by the detailed description of all the steps in
+    automated decision-making".
+  * **Para 62 — an EXAMPLE, not a requirement:** "the referring court could, inter alia, find that it is
+    sufficiently transparent and intelligible to inform the data subject of the extent to which a variation
+    in the personal data taken into account would have led to a different result". Commentators read this
+    differently (per a web-search summary, not verified, one law-firm note calls a counterfactual
+    sufficient for scoring); that is interpretation.
+  * **Ruling, point 2:** allegedly protected information (third-party data, trade secrets) goes to the
+    supervisory authority or court, which balances the interests and decides the extent of access.
+* **CJEU C-634/21 *SCHUFA*, 7 Dec 2023:** a score is an Art. 22 GDPR automated decision when lenders give
+  it a determining role (CURIA press release and full text saved).
+* **Regulation (EU) 2024/1689:** credit scoring of natural persons is high-risk (Annex III 5(b)); Art. 86
   right to "clear and meaningful explanations of the role of the AI system ... and the main elements of
   the decision taken". Regulation (EU) 2026/1744 defers Annex III high-risk obligations to 2 Dec 2027
-  (verified on EUR-Lex via the Codex review).
-* Caveat (RISK-006): the C-203/22 wording above is from the press release ("not binding on the Court").
-  The judgment's operative text must be read before criteria are fixed. Turning legal wording into
-  metrics is an interpretation that needs explicit justification in the thesis.
+  (EUR-Lex, verified via the Codex review).
+* Caveat (RISK-006): turning legal wording into metrics is an interpretation and must be argued in the thesis.
 
-## Q1 (recommended): Do common XAI methods meet the C-203/22 explanation standard in credit scoring?
+## Q1 (foundation): models and explanation methods — accurate, understandable, justified
 
-**RQ.** To what extent do feature-attribution (SHAP, LIME) and counterfactual explanations of credit
-models satisfy measurable proxies of the C-203/22 / Art. 86 explanation standard, compared with an
-inherently interpretable baseline (scorecard / logistic regression)?
+**Draft RQ (PROPOSED, not final):** How do credit-risk models and explanation methods (feature attribution,
+counterfactuals) compare in predictive accuracy, explanation faithfulness and stability, intelligibility
+proxies, and fulfilment of measurable proxies of the C-203/22 / Art. 86 explanation standard, against an
+inherently interpretable baseline?
 
-**Legal criterion → measurable test (proposal):**
+**Legal criterion → measurable test (PROPOSED; revised after reading the full judgment):**
 
-| Legal wording | Test | Metric family |
-|---|---|---|
-| which personal data were used and how | attribution correctness | faithfulness (deletion/insertion, infidelity); ground truth on synthetic credit-like data with known structure |
-| extent to which a variation would have led to a different result | counterfactual validity and actionability | validity after applying the change, proximity, sparsity, immutable/actionable features |
-| concise and intelligible, not the mere algorithm | complexity | number of features shown, rule length; optional small user study |
-| explanation of *this* decision, reliably | stability | agreement across retraining seeds and near-equivalent models |
+| Source | Status in law | Test | Metric family |
+|---|---|---|---|
+| Ruling 1 / para 61: which data were used and in what way | requirement | attribution correctness | faithfulness (deletion/insertion, infidelity); synthetic data with known structure |
+| Ruling 1 / paras 58–59: concise, intelligible; not the formula or all steps | requirement | complexity | number of factors shown, rule length; user study optional |
+| Ruling 1: procedure and principles **actually applied** | requirement | explanation reflects the deployed model reliably | stability across retraining / near-equivalent models (Q2) |
+| Para 62: extent to which a variation would change the result | **example only** | counterfactual validity and actionability | validity, proximity, sparsity, immutable features |
 
-**Why open (DERIVED from bounded searches):** XAI evaluation metrics, toolkits and robust-counterfactual
-methods exist (crowded: gaps Q0006, Q0011, Q0013). A 2025 paper states that the AI Act "specifies
-obligations without concrete technical requirements" (verified quote). A corpus keyword query found
-no paper turning C-203/22 into evaluation criteria for credit (5 hits, none doing it; two predate the
-judgment). Codex pointed to two related works that could not be fetched (UNKNOWN).
+## Q2 (chapter): stability of the explanations a rejected applicant receives
 
-**Feasibility:** high; public data and existing libraries; no human subjects required (user study optional).
-**Risks:** legal-to-metric mapping is contestable; synthetic ground truth is not real-world truth;
-dataset choice and licensing UNKNOWN (candidates must be checked: German Credit, Taiwan default, HELOC, HMDA).
+**Round-2 finding (VERIFIED quotes):** stability of SHAP/LIME **attributions** in credit scoring is
+already studied — EJOR 2025 evaluates "the stability of ... (LIME) and ... (SHAP) when applied to IDCS
+models. Using four publicly available credit scoring datasets"; a 2026 conference paper "compares SHAP,
+LIME and attention-based interpretation methods" on stability and consistency. **Consequence (DERIVED):**
+attribution stability alone is not new. What remains: stability of **counterfactual recourse** across
+retraining / near-equivalent credit models, read against "procedure and principles actually applied".
+General robust-counterfactual methods exist (Q0013, Q0077), so the contribution is the credit + legal
+reading. Q2 is best a criterion/chapter inside Q1, not a standalone claim.
 
-## Q2: Are the explanations a rejected applicant receives stable when the lender retrains or swaps equally accurate models?
+## Q3 (chapter): does the court's example explanation leak the trade secret it protects?
 
-**RQ.** How much do reason codes and counterfactual recourse for the same applicant change across
-retraining runs and among near-equally accurate credit models, and what does that imply for an
-explanation of "the procedure and principles actually applied" (C-203/22) and of "the main elements of
-the decision" (Art. 86)?
+**Draft RQ:** How much of a credit model can be reconstructed from counterfactual explanations of the kind
+para 62 mentions, and which explanation forms meet the standard with less leakage — relevant to the
+balancing in ruling point 2.
 
-**Why open / not:** robust counterfactuals and recourse under model change are a crowded area
-(Q0013, Q0077; surveys 2021 and 2024 verified). A 2026 credit study reports that "fairness gaps vary"
-across five retraining seeds (verified quote). The novel part would be the legal framing and the credit
-setting, not the robustness methods. **Novelty: medium.**
+**Round-2 finding:** model extraction from counterfactual explanations is established (2020 "Model
+extraction from counterfactual explanations", DualCF 2022, AUTOLYCUS 2023/24; in the corpus). Wachter,
+Mittelstadt and Russell (2017) argued counterfactuals are less likely to infringe trade secrets (reported
+by a web search summary; not quote-verified). No work linking extraction risk to the C-203/22 balancing
+was found (corpus query + 2 web searches, 2026-11-23). Status: not found in bounded search.
 
-## Q3: Does the explanation the court suggests leak the trade secret it protects?
+## Round-2 refutation for the combined question (2026-11-23)
 
-**RQ.** How much of a credit model can be reconstructed from counterfactual ("what change would have
-altered the result") explanations at the level C-203/22 suggests, and which explanation forms meet the
-standard with less leakage?
+Searches: 3 corpus keyword queries (credit + ≥2 XAI methods + explanation-quality metric: 82 hits;
+credit + XAI evaluation + legal terms: 40; evidence map: 2), abstracts of the closest papers read,
+2 web searches (C-203/22 + XAI evaluation; counterfactual extraction + trade secrets + C-203/22),
+competitor abstracts fetched and quotes matched. Closest prior work (all quotes VERIFIED):
 
-**Why open / not:** model extraction from counterfactual explanations is established
-(2020 "Model extraction from counterfactual explanations", DualCF 2022, AUTOLYCUS 2023/24; in the corpus).
-The candidate contribution is linking it to the C-203/22 trade-secret balancing (gap Q0086, not crowded)
-and measuring it on credit models. Whether this link already exists after Feb 2025 is UNKNOWN
-(no corpus hit; not yet searched on the web). **Novelty: possibly high; risk: narrower, more security than XAI evaluation.**
+* **IJFS 2026, "Explainable Artificial Intelligence in Credit Risk: A Systematic Evidence Map for Regulated
+  Credit Decisions"** — of the core map, "1.3–1.5% contained strict or broad explanation-quality evaluation
+  signals"; "Its contribution is a reproducible reporting map and task-specific validation agenda, not a
+  comparative ranking of explanation methods." Its TAMV framework links explanations to adverse-action
+  reasons and recourse (US-style terms in the abstract; whether it treats C-203/22 in the full text: UNKNOWN).
+  It supports the need for Q1's comparative evaluation and is the main paper to position against.
+* **FinRegLab 2023** (US policy report, found by Codex, quote verified): "We can systematically evaluate the
+  performance of explainability techniques and model diagnostic tools without having “ground truth”
+  explanations" — empirical evaluation of explainability for credit underwriting under US rules.
+* **EJOR 2025; ICDEIS 2026** — attribution stability in credit (see Q2).
+* **SciTePress 2026, "Actionable Explainable AI for Credit Risk"** — XGBoost + SHAP + DiCE on HELOC, to
+  "generate counterfactual explanations with DiCE to indicate feasible changes capable of reversing
+  unfavorable outcomes" (matched ignoring the page's broken spacing). Equivalent to the prototype idea.
+* **arXiv 2608.07452 (Aug 2026), "Against Explainable AI in Law: Why Justifiable AI Matters. A Credit
+  Scoring Example"** — conceptual/legal; argues the right to explanation "encompasses not only a technical
+  explanations but also a legal justification". No experiment. Relevant to defining "justified".
+* Not checked (403): "Explaining Explainability: On Credit Scoring, AI, and Consumer Agency" (ResearchGate;
+  a web-search summary says it compares SHAP and counterfactuals in credit scoring; peer-review status UNKNOWN).
+  **Must be read before the RQ is fixed.**
 
-## Relation between the three
+**Result (DERIVED, bounded):** each component exists separately (model comparison + SHAP: crowded;
+attribution stability in credit: done; actionable counterfactual prototype: done; legal-justification
+argument: conceptual only). An empirical comparison of credit models and explanation methods against the
+C-203/22 / Art. 86 standard was not found. Q1 as the foundation survives round 2; Q2 narrowed to recourse
+stability; Q3 survives (not found).
 
-Q1 is the core of the approved topic. Q2 and Q3 can be its extensions (stability and leakage as two
-further criteria), which keeps scope controllable if Q1 is chosen.
+## OPEN (not decided; do not treat as settled)
 
-## Next steps (after the owner decision of 2026-11-23)
+1. Final wording of the research question(s) and hypotheses.
+2. User study for "understandable": yes/no (time; probably ethics approval; university policy UNKNOWN).
+3. Datasets and licences (candidates only: German Credit, Taiwan default, HELOC, HMDA — none checked).
+4. Exact models and explanation methods (candidates only).
+5. Whether the AI Act research exemption covers the prototype — NOT checked.
+6. Read "Explaining Explainability" (ResearchGate, 403 here) and the full IJFS 2026 evidence map.
+7. Supervisor's view — UNKNOWN.
 
-1. Round-2 refutation for the combined question (Q1 core + Q2 + Q3), including a web search for the Q3 legal link.
-2. Read the full C-203/22 judgment; fix the criterion→test table only after that.
-3. Draft the research question(s) and hypotheses for the owner's approval.
-4. Dataset selection with licence check (owner approval).
+## Next steps
+
+1. Obtain and read the two papers in OPEN 6 (owner may need to download the ResearchGate one by hand).
+2. Draft RQ and hypotheses for the owner's approval.
+3. Dataset selection with licence check (owner approval).
