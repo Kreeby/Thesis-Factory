@@ -76,3 +76,36 @@ def test_rejects_output_violating_schema() -> None:
 def test_rejects_empty_model() -> None:
     with pytest.raises(ValueError):
         OllamaStructuredReasoner(model="  ")
+
+
+def test_embedder_batches_and_checks_counts() -> None:
+    from thesis_factory.integrations.ollama.client import OllamaEmbedder
+
+    batches = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        body = json.loads(request.content)
+        batches.append(body["input"])
+        assert body["truncate"] is False
+        return httpx.Response(200, json={"embeddings": [[float(len(t))] for t in body["input"]]})
+
+    embedder = OllamaEmbedder(
+        model="qwen3-embedding:0.6b", batch_size=2,
+        http_client=httpx.Client(base_url="http://ollama.test", transport=httpx.MockTransport(handler)),
+    )
+    assert embedder.embed(["a", "bb", "ccc"]) == [[1.0], [2.0], [3.0]]
+    assert batches == [["a", "bb"], ["ccc"]]
+
+
+def test_embedder_rejects_missing_embeddings() -> None:
+    from thesis_factory.integrations.ollama.client import OllamaEmbedder
+
+    embedder = OllamaEmbedder(
+        model="m",
+        http_client=httpx.Client(
+            base_url="http://ollama.test",
+            transport=httpx.MockTransport(lambda r: httpx.Response(200, json={"embeddings": []})),
+        ),
+    )
+    with pytest.raises(RuntimeError, match="0 embeddings for 1"):
+        embedder.embed(["a"])
