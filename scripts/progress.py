@@ -19,6 +19,11 @@ RESCUED = Path(".thesis-corpus/rescued.json")  # written by map_corpus.py --incl
 
 
 def _alive(pid: int) -> bool:
+    if os.name == "nt":  # os.kill(pid, 0) on Windows terminates the process instead of probing it
+        import subprocess
+        out = subprocess.run(["tasklist", "/FI", f"PID eq {pid}", "/FO", "CSV", "/NH"],
+                             capture_output=True, text=True, check=False).stdout
+        return f'"{pid}"' in out
     try:
         os.kill(pid, 0)
     except OSError:

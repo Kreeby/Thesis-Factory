@@ -103,8 +103,10 @@ def verify_claims(
         text = texts.get(claim.paragraph) if claim.paragraph in allowed_paragraphs else None
         start = text.find(claim.quote) if text is not None else -1
 
-        if start < 0:
-            reason = "paragraph outside chunk" if text is None else "quote not an exact substring"
+        if start < 0 or claim.statement.rstrip().endswith("?"):
+            # A statement ending in "?" is the model echoing the prompt's question, not a claim.
+            reason = ("paragraph outside chunk" if text is None
+                      else "quote not an exact substring" if start < 0 else "statement is a question")
             rejected.append({**claim.model_dump(mode="json"), "reason": reason})
             continue
 

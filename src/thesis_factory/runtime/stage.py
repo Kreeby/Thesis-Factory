@@ -32,6 +32,11 @@ def _next_attempt(run_dir: Path, stage: str) -> int:
 def _terminate_group(process: subprocess.Popen[bytes]) -> None:
     if process.poll() is not None:
         return
+    if not hasattr(os, "killpg"):  # Windows: no process groups; kill the whole tree
+        subprocess.run(["taskkill", "/F", "/T", "/PID", str(process.pid)],
+                       capture_output=True, check=False)
+        process.wait()
+        return
     try:
         os.killpg(process.pid, signal.SIGTERM)
     except ProcessLookupError:

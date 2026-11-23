@@ -1,0 +1,51 @@
+{
+ "generated": "2026-11-23",
+ "single_files": {
+  "corpus.sqlite": {
+   "bytes": 623783936,
+   "sha256": "efa34d930cb0f127d2498dab5f1185788e2f336b6198e9d9de467a4fb09bcf97"
+  },
+  "reading_priority.json": {
+   "bytes": 16363351,
+   "sha256": "d285ff88a24b8019ccfcbfbfa1f6c52da225fb7e8edbf860fac30c2d03c2dd6d"
+  },
+  "fulltext/index.json": {
+   "bytes": 200611,
+   "sha256": "a730bd5cadb11d14a02ad73917bb948646acaa49b9262f23afe3aab2a6571ec1"
+  },
+  "gaps/review.json": {
+   "bytes": 122859,
+   "sha256": "faa992d52ca1bbaf6fdbeef09b84080e0ab530ce745d3d7884c48f41e41efe29"
+  },
+  "gaps/refutation_verdicts.json": {
+   "bytes": 26697,
+   "sha256": "78e46e8a9dd1d0612cdda4a1df034e5f7164fe770377f3d4cffffa09c266f3fc"
+  },
+  "gaps/open_question_clusters.json": {
+   "bytes": 2627120,
+   "sha256": "e8f774cde1c236ad82c8e6e00678c77ac2911e5b36b3f38c2db1c98da7ddd550"
+  }
+ },
+ "directories": {
+  "cards": {
+   "files": 388,
+   "bytes": 24113280,
+   "combined_sha256": "9c49c3aff5d1bd300db21fea7b34ac4fabe4a038cc0dee23d3d4d89bd481dd34"
+  },
+  "fulltext": {
+   "files": 384,
+   "bytes": 54249981,
+   "combined_sha256": "4763db5b380de24a7a962e637d4e097fdbeb536b0d8bfb57c019190cc953b9ab"
+  },
+  "gaps": {
+   "files": 32,
+   "bytes": 65820496,
+   "combined_sha256": "2f521020047ea1498f25807220a765a86e5148c485573083d37ac9730f6a1261"
+  },
+  "datasets": {
+   "files": 2,
+   "bytes": 63559,
+   "combined_sha256": "a2d63adb777bf88677f7e86446faafcb7ff6c43f9a81d32f83ad1b3bf604b6bc"
+  }
+ }
+}
