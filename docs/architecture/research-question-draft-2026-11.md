@@ -1,6 +1,8 @@
 # Research question and hypotheses — DRAFT (2026-11-23)
 
-Status: **PROPOSED by the orchestrator for the owner's approval. Not approved. Supervisor not consulted (UNKNOWN).**
+Status: **Main RQ, RQ1–RQ5 and the priority order APPROVED by the owner on 2026-11-23** (see "Owner
+approval" at the end). Hypotheses H1–H6 were part of the approved draft; thresholds, datasets and the
+exact operationalisations remain OPEN. Supervisor not consulted (UNKNOWN).
 Basis: owner decision and round-2 refutation in `candidate-research-questions-2026-11.md` (read that first).
 Every literature claim below cites a quote verified on 2026-11-23 against a saved source
 (`.thesis-corpus/gaps/sources/`, corpus abstracts, or `codex_review_*.checked.json`). Labels: VERIFIED /
@@ -97,9 +99,21 @@ cutting RQ4 removes the part IJFS already flags as a priority.
 * Public datasets are not representative of a specific lender (RISK-007).
 * IJFS authors or others may publish an execution of Table 8 before the thesis is finished.
 
-## Decisions needed from the owner
+## Owner approval (2026-11-23)
 
-1. Approve, change or reject the main RQ and RQ1–RQ5.
-2. Priority order / scope cut (above).
-3. User study yes/no.
-4. Then: dataset selection with licence check; non-inferiority margin Δ and other thresholds fixed before running.
+**DECIDED by the owner** (chat, Russian, verbatim excerpts):
+
+* «Мне нравится. Вопросы под вопросы мне нравятся.» — main RQ and sub-questions approved.
+* «Порядок приоритетов оставь. Такой, как он есть. Мне он нравится.» — priority RQ1–RQ3 → RQ4 → RQ5 kept.
+  The owner expects all five to be done in time («мы все успеем»); the order is a fallback, not a plan to cut.
+* User study: «Опрос пользователя на данный момент давай не будем делать. Но если он нужен для того, чтобы
+  начать, тогда не надо. Если он не нужен для того, чтобы начать, как дополнение к чему-то или перед какой-то
+  главой надо его сделать, то можно.» — Interpretation recorded by the orchestrator: no user study now; it is
+  not required to start; it may be added later as a supplement (e.g. before or within a chapter) if it
+  becomes useful. "Understandable" is therefore proxy-only unless that later decision is made.
+* Working rules stated by the owner: think as long as the task needs, do more when the task needs more;
+  use Codex as second agent (reviewer) and as developer; no hallucination, no naive assumptions; a real
+  thesis that can be shown to people.
+
+**Still OPEN:** dataset selection with licence check (owner approval); non-inferiority margin Δ and all other
+thresholds, fixed before any run; operationalisation of the Art. 86 proxy; supervisor's view.
