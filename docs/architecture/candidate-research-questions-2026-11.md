@@ -150,9 +150,23 @@ competitor abstracts fetched and quotes matched. Closest prior work (all quotes 
 * **arXiv 2608.07452 (Aug 2026), "Against Explainable AI in Law: Why Justifiable AI Matters. A Credit
   Scoring Example"** — conceptual/legal; argues the right to explanation "encompasses not only a technical
   explanations but also a legal justification". No experiment. Relevant to defining "justified".
-* Not checked (403): "Explaining Explainability: On Credit Scoring, AI, and Consumer Agency" (ResearchGate;
-  a web-search summary says it compares SHAP and counterfactuals in credit scoring; peer-review status UNKNOWN).
-  **Must be read before the RQ is fixed.**
+* **Bauer, Gill, Langenbucher, Franke, "Explaining Explainability: On Credit Scoring, AI, and Consumer
+  Agency", SAFE White Paper No. 116, December 2025** (inner title "Institutionalizing Explainability: ...";
+  policy paper, not peer-reviewed; PDF supplied by the owner, read in full 2026-11-23; text saved as
+  `safe-white-paper-116-2025.txt`, PDF SHA-256 prefix 64c49de0eed27227). Quotes VERIFIED:
+  * **Not empirical:** legal analysis of SCHUFA and Dun & Bradstreet, an overview of SHAP and DiCE with
+    toy examples, and a policy proposal ("suggesting to treat explanations as a public good and designing
+    an intermediary institution"). The terms "experiment" and "benchmark" do not occur. The earlier
+    web-search summary ("compares SHAP and counterfactuals") was inaccurate: it describes them, it does
+    not compare them empirically. → Not a competitor for Q1; it supports it: "it is pivotal to gauge the
+    feasibility of such a form of explanation both from a purely technical ..." perspective.
+  * Its reading of the court is interpretation: "from its ruling it seems that it is this kind of local,
+    counterfactual explanation that the European Court of Justice in Dun & Bradstreet had in mind" (the
+    judgment's para 62 frames it as an example).
+  * **Q3 positioning:** the proposed intermediary "would generate explanations without disclosing the raw
+    model or source code to the requester, thus protecting trade secrets while ensuring transparency".
+    The paper does not discuss model extraction from explanations (0 occurrences of extract/leak/steal).
+    Q3 would test exactly this assumption.
 
 **Result (DERIVED, bounded):** each component exists separately (model comparison + SHAP: crowded;
 attribution stability in credit: done; actionable counterfactual prototype: done; legal-justification
@@ -167,11 +181,11 @@ stability; Q3 survives (not found).
 3. Datasets and licences (candidates only: German Credit, Taiwan default, HELOC, HMDA — none checked).
 4. Exact models and explanation methods (candidates only).
 5. Whether the AI Act research exemption covers the prototype — NOT checked.
-6. Read "Explaining Explainability" (ResearchGate, 403 here) and the full IJFS 2026 evidence map.
+6. Read the full IJFS 2026 evidence map ("Explaining Explainability" was read on 2026-11-23, see round 2).
 7. Supervisor's view — UNKNOWN.
 
 ## Next steps
 
-1. Obtain and read the two papers in OPEN 6 (owner may need to download the ResearchGate one by hand).
+1. Read the full IJFS 2026 evidence map (MDPI blocks automated download; owner may need to download it by hand).
 2. Draft RQ and hypotheses for the owner's approval.
 3. Dataset selection with licence check (owner approval).
