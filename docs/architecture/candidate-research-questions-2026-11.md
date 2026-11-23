@@ -138,8 +138,32 @@ competitor abstracts fetched and quotes matched. Closest prior work (all quotes 
   Credit Decisions"** — of the core map, "1.3–1.5% contained strict or broad explanation-quality evaluation
   signals"; "Its contribution is a reproducible reporting map and task-specific validation agenda, not a
   comparative ranking of explanation methods." Its TAMV framework links explanations to adverse-action
-  reasons and recourse (US-style terms in the abstract; whether it treats C-203/22 in the full text: UNKNOWN).
-  It supports the need for Q1's comparative evaluation and is the main paper to position against.
+  reasons and recourse. **Full text read 2026-11-23** (PDF supplied by the owner; Xie, Liu, Ning; published
+  24 Oct 2026; text saved as `ijfs-14-00292-2026.txt`, PDF SHA-256 prefix 33903a7929d20b88). VERIFIED quotes:
+  * §7.4: "The field still lacks the standardised benchmarks expected of a maturing measurement discipline";
+    "Tabular financial data remain under-represented".
+  * §9.2 research priorities: "Research should first translate Articles 9–15 of the EU AI Act into concrete
+    explanation artefacts and validation tests supported by reconstructible logs"; "A shared
+    finance-specific explanation benchmark is equally important"; "Further work should optimise fairness
+    together with explainability and test recourse after model refits against real applicant outcomes."
+  * **Table 8, "Minimum specification for a finance-specific XAI benchmark" — a proposal, not executed.**
+    Datasets: "Version-pinned Taiwan/UCI card-default and Lending Club data, with Home Credit added where
+    licences permit", plus semi-synthetic data with a known decision mechanism. Models: "Regularised
+    logistic regression; optimised sparse risk score; EBM; unconstrained gradient-boosted ensemble; its
+    monotonic counterpart." Regulatory-task criteria: "Reason-code accuracy against the known mechanism;
+    stability under immaterial changes; recourse validity after scheduled retraining; disparity in recourse
+    cost across protected groups."
+  * Datasets: "German credit is retained only as a legacy comparison because the widely circulated Statlog
+    version used an incorrect code table"; "Interpretability research should prefer the corrected South
+    German Credit data" (Grömping 2019).
+  * Law: C-203/22 appears in the regulatory background (§2.3) and a table; **AI Act Art. 86 is not
+    mentioned (0 occurrences)**. Regulatory criteria are framed around AI Act Arts 9–15 and US adverse action.
+  * **Consequence (DERIVED):** the IJFS paper proposes, but does not run, a benchmark that overlaps strongly
+    with Q1's design (model ladder, faithfulness + stability, semi-synthetic known mechanism) and names
+    recourse validity after retraining (our narrowed Q2). Q1's design is therefore not novel as a design;
+    the contribution would be (a) executing such a benchmark, (b) adding EU individual-rights criteria
+    (C-203/22 "which data, in what way", Art. 86), (c) Q3. Risk: the authors or others may publish an
+    execution soon; the thesis should cite Table 8 and position itself as an EU-law-grounded execution of it.
 * **FinRegLab 2023** (US policy report, found by Codex, quote verified): "We can systematically evaluate the
   performance of explainability techniques and model diagnostic tools without having “ground truth”
   explanations" — empirical evaluation of explainability for credit underwriting under US rules.
@@ -178,14 +202,13 @@ stability; Q3 survives (not found).
 
 1. Final wording of the research question(s) and hypotheses.
 2. User study for "understandable": yes/no (time; probably ethics approval; university policy UNKNOWN).
-3. Datasets and licences (candidates only: German Credit, Taiwan default, HELOC, HMDA — none checked).
+3. Datasets and licences. Candidates only, none checked: South German Credit (corrected version; Statlog German Credit only as a legacy baseline, per IJFS 2026), Taiwan/UCI default, Lending Club, Home Credit (licence permitting), HELOC, HMDA, plus semi-synthetic data with a known mechanism.
 4. Exact models and explanation methods (candidates only).
 5. Whether the AI Act research exemption covers the prototype — NOT checked.
-6. Read the full IJFS 2026 evidence map ("Explaining Explainability" was read on 2026-11-23, see round 2).
-7. Supervisor's view — UNKNOWN.
+6. Supervisor's view — UNKNOWN.
 
 ## Next steps
 
-1. Read the full IJFS 2026 evidence map (MDPI blocks automated download; owner may need to download it by hand).
-2. Draft RQ and hypotheses for the owner's approval.
-3. Dataset selection with licence check (owner approval).
+1. Draft RQ and hypotheses for the owner's approval, positioned as an EU-law-grounded execution of the
+   IJFS 2026 Table 8 benchmark plus Q2 (recourse stability) and Q3 (leakage) chapters.
+2. Dataset selection with licence check (owner approval).
